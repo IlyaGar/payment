@@ -1,0 +1,58 @@
+.filter{
+    background-color:  #da9257;
+    border: 4px solid #c9c4c0;
+    overflow: auto;
+    padding: 0%;
+}
+.column1 {
+    padding-left: 1%;
+    float: left; 
+    width: 60em;
+}
+.column2 {
+    padding-left: 1%;
+    float: left;
+}
+input, button, output {
+    margin-left: 0.2em;
+    margin-right: 0.2em;  
+}
+input {
+    min-width: 15em;
+}
+button {
+    box-shadow: 1px 2px 5px #000000;  
+    min-width: 7.3em;
+    height: 3.9vh;
+}
+label{
+    margin: 0%;
+}
+output {
+    min-width: 7.3em;
+}
+.button-bottom {
+    margin-top: 20%;
+}
+.div-left {
+    float: left;
+}
+.lable-nom {
+    margin-right: 49%;
+}
+.lable-nam {
+    margin-right: 62%;
+}
+.lable-st {
+    margin-right: 72%;
+}
+.lable-s {
+    margin-right: 72%;
+}
+.lable-f {
+    margin-right: 82%;
+}
+.div-padding {
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+}

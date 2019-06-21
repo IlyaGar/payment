@@ -1,0 +1,8 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+.tlist {
+    overflow: scroll;
+    height: 50vh;
+}
+td, th {
+   text-align: center; 
+}

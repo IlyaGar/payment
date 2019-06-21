@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Выбор котрагентов</h1>
+<table class="table table-hover tlist">
+  <thead>
+      <tr>
+          <th scope="col">Контрагент</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr><td scope="row">ООО Гвозди</td></tr>
+      <tr><td scope="row">ОАО Шуруп</td></tr>
+      <tr><td scope="row">ЗАО Каска</td></tr>
+      <tr><td scope="row">СИЗ Защита</td></tr>
+      <tr><td scope="row">123</td></tr>
+      <tr><td scope="row">234</td></tr>
+      <tr><td scope="row">345</td></tr>
+      <tr><td scope="row">456</td></tr>
+      <tr><td scope="row">567</td></tr>
+      <tr><td scope="row">678</td></tr>
+      <tr><td scope="row">789</td></tr>
+      <tr><td scope="row">900</td></tr>
+  </tbody>
+</table>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+</div>

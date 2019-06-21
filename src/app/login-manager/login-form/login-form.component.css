@@ -1,0 +1,8 @@
+.input-full-width {
+    margin: 0%;
+    width: 100%;
+}
+button {
+    min-width: 3em;
+    box-shadow: 1px 2px 5px #000000;   
+}

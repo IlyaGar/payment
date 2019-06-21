@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark"><!--fixed-top-->
+    <a class="navbar-brand" href="#">Астомстрой "Документ"</a>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['search']">Поиск</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['work']">Работа с документами</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" *ngIf="!isLogin">
+        <button type="button" class="btn btn-secondary" (click)="onOpenLoginDialog()">Войти</button>
+    </form>
+    <form class="form-inline my-2 my-lg-0" *ngIf="isLogin">
+        <span>Привет! {{loginResponse.cn}}</span>
+    </form>
+    <form class="form-inline my-2 my-lg-0" *ngIf="isLogin">
+        <button type="button" class="btn btn-secondary" (click)="onLogout()">Выйти</button>
+    </form>
+</nav>
+
+<!--<mat-toolbar class="my-nav">
+    <span><a href="/search">Doc</a></span>
+    <span><a href="/work">Work</a></span>
+    <span class="fill-space"></span>
+    <span>Илья</span>
+    <span><button type="button" class="btn btn-secondary" (click)="openOrderDialog()">Войти</button></span>
+</mat-toolbar>-->

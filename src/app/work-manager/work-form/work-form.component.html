@@ -1,0 +1,94 @@
+<h2>Форма работы с документом</h2>
+<div class="filter div-padding">
+    <div class="column1">
+        <div class="form-inline">
+            <div>
+                <label class="lable-nom">№ документа:</label>
+                <output name="numDoc" class="form-control output-nom" id="numberDoc">123qwpocn780posc</output>
+            </div>
+            <div>
+                <label class="lable-nam">Наименоваие:</label>
+                <output name="nameDoc" class="form-control output-nom" id="nameDoc"></output>
+            </div>
+            <div>
+                <label class="lable-dat">Дата создания:</label>
+                <output name="dateCreated" class="form-control" id="dateCreated"></output>
+            </div>
+            <div>
+                <label>Сумма:</label>
+                <output name="summ" class="form-control output-sum" id="summ"></output>
+            </div>
+            <div class="del-pad">
+                <button type="button" class="btn btn-danger button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Удалить документ">
+                    <img src="../../assets/delete-512.png" width="20" height="20" />
+                </button>
+            </div>
+
+        </div>
+        <div class="div-margin">
+            <div class="form-inline">
+                <div class="form-inline">
+                    <button type="button" class="btn btn-light button-contr" name="partner" data-toggle="tooltip" data-placement="bottom" title="Выбор контрагентов из списка">
+                        <img src="../../assets/agent2.png" width="20" height="20" />Выбрать контрагентов
+                    </button>
+
+                    <button type="button" class="btn btn-light" name="lees" data-toggle="tooltip" data-placement="bottom" title="Расчет остатков">
+                        <img src="../../assets/sclad1.png" width="20" height="20" />Остатки
+                    </button>
+                </div>
+                <div class="form-inline report-marg">
+                    <label>Отчеты:</label>
+                    <button type="button" class="btn btn-light button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Очет">
+                        <img src="../../assets/sclad1.png" width="20" height="20" />
+                    </button>
+                    <button type="button" class="btn btn-light button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Очет">
+                        <img src="../../assets/report2.png" width="20" height="20" />
+                    </button>
+                </div>
+                <div class="form-inline import-marg">
+                    <label>Импорт данных:</label>
+                    <button type="button" class="btn btn-light button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Импорт данных в 1С">
+                        <img src="../../assets/icons8-1с-30.png" width="20" height="20" />
+                    </button>
+                    <button type="button" class="btn btn-light button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Импорт данных в файл">
+                        <img src="../../assets/import1.png" width="20" height="20" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>                        
+</div>
+
+<br />
+<div class="table-scroll">
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Контрагент</th>
+            <th>Сальдо</th>
+            <th>Последняя оплата</th>
+            <th>Остатки</th>
+            <th>Задолжность</th>
+            <th>Оплатить</th>
+            <th>Примечание</th>
+            <th>Договор</th>
+            <th>Выбрать</th>
+            <th>Удалить</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let testdata of tests">
+            <td>{{testdata.contr}}</td>
+            <td>{{testdata.saldo}}</td>
+            <td>{{testdata.lastpay}}</td>
+            <td>{{testdata.scrap}}</td>
+            <td>{{testdata.debt}}</td>
+            <td><input type="text" class="form-control" required [(ngModel)]="testdata.pay" (input)="onEnterChange($event.target.value, testdata)"></td>
+            <td><input type="text" class="form-control" required [(ngModel)]="testdata.note"></td>
+            <td><input type="text" class="form-control" required [(ngModel)]="testdata.contracts" (change)="onEnterChange($event.target.value, testdata)" ></td><!-- (input)="onEnterChange($event.target.value, testdata)" -->
+            <td><button type="button" class="btn btn-primary btn-sm" (click)="openOrderDialog(testdata.id)">Выбрать договор</button></td>
+            <td><button type="button" class="btn btn-danger btn-sm">Удалить</button></td>
+        </tr>
+    </tbody>
+</table>
+</div>
