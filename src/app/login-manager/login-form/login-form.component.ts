@@ -4,6 +4,7 @@ import { LoginQuery } from '../models/login-query';
 import { LoginResponse } from '../models/login-response';
 import { LoginService } from '../service/login.service';
 import { delay } from 'q';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -14,13 +15,15 @@ import { delay } from 'q';
 
 export class LoginFormComponent implements OnInit {
 
-  isLogin: boolean = false;
+  nameCookie = 'user';
+  isCorectLogin: boolean = true;
   cn: string;
   loginQuery = new LoginQuery("", "");
   loginResponse = new LoginResponse("", "", "", "", "", "");
 
   constructor(
     private loginService: LoginService,
+    private cookieService: CookieService,
     public dialogRef: MatDialogRef<LoginFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: LoginQuery) { }
 
@@ -32,21 +35,32 @@ export class LoginFormComponent implements OnInit {
     this.loginService.getLogin(this.loginQuery).subscribe(l => this.loginResponse = l);
     await delay(250);
     if(this.loginResponse){
-      this.isLogin = true;
-      this.createStorage();
+      this.isCorectLogin = true;
+      this.setCookie(this.nameCookie, this.loginResponse.token);
+      this.getCookie(this.nameCookie);
       this.onNoClick(this.loginResponse);
     }
-    else alert("Неверное имя пользователи или пароль!");
-
+    else {
+      this.isCorectLogin = false;
+       //alert("Неверное имя пользователи или пароль!");
+    }
   }
 
   onNoClick(data): void {
     this.dialogRef.close(data);
   }
 
-  createStorage(){
-    localStorage.setItem('currentUser', JSON.stringify({ token: this.loginResponse.token, name: this.loginResponse.login }));
-    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    var token = currentUser.token; // your token
+  onOkClickUnCorect() {
+    this.isCorectLogin = true;
+  }
+
+  setCookie(nameCookie: string, token: string) {
+    this.cookieService.set(nameCookie, token);
+  }
+
+  getCookie(nameCookie: string) {
+    if(this.cookieService.check(nameCookie)){
+      let token = this.cookieService.get(nameCookie);
+    }
   }
 }

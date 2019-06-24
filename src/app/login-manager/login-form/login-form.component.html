@@ -1,5 +1,6 @@
 
-<mat-card>
+<mat-card *ngIf="isCorectLogin">
+
     <mat-card-title>Вход в систему</mat-card-title>
     <mat-card-content>
 
@@ -17,12 +18,19 @@
 
     </mat-card-content>
 </mat-card>
+
+<mat-card *ngIf="!isCorectLogin">
+
+  <div class="etention">Неверное имя пользователи или пароль.</div>
+  <div class="etention">Попробуте снова.</div>
+
+</mat-card>
 <br />
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Отмена</button>
-  <button mat-button color="primary" (click)="onOkClick()" cdkFocusInitial>Ok</button>
+  <button mat-button color="primary" *ngIf="isCorectLogin" (click)="onOkClick()" cdkFocusInitial>Ok</button>
+  <button mat-button color="primary" *ngIf="!isCorectLogin" (click)="onOkClickUnCorect()" cdkFocusInitial>Ok</button>
 </div>
-<br />
 <!--<div>
     {{loginResponse.token}}
 </div>
