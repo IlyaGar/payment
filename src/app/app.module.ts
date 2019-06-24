@@ -12,10 +12,10 @@ import { PartnerListComponent } from './partner-list/partner-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './models/material-module';
 import { MatNativeDateModule } from '@angular/material/core';
-import { OrderListComponent } from './order-list/order-list.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavbarFormComponent } from './navbar-form/navbar-form/navbar-form.component';
 import { LoginFormComponent } from './login-manager/login-form/login-form.component';
+import { OrderListComponent } from './order-manager/order-list/order-list.component';
 
 
 @NgModule({

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TestData } from '../../models/test-data';
 import { PartnerListComponent } from '../../partner-list/partner-list.component';
 import { MatDialog } from '@angular/material/dialog';
-import { OrderListComponent } from '../../order-list/order-list.component';
+import { OrderListComponent } from '../../order-manager/order-list/order-list.component';
 
 export interface OrderListItem {
   order: string;
