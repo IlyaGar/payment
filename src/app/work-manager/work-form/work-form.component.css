@@ -33,9 +33,6 @@ button {
     min-width: 3.3em;
     box-shadow: 1px 2px 5px #000000;   
 }
-
-
-
 .div-left {
     float: left;
 }
@@ -48,8 +45,6 @@ button {
 .lable-dat {
     margin-right: 0%;
 }
-
-
 .button-bottom {
     margin-top: 20%;
 }
@@ -64,21 +59,17 @@ button {
 .button-icon.marg{
     min-width: 5.45vh;
 }
-
-
 .output-nom{
     width: 12.5em;
 }
 .output-val{
     width: 12.5em;
 }
-
-
 .report-marg {
     margin-left: 4.1%;
 }
 .import-marg {
-    margin-left: 2%;
+    margin-left: 2.5%;
 }
 .output-sum {
     width: 8.3em;

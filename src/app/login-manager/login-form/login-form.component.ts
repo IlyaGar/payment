@@ -17,9 +17,8 @@ export class LoginFormComponent implements OnInit {
 
   nameCookie = 'user';
   isCorectLogin: boolean = true;
-  cn: string;
+  expiredDate: Date;
   loginQuery = new LoginQuery("", "");
-  //loginResponse = new LoginResponse("", "", "", "", "", "");
   loginResponse: LoginResponse;
 
   constructor(
@@ -37,8 +36,8 @@ export class LoginFormComponent implements OnInit {
     await delay(250);
     if(this.loginResponse){
       this.isCorectLogin = true;
-      this.setCookie(this.nameCookie, this.loginResponse.token);
-      this.getCookie(this.nameCookie);
+      this.setCookie(this.nameCookie, this.loginResponse);
+      //this.getCookie(this.nameCookie);
       this.onNoClick(this.loginResponse);
     }
     else {
@@ -55,8 +54,9 @@ export class LoginFormComponent implements OnInit {
     this.isCorectLogin = true;
   }
 
-  setCookie(nameCookie: string, token: string) {
-    this.cookieService.set(nameCookie, token);
+  setCookie(nameCookie: string, loginResponse: LoginResponse) {
+    let loginJson = JSON.stringify(loginResponse);
+    this.cookieService.set(nameCookie, loginJson , 365);
   }
 
   getCookie(nameCookie: string) {

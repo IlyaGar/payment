@@ -13,12 +13,21 @@ export class NavbarFormComponent implements OnInit {
 
   nameCookie = 'user';
   isLogin = false;
+  loginFromCookie: string;
   loginResponse = new LoginResponse("", "", "", "", "", "");
   
   constructor(public dialog: MatDialog,
     private cookieService: CookieService) { }
 
   ngOnInit() {
+    if(this.cookieService.check(this.nameCookie)){
+      let fullData = this.cookieService.get(this.nameCookie);
+      let loginFromCookie = JSON.parse(fullData);
+      if(loginFromCookie){
+        this.loginResponse = loginFromCookie;
+        this.isLogin = true;
+      }
+    }
   }
 
   onOpenLoginDialog(id: number): void {

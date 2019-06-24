@@ -1,79 +1,80 @@
-<h2>Панель поиска по выбору</h2>
-<div class="filter div-padding">
-    <div class="column1">
-        <div class="form-inline">
-            <div>
-                <label class="lable-nom" for="nomer" id="nomerLable">№ документа:</label>
-                <input type="text" name="nomer" id="nomer" class="form-control" [(ngModel)]="filter.nomer" #nomer="ngModel" aria-describedby="nomerLable" placeholder="№ документа" />
+<div>
+    <h2>Панель поиска по выбору</h2>
+    <div class="filter div-padding">
+        <div class="column1">
+            <div class="form-inline">
+                <div>
+                    <label class="lable-nom" for="nomer" id="nomerLable">№ документа:</label>
+                    <input type="text" name="nomer" id="nomer" class="form-control" [(ngModel)]="filter.nomer" #nomer="ngModel" aria-describedby="nomerLable" placeholder="№ документа" />
+                </div>
+                <div>
+                    <label class="lable-nam" for="name" id="nameLable">Значение:</label>
+                    <input type="text" name="name" id="name" class="form-control" [(ngModel)]="filter.name" #name="ngModel" aria-describedby="nameLable" placeholder="Значение" />
+                </div>
+                <div>
+                    <label class="lable-st" for="status" id="statusLable">Статус:</label>
+                    <input type="text" name="status" id="status" class="form-control" [(ngModel)]="filter.status" #status="ngModel" aria-describedby="statusLable" placeholder="Статус" />
+                </div>
             </div>
-            <div>
-                <label class="lable-nam" for="name" id="nameLable">Значение:</label>
-                <input type="text" name="name" id="name" class="form-control" [(ngModel)]="filter.name" #name="ngModel" aria-describedby="nameLable" placeholder="Значение" />
-            </div>
-            <div>
-                <label class="lable-st" for="status" id="statusLable">Статус:</label>
-                <input type="text" name="status" id="status" class="form-control" [(ngModel)]="filter.status" #status="ngModel" aria-describedby="statusLable" placeholder="Статус" />
-            </div>
+            <div class="form-inline">
+                <div>
+                    <label class="lable-s" for="startDate" id="dateStartLable">Дата с:</label>
+                    <input type="date" name="startDate" id="startDate" class="form-control" [(ngModel)]="filter.startDate" #startDate="ngModel" aria-describedby="dateStartLable" />
+                </div>
+                <div>
+                    <label class="lable-f" for="finishDate" id="dateFinishLable">по:</label>
+                    <input type="date" name="finishDate" id="finishDate" class="form-control" [(ngModel)]="filter.finishDate" #finishDate="ngModel" aria-describedby="dateFinishLable" />
+                </div>
+                <div>
+                    <button type="input" class="btn btn-success button-bottom" data-toggle="tooltip" data-placement="bottom" title="Отобрать документы"
+                        (click)="onSendFilter(filter)" >Отобрать</button>
+                </div>
+                <div>
+                    <button type="input" class="btn btn-warning button-bottom" data-toggle="tooltip" data-placement="bottom" title="Очистить фильтр"
+                        (click)="onClearFilter()" >Очистить</button>
+                </div>
+            </div>              
         </div>
-        <div class="form-inline">
+        <div class="column2">
             <div>
-                <label class="lable-s" for="startDate" id="dateStartLable">Дата с:</label>
-                <input type="date" name="startDate" id="startDate" class="form-control" [(ngModel)]="filter.startDate" #startDate="ngModel" aria-describedby="dateStartLable" />
+                <label>Отобрано:</label>
+                <div class="form-control out-data">{{allSelected}}</div>
             </div>
             <div>
-                <label class="lable-f" for="finishDate" id="dateFinishLable">по:</label>
-                <input type="date" name="finishDate" id="finishDate" class="form-control" [(ngModel)]="filter.finishDate" #finishDate="ngModel" aria-describedby="dateFinishLable" />
+                <label>Сумма:</label>
+                <div class="form-control out-data">{{sumSelected}}</div>
             </div>
-            <div>
-                <button type="input" class="btn btn-success button-bottom" data-toggle="tooltip" data-placement="bottom" title="Отобрать документы"
-                    (click)="onSendFilter(filter)" >Отобрать</button>
-            </div>
-            <div>
-                <button type="input" class="btn btn-warning button-bottom" data-toggle="tooltip" data-placement="bottom" title="Очистить фильтр"
-                    (click)="onClearFilter()" >Очистить</button>
-            </div>
-        </div>              
+        </div>             
     </div>
-    <div class="column2">
-        <div>
-            <label>Отобрано:</label>
-            <div class="form-control out-data">{{allSelected}}</div>
-        </div>
-        <div>
-            <label>Сумма:</label>
-            <div class="form-control out-data">{{sumSelected}}</div>
-        </div>
-    </div>             
+    <br />
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">№ Документа</th>
+                <th scope="col">Наименование</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Пользователь</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Заявка на оплату</td>
+                <td>Ок</td>
+                <td>Марк</td>
+                <td>22.12.18</td>
+                <td>5201</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Заявка</td>
+                <td>Ок</td>
+                <td>Джон</td>
+                <td>22.13.19</td>
+                <td>332</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-<br />
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">№ Документа</th>
-            <th scope="col">Наименование</th>
-            <th scope="col">Статус</th>
-            <th scope="col">Пользователь</th>
-            <th scope="col">Дата</th>
-            <th scope="col">Сумма</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Заявка на оплату</td>
-            <td>Ок</td>
-            <td>Марк</td>
-            <td>22.12.18</td>
-            <td>5201</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Заявка</td>
-            <td>Ок</td>
-            <td>Джон</td>
-            <td>22.13.19</td>
-            <td>332</td>
-        </tr>
-    </tbody>
-</table>
-
