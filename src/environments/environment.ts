@@ -5,7 +5,7 @@ import 'zone.js/dist/zone-error';
 
 export const environment = {
   production: true,
-  apiUrl:'http://localhost:63572/',
+  apiUrl:'http://192.168.1.38/',
 };
 
 /*

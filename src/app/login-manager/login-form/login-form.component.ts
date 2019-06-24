@@ -19,7 +19,8 @@ export class LoginFormComponent implements OnInit {
   isCorectLogin: boolean = true;
   cn: string;
   loginQuery = new LoginQuery("", "");
-  loginResponse = new LoginResponse("", "", "", "", "", "");
+  //loginResponse = new LoginResponse("", "", "", "", "", "");
+  loginResponse: LoginResponse;
 
   constructor(
     private loginService: LoginService,

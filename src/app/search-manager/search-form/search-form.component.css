@@ -28,7 +28,7 @@ button {
 label{
     margin: 0%;
 }
-output {
+.out-data {
     min-width: 7.3em;
 }
 .button-bottom {

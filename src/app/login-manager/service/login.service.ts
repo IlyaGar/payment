@@ -10,10 +10,9 @@ import { LoginResponse } from '../models/login-response';
 })
 export class LoginService {
 
-  private url = environment.apiUrl + 'api/login';
   //private url = "http://192.168.1.38:8080/opcode=1&param=";
-  private urlget = "http://192.168.1.38/auth/?data=";
-  private urlpost = "http://192.168.1.38/auth/?data";
+  //private urlget = "http://192.168.1.38/auth/?data=";
+  private url = environment.apiUrl + "auth/?data";
 
   constructor(private http: HttpClient) { }
   
@@ -26,8 +25,8 @@ export class LoginService {
     //let loginJson = JSON.stringify(login);
     //return this.http.get<LoginResponse>(this.urlget + loginJson);
 
-    return this.http.post<LoginResponse>(`${this.urlpost}`, login);
-
     //return this.http.post<LoginResponse>(`${this.url}`, login);
+
+    return this.http.post<LoginResponse>(`${this.url}`, login);
   }
 }

@@ -13,6 +13,8 @@ export class SearchFormComponent implements OnInit {
 
   docs: DocumentItem[];
   filter = new FilterDocument("", "", "", null, null);
+  allSelected: string = '0';
+  sumSelected: number = 0;
 
   constructor(private searchService: SearchService,
     private cookieService: CookieService,) { }
@@ -24,7 +26,8 @@ export class SearchFormComponent implements OnInit {
   onSendFilter(filter: FilterDocument){
     let token = this.getCookie('user');
     if(token){
-      let i = 8;
+      this.allSelected = '4444';
+      this.sumSelected = 5555;
     }
   }
 
