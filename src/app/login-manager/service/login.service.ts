@@ -4,6 +4,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoginQuery } from '../models/login-query';
 import { LoginResponse } from '../models/login-response';
+import { Logout } from '../models/logout';
+import { LogoutStatus } from '../models/logout-status';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,8 @@ export class LoginService {
 
   //private url = "http://192.168.1.38:8080/opcode=1&param=";
   //private urlget = "http://192.168.1.38/auth/?data=";
-  private url = environment.apiUrl + "auth/?data";
+  private urlLogin = environment.apiUrl + "auth/?data";
+  private urlLogout = environment.apiUrl + "logout/";
 
   constructor(private http: HttpClient) { }
   
@@ -27,6 +30,11 @@ export class LoginService {
 
     //return this.http.post<LoginResponse>(`${this.url}`, login);
 
-    return this.http.post<LoginResponse>(`${this.url}`, login);
+    return this.http.post<LoginResponse>(`${this.urlLogin}`, login);
+  }
+
+  postLogout(login: Logout): Observable<LogoutStatus> {
+    let t = 0;
+    return this.http.post<LogoutStatus>(`${this.urlLogout}`, login);
   }
 }

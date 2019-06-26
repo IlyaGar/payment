@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LoginQuery } from '../models/login-query';
 import { LoginResponse } from '../models/login-response';
 import { LoginService } from '../service/login.service';
-import { delay } from 'q';
 import { CookieService } from 'ngx-cookie-service';
 
 
@@ -31,23 +30,18 @@ export class LoginFormComponent implements OnInit {
 
   }
 
-  async onOkClick() {
-    this.loginService.getLogin(this.loginQuery).subscribe(l => this.loginResponse = l);
-    await delay(250);
-    if(this.loginResponse){
-      this.isCorectLogin = true;
-      this.setCookie(this.nameCookie, this.loginResponse);
-      //this.getCookie(this.nameCookie);
-      this.onNoClick(this.loginResponse);
-    }
-    else {
-      this.isCorectLogin = false;
-       //alert("Неверное имя пользователи или пароль!");
-    }
+  onOkClick() {
+    this.loginService.getLogin(this.loginQuery).subscribe(
+      l => {this.loginResponse = l; this.loginUser();},
+      error => console.log(error));
+  }
+
+  closeDialogOk(data): void {
+    this.dialogRef.close(data);
   }
 
   onNoClick(data): void {
-    this.dialogRef.close(data);
+    this.dialogRef.close();
   }
 
   onOkClickUnCorect() {
@@ -56,12 +50,25 @@ export class LoginFormComponent implements OnInit {
 
   setCookie(nameCookie: string, loginResponse: LoginResponse) {
     let loginJson = JSON.stringify(loginResponse);
-    this.cookieService.set(nameCookie, loginJson , 365);
+    this.cookieService.set(nameCookie, loginJson, 365);
   }
 
   getCookie(nameCookie: string) {
     if(this.cookieService.check(nameCookie)){
       let token = this.cookieService.get(nameCookie);
+    }
+  }
+
+  loginUser() {
+    if(this.loginResponse.token){
+      this.isCorectLogin = true;
+      this.setCookie(this.nameCookie, this.loginResponse);
+      //this.getCookie(this.nameCookie);
+      this.closeDialogOk(this.loginResponse);
+    }
+    else {
+      this.isCorectLogin = false;
+       //alert("Неверное имя пользователи или пароль!");
     }
   }
 }
