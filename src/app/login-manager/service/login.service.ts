@@ -34,7 +34,6 @@ export class LoginService {
   }
 
   postLogout(login: Logout): Observable<LogoutStatus> {
-    let t = 0;
     return this.http.post<LogoutStatus>(`${this.urlLogout}`, login);
   }
 }

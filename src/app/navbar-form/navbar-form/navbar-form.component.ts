@@ -7,6 +7,7 @@ import { LoginService } from 'src/app/login-manager/service/login.service';
 import { LogoutStatus } from 'src/app/login-manager/models/logout-status';
 import { Logout } from 'src/app/login-manager/models/logout';
 import { delay } from 'q';
+import { CommonService } from 'src/app/common/common.service';
 
 @Component({
   selector: 'app-navbar-form',
@@ -20,10 +21,11 @@ export class NavbarFormComponent implements OnInit {
   loginFromCookie: string;
   loginResponse = new LoginResponse("", "", "", "", "", "");
   logoutStatus: LogoutStatus;
-  
+
   constructor(public dialog: MatDialog,
     private cookieService: CookieService,
-    private loginService: LoginService,) { }
+    private loginService: LoginService,
+    private service: CommonService) { }
 
   ngOnInit() {
     if(this.cookieService.check(this.nameCookie)){
@@ -47,16 +49,22 @@ export class NavbarFormComponent implements OnInit {
         this.isLogin = true;
       }
     });
+    
   }
 
-  async onLogout() {
+  onLogout() {
     let logout = new Logout(this.loginResponse.login, this.loginResponse.token);
-    this.loginService.postLogout(logout).subscribe(l => this.logoutStatus = l);
-    await delay(250);
+    this.loginService.postLogout(logout).subscribe(
+      l => { this.logoutStatus = l; this.logOut(); },
+      error => console.log(error));
+  }
+
+  logOut() {
     let status = this.logoutStatus;
     if(status.status == 'true'){
       this.isLogin = false;
       this.deleteCookie(this.nameCookie);
+      this.service.newEvent('logout');
     } 
     else alert("Ошибка!");
   }
@@ -66,5 +74,4 @@ export class NavbarFormComponent implements OnInit {
       this.cookieService.delete(nameCookie);
     }
   }
-
 }

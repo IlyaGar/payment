@@ -13,7 +13,15 @@
                 </div>
                 <div>
                     <label class="lable-st" for="status" id="statusLable">Статус:</label>
-                    <input type="text" name="status" id="status" class="form-control" [(ngModel)]="filter.status" #status="ngModel" aria-describedby="statusLable" placeholder="Статус" />
+
+                    <select class="form-control sel-tb" id="statusSelect" name="statusSelect" [(ngModel)]="statusSelect">
+                        <option selected="selected">Все объекты</option>
+                        <option>Черновик</option>
+                        <option>Сформирован</option>
+                        <option>На утверждении</option>
+                        <option>Утвержден</option>
+                      </select>
+                   <!--<input type="text" name="status" id="status" class="form-control" [(ngModel)]="filter.status" #status="ngModel" aria-describedby="statusLable" placeholder="Статус" />--> 
                 </div>
             </div>
             <div class="form-inline">
@@ -53,27 +61,33 @@
                 <th scope="col">№ Документа</th>
                 <th scope="col">Наименование</th>
                 <th scope="col">Статус</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Дата сохраниения</th>
                 <th scope="col">Пользователь</th>
-                <th scope="col">Дата</th>
                 <th scope="col">Сумма</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Заявка на оплату</td>
-                <td>Ок</td>
-                <td>Марк</td>
-                <td>22.12.18</td>
-                <td>5201</td>
+        <tbody *ngIf="isData">
+            <tr *ngFor="let doc of docsResponse.docList" (click)="onSelection(doc[0])">
+                <td scope="row">{{doc[0]}}</td>
+                <td scope="row">{{doc[1]}}</td>
+                <td scope="row">{{doc[2]}}</td>
+                <td scope="row">{{doc[3]}}</td>
+                <td scope="row">{{doc[4]}}</td>
+                <td scope="row">{{doc[5]}}</td>
+                <td scope="row">{{doc[6]}}</td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Заявка</td>
-                <td>Ок</td>
-                <td>Джон</td>
-                <td>22.13.19</td>
-                <td>332</td>
+            
+        </tbody>
+        <tbody>
+            <tr (click)="onSelection(21)">
+                <td scope="row">21</td>
+                <td scope="row">23</td>
+                <td scope="row">24</td>
+                <td scope="row">35</td>
+                <td scope="row">53</td>
+                <td scope="row">35</td>
+                <td scope="row">34</td>
             </tr>
         </tbody>
     </table>

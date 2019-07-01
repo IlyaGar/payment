@@ -4,6 +4,7 @@ import { LoginQuery } from '../models/login-query';
 import { LoginResponse } from '../models/login-response';
 import { LoginService } from '../service/login.service';
 import { CookieService } from 'ngx-cookie-service';
+import { CommonService } from 'src/app/common/common.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class LoginFormComponent implements OnInit {
     private loginService: LoginService,
     private cookieService: CookieService,
     public dialogRef: MatDialogRef<LoginFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: LoginQuery) { }
+    @Inject(MAT_DIALOG_DATA) public data: LoginQuery,
+    private service: CommonService) { }
 
   ngOnInit() {
 
@@ -65,6 +67,7 @@ export class LoginFormComponent implements OnInit {
       this.setCookie(this.nameCookie, this.loginResponse);
       //this.getCookie(this.nameCookie);
       this.closeDialogOk(this.loginResponse);
+      this.service.newEvent('login');
     }
     else {
       this.isCorectLogin = false;

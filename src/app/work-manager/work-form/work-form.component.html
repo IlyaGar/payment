@@ -69,8 +69,9 @@
             <th>Последняя оплата</th>
             <th>Остатки</th>
             <th>Задолжность</th>
-            <th>Оплатить</th>
+            <th>Сумма оплаты</th>
             <th>Примечание</th>
+            <th>Номер платежного поручения</th>
             <th>Договор</th>
             <th>Выбрать</th>
             <th>Удалить</th>
@@ -85,6 +86,7 @@
             <td>{{testdata.debt}}</td>
             <td><input type="text" class="form-control" required [(ngModel)]="testdata.pay" (input)="onEnterChange($event.target.value, testdata)"></td>
             <td><input type="text" class="form-control" required [(ngModel)]="testdata.note"></td>
+            <td>{{testdata.debt}}</td>
             <td><input type="text" class="form-control" required [(ngModel)]="testdata.contracts" (change)="onEnterChange($event.target.value, testdata)" ></td><!-- (input)="onEnterChange($event.target.value, testdata)" -->
             <td><button type="button" class="btn btn-primary btn-sm" (click)="openOrderDialog(testdata.id)">Выбрать договор</button></td>
             <td><button type="button" class="btn btn-danger btn-sm">Удалить</button></td>
