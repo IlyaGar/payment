@@ -4,19 +4,19 @@
         <div class="form-inline">
             <div>
                 <label class="lable-nom">№ документа:</label>
-                <output name="numDoc" class="form-control output-nom" id="numberDoc">123qwpocn780posc</output>
+                <div class="form-control output-nom">{{docEdit.docNum}}</div>
             </div>
             <div>
                 <label class="lable-nam">Наименоваие:</label>
-                <output name="nameDoc" class="form-control output-nom" id="nameDoc"></output>
+                <div class="form-control output-nom">{{docEdit.docName}}</div>
             </div>
             <div>
                 <label class="lable-dat">Дата создания:</label>
-                <output name="dateCreated" class="form-control" id="dateCreated"></output>
+                <div class="form-control output-date">{{docEdit.docDate | date:'dd-MM-yyyy'}}</div>
             </div>
             <div>
                 <label>Сумма:</label>
-                <output name="summ" class="form-control output-sum" id="summ"></output>
+                <div class="form-control output-sum">{{docEdit.docSum}}</div>
             </div>
             <div class="del-pad">
                 <button type="button" class="btn btn-danger button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Удалить документ">
@@ -28,7 +28,7 @@
         <div class="div-margin">
             <div class="form-inline">
                 <div class="form-inline">
-                    <button type="button" class="btn btn-light button-contr" name="partner" data-toggle="tooltip" data-placement="bottom" title="Выбор контрагентов из списка">
+                    <button type="button" class="btn btn-light button-contr" name="partner" (click)="openPartnerDialog()" data-toggle="tooltip" data-placement="bottom" title="Выбор контрагентов из списка">
                         <img src="../../assets/agent2.png" width="20" height="20" />Выбрать контрагентов
                     </button>
 
@@ -50,7 +50,7 @@
                     <button type="button" class="btn btn-light button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Импорт данных в 1С">
                         <img src="../../assets/icons8-1с-30.png" width="20" height="20" />
                     </button>
-                    <button type="button" class="btn btn-light button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Импорт данных в файл">
+                    <button type="button" class="btn btn-light button-icon" (click)="onClickB()" name="" data-toggle="tooltip" data-placement="bottom" title="Импорт данных в файл">
                         <img src="../../assets/import1.png" width="20" height="20" />
                     </button>
                 </div>
@@ -78,16 +78,16 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let testdata of tests">
-            <td>{{testdata.contr}}</td>
-            <td>{{testdata.saldo}}</td>
-            <td>{{testdata.lastpay}}</td>
-            <td>{{testdata.scrap}}</td>
-            <td>{{testdata.debt}}</td>
-            <td><input type="text" class="form-control" required [(ngModel)]="testdata.pay" (input)="onEnterChange($event.target.value, testdata)"></td>
-            <td><input type="text" class="form-control" required [(ngModel)]="testdata.note"></td>
-            <td>{{testdata.debt}}</td>
-            <td><input type="text" class="form-control" required [(ngModel)]="testdata.contracts" (change)="onEnterChange($event.target.value, testdata)" ></td><!-- (input)="onEnterChange($event.target.value, testdata)" -->
+        <tr *ngFor="let doc of docEdit.docBody">
+            <td>{{doc[0]}}</td>
+            <td>{{doc[1]}}</td>
+            <td>{{doc[2]}}</td>
+            <td>{{doc[3]}}</td>
+            <td>{{doc[4]}}</td>
+            <td><input type="text" class="form-control" required [(ngModel)]="doc[5]" (input)="onEnterChange($event.target.value, testdata)"></td>
+            <td><input type="text" class="form-control" required [(ngModel)]="doc[6]"></td>
+            <td>{{doc[7]}}</td>
+            <td><input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" ></td><!-- (input)="onEnterChange($event.target.value, testdata)" -->
             <td><button type="button" class="btn btn-primary btn-sm" (click)="openOrderDialog(testdata.id)">Выбрать договор</button></td>
             <td><button type="button" class="btn btn-danger btn-sm">Удалить</button></td>
         </tr>

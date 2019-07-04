@@ -6,7 +6,7 @@ import { WorkFormComponent } from './work-manager/work-form/work-form.component'
 
 const routes: Routes = [
   { path: 'search', component: SearchFormComponent },
-  { path: 'work', component: WorkFormComponent },
+  { path: 'work/:id', component: WorkFormComponent },
   { path: '', redirectTo: '/search', pathMatch: 'full' },
 ];
 

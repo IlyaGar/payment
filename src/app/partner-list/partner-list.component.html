@@ -1,26 +1,75 @@
-<h1 mat-dialog-title>Выбор котрагентов</h1>
-<table class="table table-hover tlist">
-  <thead>
-      <tr>
-          <th scope="col">Контрагент</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr><td scope="row">ООО Гвозди</td></tr>
-      <tr><td scope="row">ОАО Шуруп</td></tr>
-      <tr><td scope="row">ЗАО Каска</td></tr>
-      <tr><td scope="row">СИЗ Защита</td></tr>
-      <tr><td scope="row">123</td></tr>
-      <tr><td scope="row">234</td></tr>
-      <tr><td scope="row">345</td></tr>
-      <tr><td scope="row">456</td></tr>
-      <tr><td scope="row">567</td></tr>
-      <tr><td scope="row">678</td></tr>
-      <tr><td scope="row">789</td></tr>
-      <tr><td scope="row">900</td></tr>
-  </tbody>
-</table>
+<mat-card class="mat-elevation-z8">
+    <mat-card-title>Выбор контрагента</mat-card-title>
+    <div class="form-inline">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Поиск контрагента" id="inputSearch" name="inputSearch" #inputSearch>
+        </mat-form-field>
+        <button mat-button (click)="onSearch(inputSearch)" >Искать</button>
+    </div>
+    <br />
+    <div class="example-container">
+        Доступные контрагенты
+      
+        <div
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="todo"
+            [cdkDropListConnectedTo]="[doneList]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)"
+            (dblclick)="dblclickMove($event.target.innerText, 'done', 'todo')">
+            <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+        </div>
+
+    </div>
+
+    <div class="example-container">
+        Выбранные контрагенты
+      
+        <div
+            cdkDropList
+            #doneList="cdkDropList"
+            [cdkDropListData]="done"
+            [cdkDropListConnectedTo]="[todoList]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)"
+            (dblclick)="dblclickMove($event.target.innerText, 'todo', 'done')">
+            <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+        </div>
+
+    </div>
+</mat-card>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
-</div>
+    <button mat-button (click)="onNoClick()">Отмена</button>
+    <button mat-button color="primary" (click)="onOkClick()" cdkFocusInitial>Ok</button>
+  </div>
+
+<!--<div class="example-container">
+      <h2>To do</h2>
+    
+      <div
+        cdkDropList
+        #todoList="cdkDropList"
+        [cdkDropListData]="todo"
+        [cdkDropListConnectedTo]="[doneList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+        (dblclick)="dblclickMove($event.target.innerText, 'done', 'todo')">
+        <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+      </div>
+    </div>
+    
+    <div class="example-container">
+      <h2>Done</h2>
+    
+      <div
+        cdkDropList
+        #doneList="cdkDropList"
+        [cdkDropListData]="done"
+        [cdkDropListConnectedTo]="[todoList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+        (dblclick)="dblclickMove($event.target.innerText, 'todo', 'done')">
+        <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+      </div>
+    </div>-->

@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { TestData } from '../../models/test-data';
 import { PartnerListComponent } from '../../partner-list/partner-list.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderListComponent } from '../../order-manager/order-list/order-list.component';
+import { DocEditQuery } from 'src/app/models/doc-edit-query';
+import { CommonService } from 'src/app/common/common.service';
+import { ActivatedRoute} from '@angular/router';
+import { WorkService } from '../work-service/work.service';
+import { DocEdit } from 'src/app/models/doc-edit';
+import { NewDocQuery } from '../models/new-doc-query';
+import { CookieService } from 'ngx-cookie-service';
 
-export interface OrderListItem {
-  order: string;
-}
 
 @Component({
   selector: 'app-work-form',
@@ -16,47 +19,60 @@ export interface OrderListItem {
 
 export class WorkFormComponent implements OnInit {
 
-  animal: string;
-  name: string;
-  order: string;
-  odrerList: OrderListItem[];
+  docEditQuery: DocEditQuery;
+  newDocQuery: NewDocQuery;
+  docEdit: DocEdit = new DocEdit("", "", "", "", "", null, "");
+  doc: any;
+  idDocument: string;
+  nameCookie = 'user';
 
   list: string[] = [];
 
-  tests: TestData[] = 
-  [
-    {id: 12, contr: "12", saldo: "12", lastpay: "12", scrap: "12", debt: "12", pay: "12", note: "12", contracts: ['12', '122', '112']},
-    {id: 123,contr: "123", saldo: "123", lastpay: "123", scrap: "123", debt: "123", pay: "123", note: "123", contracts: []},
-    {id: 234,contr: "234", saldo: "234", lastpay: "234", scrap: "234", debt: "234", pay: "234", note: "234", contracts: []},
-    {id: 567,contr: "567", saldo: "567", lastpay: "567", scrap: "567", debt: "567", pay: "567", note: "567", contracts: ['567', '55567', '56667']},
-    {id: 890,contr: "890", saldo: "890", lastpay: "890", scrap: "890", debt: "890", pay: "890", note: "890", contracts: ['890']},
-  ];
-  test = new TestData(0, "", "", "", "", "", "", "", null);
-
-  constructor(public dialog: MatDialog) { }
+  constructor(
+    public dialog: MatDialog,
+    private workService: WorkService,
+    private common: CommonService,
+    private cookieService: CookieService,
+    private activateRoute: ActivatedRoute) {
+      activateRoute.params.subscribe(params => { this.doc = params; this.getDocEditQuery(); });
+     }
 
   ngOnInit() {
+    if(this.idDocument)
+      this.workService.postGetDocument(this.docEditQuery).subscribe(d =>  { this.docEdit = d; this.removeZeros(); });
   }
 
-  onEnterChange(enterValue: string, newtest: TestData) {  
-    var splitted = enterValue.split(","); 
-    this.tests.find(t => t.id == newtest.id).contracts = splitted;
+  getDocEditQuery() {
+    if(this.doc){
+      this.idDocument = this.doc.id;
+      this.docEditQuery = new DocEditQuery(this.getToken(this.nameCookie), this.idDocument);
+    }
+  }
+
+  onEnterChange(enterValue: string, newtest: DocEdit) {  
+    /*var splitted = enterValue.split(","); 
+    this.tests.find(t => t.id == newtest.id).contracts = splitted;*/
   } 
 
-  onClickB(){
-    let v = this.tests;
+  onClickB() {
+    this.docEditQuery = this.doc;
+  }
+
+  removeZeros() {
+    if(this.docEdit.docBody) {
+      this.docEdit.docBody.forEach(element => {
+        var splitedPayDate = element[2].split(' ');
+        element[2] = splitedPayDate[0];
+      });
+    }
   }
 
   openPartnerDialog(): void {
     const dialogRef = this.dialog.open(PartnerListComponent, {
-      width: '500px',
-      height: '500px',
-      data: {name: this.name, animal: this.animal}
+      width: '52.5vw',
+      height: '75vh',
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.animal = result;
-    });
+    dialogRef.afterClosed().subscribe(result => { });
   }
 
   openOrderDialog(id: number): void {
@@ -64,13 +80,20 @@ export class WorkFormComponent implements OnInit {
     const dialogRef = this.dialog.open(OrderListComponent, {
       width: '400px',
       height: '460px',
-      data: {order: this.order}
     });
     dialogRef.afterClosed().subscribe(result => {
-      result.forEach(element => {
-        this.list.push(element.order);
-      });
-      this.tests.find(t => t.id == id).contracts = this.list;
+      //this.tests.find(t => t.id == id).contracts = this.list;
     });
+  }
+
+  getToken(nameCookie: string) {
+    if(this.cookieService.check(nameCookie)){
+      let fullData = this.cookieService.get(nameCookie);
+      let loginFromCookie = JSON.parse(fullData);
+      if(loginFromCookie){
+        return loginFromCookie.token
+      }
+    }
+    else return false;
   }
 }

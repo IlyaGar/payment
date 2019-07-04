@@ -19,6 +19,7 @@ export class SearchService {
 
   postDocument(doc: DocumentsQuery): Observable<DocumentsResponse> {
     if(doc.statusParam == 'Все объекты') doc.statusParam = "";
+    let v = JSON.stringify(doc);
     return this.http.post<DocumentsResponse>(this.url, doc);
   }
 

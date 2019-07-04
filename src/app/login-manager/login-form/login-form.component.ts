@@ -29,7 +29,6 @@ export class LoginFormComponent implements OnInit {
     private service: CommonService) { }
 
   ngOnInit() {
-
   }
 
   onOkClick() {

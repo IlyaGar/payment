@@ -26,9 +26,6 @@ input {
 label {
     margin: 0%;
 }
-output {
-    min-width: 7.3em;
-}
 button {
     min-width: 3.3em;
     box-shadow: 1px 2px 5px #000000;   
@@ -61,6 +58,18 @@ button {
 }
 .output-nom{
     width: 12.5em;
+    margin-left: 0.2em;
+    margin-right: 0.2em;  
+}
+.output-date {
+    width: 7.1em;
+    margin-left: 0.2em;
+    margin-right: 0.2em; 
+}
+.output-sum {
+    width: 8.3em;
+    margin-left: 0.2em;
+    margin-right: 0.2em;  
 }
 .output-val{
     width: 12.5em;
@@ -71,11 +80,6 @@ button {
 .import-marg {
     margin-left: 2.5%;
 }
-.output-sum {
-    width: 8.3em;
-}
-
-
 td {
     margin-top: 0%;
     margin-bottom: 0%;
@@ -84,21 +88,16 @@ td {
     margin-right: 3%;
     vertical-align: middle;
 }
-
-
 .div-padding {
     padding-top: 0.5%;
     padding-bottom: 0.5%;
 }
-
 .div-margin {
     margin-top: 1%;
 }
-
 .del-pad {
     padding-top: 3.1%;
 }
-
 .table-scroll{
     min-width: 70em;
     overflow: auto;

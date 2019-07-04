@@ -38,7 +38,7 @@ export class NavbarFormComponent implements OnInit {
     }
   }
 
-  onOpenLoginDialog(id: number): void {
+  onOpenLoginDialog(): void {
     const dialogRef = this.dialog.open(LoginFormComponent, {
       width: '400px',
       height: '340px',
@@ -49,7 +49,6 @@ export class NavbarFormComponent implements OnInit {
         this.isLogin = true;
       }
     });
-    
   }
 
   onLogout() {

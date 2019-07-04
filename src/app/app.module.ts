@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchFormComponent } from './search-manager/search-form/search-form.component';
@@ -17,6 +17,8 @@ import { NavbarFormComponent } from './navbar-form/navbar-form/navbar-form.compo
 import { LoginFormComponent } from './login-manager/login-form/login-form.component';
 import { OrderListComponent } from './order-manager/order-list/order-list.component';
 import { CookieService } from 'ngx-cookie-service';
+import { CreateDocumComponent } from './work-manager/create-docum/create-docum.component';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 
 @NgModule({
@@ -29,6 +31,8 @@ import { CookieService } from 'ngx-cookie-service';
     OrderListComponent,
     LoginFormComponent,
     NavbarFormComponent,
+    CreateDocumComponent,
+    PartnerListComponent,
   ],
   imports: [
     FormsModule,
@@ -40,18 +44,25 @@ import { CookieService } from 'ngx-cookie-service';
     BrowserAnimationsModule,
     MatToolbarModule,
     DemoMaterialModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+
+    DemoMaterialModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
   ],
   providers: [
     HttpClient,
     CookieService
   ],
   entryComponents: [
-    WorkFormComponent, 
+    //WorkFormComponent, 
     PartnerListComponent, 
     OrderListComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    CreateDocumComponent,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent,
+  ]
 })
 export class AppModule { }

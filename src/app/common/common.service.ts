@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
-
 
   private _subject = new Subject<any>();
 
@@ -16,15 +15,4 @@ export class CommonService {
   get events$ () {
     return this._subject.asObservable();
   }
-
-  /*constructor() { }
-
-  setData() {
-  }
-
-  getData() {
-  }
-
-  clearData() {
-  }*/
 }

@@ -7,6 +7,9 @@ import { DocumentsQuery } from '../models/documents-query';
 import { CommonService } from 'src/app/common/common.service';
 import { DocEditQuery } from 'src/app/models/doc-edit-query';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateDocumComponent } from 'src/app/work-manager/create-docum/create-docum.component';
+
 
 @Component({
   selector: 'app-search-form',
@@ -28,10 +31,12 @@ export class SearchFormComponent implements OnInit {
   statusSelect: string = 'Все объекты';
   token: string;
 
-  constructor(private searchService: SearchService,
+  constructor(
+    private searchService: SearchService,
     private cookieService: CookieService,
-    private service: CommonService,
-    private router: Router,) { }
+    private common: CommonService,
+    private router: Router,
+    public dialog: MatDialog,) { }
 
   ngOnInit() {
     this.isViewComponent = true;
@@ -59,7 +64,7 @@ export class SearchFormComponent implements OnInit {
       this.docsQuery = new DocumentsQuery(token, this.filter.nomer, this.filter.name, this.filter.status = this.statusSelect, stdate, fndate);
       //this.docsQuery = new DocumentsQuery(token, "", "", "", "", "");
       this.searchService.postDocument(this.docsQuery).subscribe(
-        d => {this.docsResponse = d; this.isData = true; this.giveSumAndCount(this.isData);},
+        d => { this.docsResponse = d; this.isData = true; this.giveSumAndCount(this.isData); },
         error => console.log(error));
     }
   }
@@ -83,6 +88,16 @@ export class SearchFormComponent implements OnInit {
       this.sumSelected = null;
       this.filter.status = 'Все объекты';
     }
+    this.removeZeros();
+  }
+
+  removeZeros() {
+    this.docsResponse.docList.forEach(element => {
+      var splitedCreateDate = element[3].split(' ');
+      var splitedSaveDate = element[4].split(' ');
+      element[3] = splitedCreateDate[0];
+      element[4] = splitedSaveDate[0];
+    });
   }
 
   onSendFilter(filter: FilterDocument) {
@@ -119,8 +134,19 @@ export class SearchFormComponent implements OnInit {
   }
 
   onSelection(nom: string) {
-    let docEditQuery = new DocEditQuery(nom, this.getToken(this.nameCookie));
-    this.router.navigate(['/work']);
-    this.searchService.postDocEditQuery(docEditQuery);
+    let docEditQuery = new DocEditQuery(this.getToken(this.nameCookie), nom);
+    this.router.navigate(['/work', docEditQuery.docNum ]);
+  }
+
+  onCreateDocum(): void {
+    const dialogRef = this.dialog.open(CreateDocumComponent, {
+      width: '400px',
+      height: '260px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        //this.router.navigate(['/work']);
+      }
+    });
   }
 }

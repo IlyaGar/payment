@@ -52,7 +52,11 @@
                 <label>Сумма:</label>
                 <div class="form-control out-data">{{sumSelected}}</div>
             </div>
-        </div>             
+        </div>
+        <div class="column2">
+            <button type="button" class="btn btn-success button-bottom" data-toggle="tooltip" data-placement="bottom" title="Создать новый документ"
+                (click)="onCreateDocum()" >Новый документ</button>
+        </div>        
     </div>
     <br />
     <table class="table table-hover">
@@ -67,6 +71,17 @@
                 <th scope="col">Сумма</th>
             </tr>
         </thead>
+        <tbody>
+                <tr (click)="onSelection(22)">
+                        <td scope="row">22</td>
+                        <td scope="row">22</td>
+                        <td scope="row">22</td>
+                        <td scope="row">22</td>
+                        <td scope="row">22</td>
+                        <td scope="row">22</td>
+                        <td scope="row">22</td>
+                    </tr>
+            </tbody>
         <tbody *ngIf="isData">
             <tr *ngFor="let doc of docsResponse.docList" (click)="onSelection(doc[0])">
                 <td scope="row">{{doc[0]}}</td>
@@ -76,18 +91,6 @@
                 <td scope="row">{{doc[4]}}</td>
                 <td scope="row">{{doc[5]}}</td>
                 <td scope="row">{{doc[6]}}</td>
-            </tr>
-            
-        </tbody>
-        <tbody>
-            <tr (click)="onSelection(21)">
-                <td scope="row">21</td>
-                <td scope="row">23</td>
-                <td scope="row">24</td>
-                <td scope="row">35</td>
-                <td scope="row">53</td>
-                <td scope="row">35</td>
-                <td scope="row">34</td>
             </tr>
         </tbody>
     </table>
