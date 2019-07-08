@@ -5,19 +5,21 @@ import { DocEditQuery } from 'src/app/models/doc-edit-query';
 import { Observable } from 'rxjs';
 import { DocEdit } from 'src/app/models/doc-edit';
 import { NewDocQuery } from '../models/new-doc-query';
+import { PartnerQuery } from '../models/partner-query';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkService {
 
-  private url = environment.apiUrl + 'docbody/';
-  private urlNew = environment.apiUrl + 'newdoc/';
+  private urldoc = environment.apiUrl + 'docbody/';
+  private urlnew = environment.apiUrl + 'newdoc/';
+  private urlpartner = environment.apiUrl + '!!!!/';
 
   constructor(private http: HttpClient) { }
 
   postGetDocument(doc: DocEditQuery): Observable<DocEdit> {
-    return this.http.post<DocEdit>(this.url, doc);
+    return this.http.post<DocEdit>(this.urldoc, doc);
   }
 
   /*postNewDocument(doc: NewDocQuery): Observable<DocEdit> {
@@ -25,6 +27,10 @@ export class WorkService {
   }*/
 
   postNewDocument(doc: NewDocQuery): Observable<number> {
-    return this.http.post<number>(this.urlNew, doc);
+    return this.http.post<number>(this.urlnew, doc);
+  }
+
+  postlistPartners(doc: PartnerQuery): Observable<DocEdit> {
+    return this.http.post<DocEdit>(this.urlpartner, doc);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PartnerListComponent } from '../../partner-list/partner-list.component';
+import { PartnerListComponent } from '../../partner-manager/partner-list/partner-list.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderListComponent } from '../../order-manager/order-list/order-list.component';
 import { DocEditQuery } from 'src/app/models/doc-edit-query';
@@ -9,6 +9,7 @@ import { WorkService } from '../work-service/work.service';
 import { DocEdit } from 'src/app/models/doc-edit';
 import { NewDocQuery } from '../models/new-doc-query';
 import { CookieService } from 'ngx-cookie-service';
+import { PartnerQuery } from '../models/partner-query';
 
 
 @Component({
@@ -25,8 +26,9 @@ export class WorkFormComponent implements OnInit {
   doc: any;
   idDocument: string;
   nameCookie = 'user';
-
-  list: string[] = [];
+  token: string;
+  listOrders: string[] = [];
+  listPartners: string[] = [];
 
   constructor(
     public dialog: MatDialog,
@@ -38,8 +40,10 @@ export class WorkFormComponent implements OnInit {
      }
 
   ngOnInit() {
-    if(this.idDocument)
+    if(this.idDocument) {
       this.workService.postGetDocument(this.docEditQuery).subscribe(d =>  { this.docEdit = d; this.removeZeros(); });
+      this.token = this.getToken(this.nameCookie);
+    }
   }
 
   getDocEditQuery() {
@@ -69,14 +73,19 @@ export class WorkFormComponent implements OnInit {
 
   openPartnerDialog(): void {
     const dialogRef = this.dialog.open(PartnerListComponent, {
-      width: '52.5vw',
-      height: '75vh',
+      //width: '52.5vw',
+      //height: '75vh',
+      width: '880px',
+      height: '680px',
     });
-    dialogRef.afterClosed().subscribe(result => { });
+    dialogRef.afterClosed().subscribe(result => {
+      this.listPartners = result;
+      this.postlistPartners(this.listPartners);
+     });
   }
 
   openOrderDialog(id: number): void {
-    this.list = [];
+    //this.listOrders = [];
     const dialogRef = this.dialog.open(OrderListComponent, {
       width: '400px',
       height: '460px',
@@ -95,5 +104,10 @@ export class WorkFormComponent implements OnInit {
       }
     }
     else return false;
+  }
+
+  postlistPartners(data) {
+    let partnerQuery = new PartnerQuery(this.token, this.doc.id, data);
+    this.workService.postlistPartners(partnerQuery).subscribe(d => this.docEdit = d);
   }
 }

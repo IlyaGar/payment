@@ -1,23 +1,25 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-.example-container {
+  .example-container {
     width: 400px;
     max-width: 100%;
-    margin: 0 25px 25px 0;
+    margin: 0%;
+    padding: 0%;
     display: inline-block;
     vertical-align: top;
   }
   
   .example-list {
     border: solid 1px #ccc;
-    min-height: 60px;
     background: white;
     border-radius: 4px;
-    overflow: hidden;
     display: block;
+    overflow: auto; 
+    height: 420px; 
+    width: 360px;
   }
   
   .example-box {
-    padding: 20px 10px;
+    padding: 0.2em 0.1em;
     border-bottom: solid 1px #ccc;
     color: rgba(0, 0, 0, 0.87);
     display: flex;
@@ -46,20 +48,39 @@
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
   
-  .example-box:last-child {
+  /*.example-box:last-child {
     border: none;
-  }
+  }*/
   
   .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
   
-mat-card {
-  height: 65vh;
-  width: 50vw;
-  overflow: auto;
-}  
-mat-form-field {
-  width: 20em;
-  margin-right: 1em;
-}  
+  mat-card {
+    padding: 0em 0em 0em 2em;
+    width: 832px;
+    height: 550px;
+    overflow: auto;
+  }  
+  mat-form-field {
+    width: 20em;
+    margin-top: 0em;
+  } 
+  mat-form-field#input-search {
+    margin-top: 0.4em;
+  }
+  .notfaund {
+    color: rebeccapurple;
+  } 
+  /*mat-spinner {
+    margin-top: 190px;
+    margin-left: 160px;
+  }*/
+  .spinner {
+    margin-top: 190px;
+    margin-left: 160px;
+    transform: scale(0.1);
+  }
+  button {
+    margin-left: 2%;
+  }

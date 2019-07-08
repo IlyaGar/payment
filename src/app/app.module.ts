@@ -8,7 +8,7 @@ import { NgxPaginationModule}  from  'ngx-pagination' ;
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AdminComponent } from './admin/admin.component';
 import { WorkFormComponent } from './work-manager/work-form/work-form.component';
-import { PartnerListComponent } from './partner-list/partner-list.component';
+import { PartnerListComponent } from './partner-manager/partner-list/partner-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './models/material-module';
 import { MatNativeDateModule } from '@angular/material/core';
