@@ -9,8 +9,11 @@ import { WorkService } from '../work-service/work.service';
 import { DocEdit } from 'src/app/models/doc-edit';
 import { NewDocQuery } from '../models/new-doc-query';
 import { CookieService } from 'ngx-cookie-service';
-import { PartnerQuery } from '../models/partner-query';
+import { SaveProvider } from '../models/save-provider';
 
+export interface OrderData {
+  order: string;
+}
 
 @Component({
   selector: 'app-work-form',
@@ -30,6 +33,11 @@ export class WorkFormComponent implements OnInit {
   listOrders: string[] = [];
   listPartners: string[] = [];
 
+  listData: Array<string> = ['provider', 'saldo', '2019.06.05', '21', 'no', '123456', 'lalala', '1234', '987, 1, 2', '1001'];
+  listlistData: Array<Array<string>> = [this.listData];
+
+  docEditTest: DocEdit = new DocEdit("true", "22", "test-name", "2019-05-06", "2236", this.listlistData, "ok");
+
   constructor(
     public dialog: MatDialog,
     private workService: WorkService,
@@ -40,10 +48,12 @@ export class WorkFormComponent implements OnInit {
      }
 
   ngOnInit() {
-    if(this.idDocument) {
+    /*if(this.idDocument) {
       this.workService.postGetDocument(this.docEditQuery).subscribe(d =>  { this.docEdit = d; this.removeZeros(); });
       this.token = this.getToken(this.nameCookie);
-    }
+    }*/
+
+    this.docEdit = this.docEditTest;
   }
 
   getDocEditQuery() {
@@ -73,10 +83,9 @@ export class WorkFormComponent implements OnInit {
 
   openPartnerDialog(): void {
     const dialogRef = this.dialog.open(PartnerListComponent, {
-      //width: '52.5vw',
-      //height: '75vh',
       width: '880px',
       height: '680px',
+      data: {list: this.getProviders()},
     });
     dialogRef.afterClosed().subscribe(result => {
       this.listPartners = result;
@@ -84,15 +93,32 @@ export class WorkFormComponent implements OnInit {
      });
   }
 
-  openOrderDialog(id: number): void {
-    //this.listOrders = [];
+  openOrderDialog(docNum: number, orders: string, idnote: string): void {
     const dialogRef = this.dialog.open(OrderListComponent, {
       width: '400px',
       height: '460px',
+      data: {num: docNum, list: this.getOrders(orders), id: idnote},
     });
     dialogRef.afterClosed().subscribe(result => {
-      //this.tests.find(t => t.id == id).contracts = this.list;
+      /*let arr = this.docEdit.docBody.find(x => x[9] == idnote);
+      var res = result.map(a => a.order).toString();
+      arr[8] = res;*/
+
+      this.docEdit.docBody.find(x => x[9] == idnote)[8] = result.map(a => ' ' +  a.order).toString().slice(1);
     });
+  }
+
+  openSaveDialog(docNum: string): void {
+    if(docNum === this.docEdit.docNum) {
+      const dialogRef = this.dialog.open(OrderListComponent, {
+        width: '400px',
+        height: '460px',
+        //data: {num: docNum},
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        
+      });
+    }
   }
 
   getToken(nameCookie: string) {
@@ -107,7 +133,19 @@ export class WorkFormComponent implements OnInit {
   }
 
   postlistPartners(data) {
-    let partnerQuery = new PartnerQuery(this.token, this.doc.id, data);
+    let partnerQuery = new SaveProvider(this.token, this.doc.id, data);
     this.workService.postlistPartners(partnerQuery).subscribe(d => this.docEdit = d);
+  }
+
+  getProviders() {
+    let list = [];
+    this.docEdit.docBody.forEach(element => {
+      list.push(element[0]);
+    });
+    return list;
+  }
+
+  getOrders(orders: string) {
+    return orders.split(", "); 
   }
 }

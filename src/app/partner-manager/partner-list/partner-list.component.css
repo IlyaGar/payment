@@ -62,25 +62,20 @@
     height: 550px;
     overflow: auto;
   }  
-  mat-form-field {
-    width: 20em;
-    margin-top: 0em;
-  } 
   mat-form-field#input-search {
+    width: 20em;
     margin-top: 0.4em;
+    margin-right: 0%;
   }
   .notfaund {
     color: rebeccapurple;
   } 
-  /*mat-spinner {
-    margin-top: 190px;
-    margin-left: 160px;
-  }*/
   .spinner {
-    margin-top: 190px;
-    margin-left: 160px;
-    transform: scale(0.1);
+    margin: 0%;
+    padding-right: 20%;
+    transform: scale(0.2);
   }
-  button {
-    margin-left: 2%;
+  .search-group {
+    margin-left: 1%;
+    margin-bottom: 1%;
   }

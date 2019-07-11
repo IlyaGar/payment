@@ -4,6 +4,10 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { OrderListItem } from '../models/order-list';
 
+export interface DialogData {
+  list: Array<string>;
+}
+
 const ELEMENT_DATA: OrderListItem[] = [
   {order: "1"},
   {order: "2"},
@@ -15,6 +19,7 @@ const ELEMENT_DATA: OrderListItem[] = [
   {order: "8"},
   {order: "9"},
   {order: "10"},
+  {order: "987"},
 ];
 
 @Component({
@@ -31,14 +36,40 @@ export class OrderListComponent implements OnInit {
   dataSource = new MatTableDataSource<OrderListItem>(ELEMENT_DATA);
 
   constructor(public dialogRef: MatDialogRef<OrderListComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: OrderListItem) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   ngOnInit() {
+    if(this.data.list) {
+      let orderListFromWork = [];
+      this.data.list.forEach(element => {
+        orderListFromWork.push(new OrderListItem(element))
+      });
+      var array1 = ['a', 'b', 'c'];
+      var array2 = ['d', 'e', 'f'];
+
+      let cc = array1.concat(array2);
+      let aaaa = this.dataSource.data.concat(orderListFromWork);
+      //if(this.dataSource.data.find(x => x.order === this.data.list)) { //объединение списков выбранных заказов и заказов в базе  
+      //}
+      if(this.data.list.length > 0) {
+        this.data.list.forEach(element => {
+          this.dataSource.data.forEach(elementSelect => {
+            if(element == elementSelect.order) {
+              this.selection.select(elementSelect);
+            }
+          });
+        });
+      }
+    }
   }
 
   onOkClick() {
-    if(this.enterOrder.length > 0)
-      this.selection.selected.push(new OrderListItem(this.enterOrder));
+    if(this.enterOrder) {
+      if(this.enterOrder.length > 0) {
+        if(!this.selection.selected.find(x => x.order === this.enterOrder))
+          this.selection.selected.push(new OrderListItem(this.enterOrder));
+      }
+    }
   }
   
   onNoClick(): void {
@@ -66,8 +97,4 @@ export class OrderListComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.order + 1}`;
   }
-
-  onEnterChange(enterValue: string) {  
-    let e = this.enterOrder;
-  } 
 }

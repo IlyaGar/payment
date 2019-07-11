@@ -3,17 +3,21 @@
 <mat-card class="mat-elevation-z8">
     
     <div class="form-inline">
-      <mat-form-field id="input-search">
-          <input matInput placeholder="Поиск контрагента" id="searchData" name="searchData" [(ngModel)]="searchData.value" #value="ngModel"><!-- (input)="onEnterChange($event.target.value)"-->
-      </mat-form-field>          
-      <button mat-button (click)="onSearch(searchData.value)">Искать</button>
-      <button mat-button (click)="onClear()">Очистить</button>
+        <mat-form-field id="input-search">
+            <input matInput placeholder="Поиск контрагента" id="searchData" name="searchData" [(ngModel)]="searchData.value" #value="ngModel"><!-- (input)="onEnterChange($event.target.value)"-->
+        </mat-form-field>  
+        <div mat-dialog-actions class="search-group">
+            <!--<div class="spinner" *ngIf="!isLoading"><mat-spinner></mat-spinner></div>-->
+            <button mat-button (click)="onSearch(searchData.value)">Искать</button>
+            <button mat-button (click)="onClear()">Очистить</button>
+        </div>
     </div>
       
     <div class="example-container">
         <div *ngIf="isData">Доступные контрагенты</div> 
         <div *ngIf="!isData" class="notfaund">Ничего не найдено</div> 
-        <div
+        <!-- (scroll)="onScroll($event)"-->
+        <div 
             cdkDropList
             #todoList="cdkDropList"
             [cdkDropListData]="todo"
@@ -22,7 +26,6 @@
             (cdkDropListDropped)="drop($event, 'todo')"
             (dblclick)="dblclickMove($event.target.innerText, 'done', 'todo')">
             <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
-            <div class="spinner" *ngIf="isLoading"><mat-spinner></mat-spinner></div>
         </div>
     </div>
 

@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {CdkDragDrop, moveItemInArray, transferArrayItem, copyArrayItem} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, copyArrayItem } from '@angular/cdk/drag-drop';
 import { PartnerService } from '../partner-service/partner.service';
 import { ProviderQuery } from '../models/provider-query';
 import { ProviderResponse } from '../models/provider-response';
@@ -14,20 +14,9 @@ export class SearchData {
 }
 
 export interface DialogData {
-  animal: string;
-  name: string;
+  list: Array<string>;
 }
 
-export class Todo{
-  constructor(
-      public  name: string,
-  ){}
-}
-export class Done{
-  constructor(
-      public  name: string,
-  ){}
-}
 export class ListAgent{
   constructor(
       public  name: string,
@@ -63,7 +52,25 @@ export class PartnerListComponent implements OnInit {
     { name: 'Brush teeth' },
     { name: 'Take a shower' },
     { name: 'Check e-mail' },
-    { name: 'Walk dog' }
+    { name: 'Walk dog' },
+    { name: '1Get to work' },
+    { name: '1Pick up groceries' },
+    { name: 'Go home' },
+    { name: '1Fall asleep' },
+    { name: '1Get up' },
+    { name: '1Brush teeth' },
+    { name: '1Take a shower' },
+    { name: '1Check e-mail' },
+    { name: '1Walk dog' },
+    { name: '12Get to work' },
+    { name: '12Pick up groceries' },
+    { name: '12Go home' },
+    { name: '12Fall asleep' },
+    { name: '12Get up' },
+    { name: '12Brush teeth' },
+    { name: '12Take a shower' },
+    { name: '12Check e-mail' },
+    { name: '12Walk dog' }
   ];
   doneListAgent: ListAgent[] = 
   [
@@ -99,13 +106,21 @@ export class PartnerListComponent implements OnInit {
       let t = 0;
       this.todo.push(element.name.toString());
     });
-    this.doneListAgent.forEach(element => {
-      this.done.push(element.name);
+    this.data.list.forEach(element => {
+      this.done.push(element);
     });
+    /*this.doneListAgent.forEach(element => {
+      this.done.push(element.name);
+    });*/
 
     //this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), ''),
     //this.partnerService.postGetPartner(this.providerQuery).subscribe(d => { this.providerResponse = d; this.initList(); } ); 
   }
+
+  @HostListener('scroll', ['$event'])
+  onScroll(event) {
+    let e = 9;
+}
 
   initList() {
     if(this.isEmptySearch) {

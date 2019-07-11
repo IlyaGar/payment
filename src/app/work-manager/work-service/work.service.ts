@@ -5,7 +5,7 @@ import { DocEditQuery } from 'src/app/models/doc-edit-query';
 import { Observable } from 'rxjs';
 import { DocEdit } from 'src/app/models/doc-edit';
 import { NewDocQuery } from '../models/new-doc-query';
-import { PartnerQuery } from '../models/partner-query';
+import { SaveProvider } from '../models/save-provider';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class WorkService {
 
   private urldoc = environment.apiUrl + 'docbody/';
   private urlnew = environment.apiUrl + 'newdoc/';
-  private urlpartner = environment.apiUrl + '!!!!/';
+  private urlpartner = environment.apiUrl + 'provider/set/';
 
   constructor(private http: HttpClient) { }
 
@@ -30,7 +30,7 @@ export class WorkService {
     return this.http.post<number>(this.urlnew, doc);
   }
 
-  postlistPartners(doc: PartnerQuery): Observable<DocEdit> {
+  postlistPartners(doc: SaveProvider): Observable<DocEdit> {
     return this.http.post<DocEdit>(this.urlpartner, doc);
   }
 }

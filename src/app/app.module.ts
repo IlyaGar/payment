@@ -19,6 +19,7 @@ import { OrderListComponent } from './order-manager/order-list/order-list.compon
 import { CookieService } from 'ngx-cookie-service';
 import { CreateDocumComponent } from './work-manager/create-docum/create-docum.component';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import { SaveFormComponent } from './dialog-windows/save-manager/save-form/save-form.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
     NavbarFormComponent,
     CreateDocumComponent,
     PartnerListComponent,
+    SaveFormComponent,
   ],
   imports: [
     FormsModule,
@@ -45,7 +47,6 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
     MatToolbarModule,
     DemoMaterialModule,
     MatNativeDateModule,
-
     DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
@@ -55,7 +56,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
     CookieService
   ],
   entryComponents: [
-    //WorkFormComponent, 
+    SaveFormComponent,
     PartnerListComponent, 
     OrderListComponent,
     LoginFormComponent,

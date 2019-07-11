@@ -19,11 +19,14 @@
                 <div class="form-control output-sum">{{docEdit.docSum}}</div>
             </div>
             <div class="del-pad">
+                <button type="button" class="btn btn-success button-icon" name="" (click)="openSaveDialog()" data-toggle="tooltip" data-placement="bottom" title="Сохранить документ">
+                    <img src="../../assets/save-icon1.png" width="20" height="20" />
+                </button>
                 <button type="button" class="btn btn-danger button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Удалить документ">
                     <img src="../../assets/delete-512.png" width="20" height="20" />
                 </button>
             </div>
-
+            
         </div>
         <div class="div-margin">
             <div class="form-inline">
@@ -86,9 +89,9 @@
             <td>{{doc[4]}}</td>
             <td><input type="text" class="form-control" required [(ngModel)]="doc[5]" (input)="onEnterChange($event.target.value, testdata)"></td>
             <td><input type="text" class="form-control" required [(ngModel)]="doc[6]"></td>
-            <td>{{doc[7]}}</td>
-            <td><input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" ></td><!-- (input)="onEnterChange($event.target.value, testdata)" -->
-            <td><button type="button" class="btn btn-primary btn-sm" (click)="openOrderDialog(testdata.id)">Выбрать договор</button></td>
+            <td><input type="text" class="form-control" required [(ngModel)]="doc[7]" (change)="onEnterChange($event.target.value, testdata)" ></td>
+            <td><div class="form-control no-input">{{doc[8]}}</div><!--<input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" >--></td>
+            <td><button type="button" class="btn btn-primary btn-sm" (click)="openOrderDialog(docEdit.docNum, doc[8], doc[9])">Выбрать договор</button></td>
             <td><button type="button" class="btn btn-danger btn-sm">Удалить</button></td>
         </tr>
     </tbody>

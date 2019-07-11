@@ -102,3 +102,6 @@ td {
     min-width: 70em;
     overflow: auto;
 }
+.no-input {
+    background-color: #c9c4c0;
+}
