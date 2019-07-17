@@ -10,6 +10,10 @@ import { DocEdit } from 'src/app/models/doc-edit';
 import { NewDocQuery } from '../models/new-doc-query';
 import { CookieService } from 'ngx-cookie-service';
 import { SaveProvider } from '../models/save-provider';
+import { SaveFormComponent } from 'src/app/dialog-windows/save-manager/save-form/save-form.component';
+import { GetContract } from 'src/app/order-manager/models/order-query';
+import { OrderListItem } from 'src/app/order-manager/models/order-list';
+import { DetailPartnerFormComponent } from 'src/app/dialog-windows/detail-partner-view/detail-partner-form/detail-partner-form.component';
 
 export interface OrderData {
   order: string;
@@ -25,35 +29,37 @@ export class WorkFormComponent implements OnInit {
 
   docEditQuery: DocEditQuery;
   newDocQuery: NewDocQuery;
-  docEdit: DocEdit = new DocEdit("", "", "", "", "", null, "");
+  docEdit: DocEdit = new DocEdit("", "", "", "", "", "", null);
   doc: any;
   idDocument: string;
   nameCookie = 'user';
   token: string;
   listOrders: string[] = [];
   listPartners: string[] = [];
+  listProviders: string[] = [];
 
-  listData: Array<string> = ['provider', 'saldo', '2019.06.05', '21', 'no', '123456', 'lalala', '1234', '987, 1, 2', '1001'];
+  /*listData: Array<string> = ['provider', '1001', 'saldo', '2019.06.05', '21', 'no', '123456', 'lalala', '1234', '987, 1, 2'];
   listlistData: Array<Array<string>> = [this.listData];
-
-  docEditTest: DocEdit = new DocEdit("true", "22", "test-name", "2019-05-06", "2236", this.listlistData, "ok");
+  docEditTest: DocEdit = new DocEdit("true", "22", "test-name", "2019-05-06", "2236", "Черновик", this.listlistData);*/
 
   constructor(
     public dialog: MatDialog,
     private workService: WorkService,
     private common: CommonService,
     private cookieService: CookieService,
-    private activateRoute: ActivatedRoute) {
-      activateRoute.params.subscribe(params => { this.doc = params; this.getDocEditQuery(); });
-     }
+    private activateRoute: ActivatedRoute
+    ) {
+        activateRoute.params.subscribe(params => { this.doc = params; this.getDocEditQuery(); });
+      }
 
   ngOnInit() {
-    /*if(this.idDocument) {
-      this.workService.postGetDocument(this.docEditQuery).subscribe(d =>  { this.docEdit = d; this.removeZeros(); });
+    if(this.idDocument) {
+      this.workService.postGetDocument(this.docEditQuery).subscribe(d =>  { this.docEdit = d; this.addIdRow(); this.removeZeros(); });
       this.token = this.getToken(this.nameCookie);
-    }*/
+    }
 
-    this.docEdit = this.docEditTest;
+    //this.token = this.getToken(this.nameCookie);
+    //this.docEdit = this.docEditTest;
   }
 
   getDocEditQuery() {
@@ -63,9 +69,8 @@ export class WorkFormComponent implements OnInit {
     }
   }
 
-  onEnterChange(enterValue: string, newtest: DocEdit) {  
-    /*var splitted = enterValue.split(","); 
-    this.tests.find(t => t.id == newtest.id).contracts = splitted;*/
+  onEventSummChange(enterValue: string) {  
+    //var splitted = enterValue.split(","); 
   } 
 
   onClickB() {
@@ -73,12 +78,25 @@ export class WorkFormComponent implements OnInit {
   }
 
   removeZeros() {
-    if(this.docEdit.docBody) {
-      this.docEdit.docBody.forEach(element => {
-        var splitedPayDate = element[2].split(' ');
-        element[2] = splitedPayDate[0];
-      });
-    }
+    if(this.docEdit) {
+      //TypeError: Cannot read property 'includes' of undefined
+      if(this.docEdit.docDate.includes(' ')) {
+        var splitedPayDate = this.docEdit.docDate.split(' ');
+        this.docEdit.docDate = splitedPayDate[0];
+      }
+      if(this.docEdit.docBody.length > 0) {
+        this.docEdit.docBody.forEach(element => {
+          var splitedPayDate = element[3].split(' ');
+          element[3] = splitedPayDate[0];
+        });
+    }}
+  }
+
+  addIdRow() {
+    let i = 0;
+    this.docEdit.docBody.forEach(element => {
+      element[10] = (i++).toString();
+    });
   }
 
   openPartnerDialog(): void {
@@ -88,37 +106,56 @@ export class WorkFormComponent implements OnInit {
       data: {list: this.getProviders()},
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.listPartners = result;
-      this.postlistPartners(this.listPartners);
+      if(result) {
+        this.listPartners = result;
+        this.postlistPartners(this.listPartners);
+      }
      });
   }
 
-  openOrderDialog(docNum: number, orders: string, idnote: string): void {
+  openOrderDialog(provider: string, idrow: string): void {
     const dialogRef = this.dialog.open(OrderListComponent, {
-      width: '400px',
-      height: '460px',
-      data: {num: docNum, list: this.getOrders(orders), id: idnote},
+      width: '600px',
+      height: '500px',
+      data: { token: this.token, provider: provider },
     });
     dialogRef.afterClosed().subscribe(result => {
-      /*let arr = this.docEdit.docBody.find(x => x[9] == idnote);
-      var res = result.map(a => a.order).toString();
-      arr[8] = res;*/
-
-      this.docEdit.docBody.find(x => x[9] == idnote)[8] = result.map(a => ' ' +  a.order).toString().slice(1);
+      this.getStringContract(result);
+      //this.docEdit.docBody.find(x => x[0] === provider)[9] = this.listProviders.toString();
+      this.docEdit.docBody.find(x => x[10] === idrow)[9] = this.listProviders.toString();
     });
   }
 
   openSaveDialog(docNum: string): void {
     if(docNum === this.docEdit.docNum) {
-      const dialogRef = this.dialog.open(OrderListComponent, {
+      const dialogRef = this.dialog.open(SaveFormComponent, {
         width: '400px',
-        height: '460px',
-        //data: {num: docNum},
+        height: '300px',
+        data: {doc: this.docEdit, token: this.token},
       });
       dialogRef.afterClosed().subscribe(result => {
-        
+        let e = this.docEdit.docName;
       });
     }
+  }
+
+  openDetailedView() {
+    const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
+      width: '1000px',
+      height: '800px',
+      data: {list: '!!!!'},
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        let e = 9;
+      }
+     });
+  }
+
+  getStringContract(data: Array<OrderListItem>) {
+    data.forEach(element => {
+      this.listProviders.push(element.order);
+    });
   }
 
   getToken(nameCookie: string) {
@@ -134,18 +171,36 @@ export class WorkFormComponent implements OnInit {
 
   postlistPartners(data) {
     let partnerQuery = new SaveProvider(this.token, this.doc.id, data);
-    this.workService.postlistPartners(partnerQuery).subscribe(d => this.docEdit = d);
+    this.workService.postlistPartners(partnerQuery).subscribe(d =>  { this.docEdit = d; this.removeZeros(); });
   }
 
   getProviders() {
     let list = [];
-    this.docEdit.docBody.forEach(element => {
-      list.push(element[0]);
-    });
+    if(this.docEdit.docBody.length > 0) {
+      this.docEdit.docBody.forEach(element => {
+        list.push(element[0]);
+    });}
     return list;
   }
 
   getOrders(orders: string) {
     return orders.split(", "); 
+  }
+
+  transformSumm(event, summ){
+    let list = [];
+    for (var _i = 0; _i < event.split('').length; _i++) {
+      if(_i % 3 === 0 && _i > 0) {
+        list.push(' ');
+      }
+      list.push(event.split('')[_i]);
+    }
+    /*event.split('').forEach(element => {
+      list.push(element);
+      if(_i % 3 == 0 && _i > 3) {
+        list.push(' '); }
+        _i++;
+    });*/
+    console.log(list.toString());
   }
 }

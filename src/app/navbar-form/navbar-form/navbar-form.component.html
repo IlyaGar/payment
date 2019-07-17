@@ -8,6 +8,10 @@
         <a class="nav-link" [routerLink]="['work']">Работа с документами</a>
       </li>
     </ul>
+    <div>
+      <button type="button" id="newdoc" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Создать новый документ"
+          (click)="onCreateDocum()" >Новый документ</button>
+    </div>
     <form class="form-inline my-2 my-lg-0" *ngIf="!isLogin">
         <button type="button" class="btn btn-secondary" (click)="onOpenLoginDialog()">Войти</button>
     </form>

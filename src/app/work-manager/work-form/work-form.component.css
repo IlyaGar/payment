@@ -7,6 +7,11 @@
     overflow: auto;
     padding: 0%;
 }
+
+table {
+    width: 99.5%;
+    margin: 0% 0.25% 1% 0.25%;
+}
 .column1 {
     padding-left: 1%;
     float: left; 
@@ -19,9 +24,6 @@
 input, button, output {
     margin-left: 0.2em;
     margin-right: 0.2em;  
-}
-input {
-    min-width: 15em;
 }
 label {
     margin: 0%;
@@ -50,12 +52,6 @@ button {
     padding-left: 1%;
     padding-right: 1%;
 }
-.button-icon{
-    width: 5vh;
-}
-.button-icon.marg{
-    min-width: 5.45vh;
-}
 .output-nom{
     width: 12.5em;
     margin-left: 0.2em;
@@ -78,7 +74,7 @@ button {
     margin-left: 4.1%;
 }
 .import-marg {
-    margin-left: 2.5%;
+    margin-left: 2.2%;
 }
 td {
     margin-top: 0%;
@@ -87,6 +83,21 @@ td {
     padding-bottom: 0%;
     margin-right: 3%;
     vertical-align: middle;
+}
+td#click:hover {
+    background: #aca9a8;
+    cursor: pointer;
+}
+.button-table {
+    min-width: 30px;
+    height: 36px;
+}
+.button-icon {
+    height: 40px;
+}
+.img-centr {
+    margin: 0%;
+    padding-bottom: 10%;
 }
 .div-padding {
     padding-top: 0.5%;
@@ -102,6 +113,45 @@ td {
     min-width: 70em;
     overflow: auto;
 }
-.no-input {
-    background-color: #c9c4c0;
+/*.col1 {
+    width: 10%;
 }
+.col2 {
+    width: 5%;
+}
+.col3 {
+    width: 5%;
+}
+.col4 {
+    width: 5%;
+}
+.col5 {
+    width: 5%;
+}
+.col6 {
+    width: 5%;
+}
+.col7 {
+    width: 5%;
+}
+.col8 {
+    width: 10%;
+}
+.col9 {
+    width: 10%;
+}*/
+.col9 {
+    width: 100px !important;
+}
+.col10 {
+    width: 300px !important;
+}
+.input-table {
+    width: 100px !important;
+}
+.input-table1 {
+    margin: 0%;
+    padding: 0%;
+    width: 5em!important;
+}
+

@@ -6,7 +6,13 @@ export class DocEdit{
         public docName: string,
         public docDate: string,
         public docSum: string,
-        public docBody: Array<Array<string>>,
         public docStatus: string,
+        public docBody: Array<Array<string>>,
     ){}
+
+    clone() {
+        var cloned = new DocEdit(this.accessRight, this.docNum, this.docName, this.docDate, this.docSum, this.docStatus, this.docBody); //pass appropriate constructor args
+        //make other necessary changes to make the state match
+        return cloned;
+    }
 }

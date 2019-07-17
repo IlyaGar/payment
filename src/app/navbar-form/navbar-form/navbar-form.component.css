@@ -7,19 +7,4 @@ span {
     min-width: 15em;
     padding-right: 5%;
     color: aliceblue;
-}
-/*
-span {
-    margin-right: 1%;
-}
-.my-nav {
-    background-color: #828299;
-}
-.fill-space {
-    flex: 1 1 auto;
-}
-
-a {
-    color: #ececec;
-}
-*/
+}    

@@ -20,6 +20,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { CreateDocumComponent } from './work-manager/create-docum/create-docum.component';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import { SaveFormComponent } from './dialog-windows/save-manager/save-form/save-form.component';
+import { DetailPartnerFormComponent } from './dialog-windows/detail-partner-view/detail-partner-form/detail-partner-form.component';
+import { NgxCurrencyModule } from "ngx-currency";
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { SaveFormComponent } from './dialog-windows/save-manager/save-form/save-
     CreateDocumComponent,
     PartnerListComponent,
     SaveFormComponent,
+    DetailPartnerFormComponent,
   ],
   imports: [
     FormsModule,
@@ -50,6 +53,7 @@ import { SaveFormComponent } from './dialog-windows/save-manager/save-form/save-
     DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    NgxCurrencyModule,
   ],
   providers: [
     HttpClient,
@@ -61,6 +65,7 @@ import { SaveFormComponent } from './dialog-windows/save-manager/save-form/save-
     OrderListComponent,
     LoginFormComponent,
     CreateDocumComponent,
+    DetailPartnerFormComponent,
   ],
   bootstrap: [
     AppComponent,

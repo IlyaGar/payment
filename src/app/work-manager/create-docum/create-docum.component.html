@@ -5,7 +5,7 @@
 
         <mat-form-field class="input-full-width">
                 <input matInput placeholder="Наименование документа" id="name" name="name" [(ngModel)]="name"
-                    aria-describedby="name" minlength="1" maxlength="50" matInput>
+                    aria-describedby="name" minlength="1" maxlength="50" matInput (keyup.enter)="onOkClick(name)">
         </mat-form-field>
 
         <!--<input type="text" id="name" name="name" id="name" class="form-control" [(ngModel)]="name" aria-describedby="name" 
@@ -23,6 +23,7 @@
         </div>
     </mat-card-content>
 </mat-card>
+
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Отмена</button>
     <button mat-button color="primary" (click)="onOkClick(name)" cdkFocusInitial>Ok</button>

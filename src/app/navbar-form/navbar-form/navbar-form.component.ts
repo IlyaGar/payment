@@ -8,6 +8,8 @@ import { LogoutStatus } from 'src/app/login-manager/models/logout-status';
 import { Logout } from 'src/app/login-manager/models/logout';
 import { delay } from 'q';
 import { CommonService } from 'src/app/common/common.service';
+import { CreateDocumComponent } from 'src/app/work-manager/create-docum/create-docum.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar-form',
@@ -18,14 +20,16 @@ export class NavbarFormComponent implements OnInit {
 
   nameCookie = 'user';
   isLogin = false;
-  loginFromCookie: string;
   loginResponse = new LoginResponse("", "", "", "", "", "");
   logoutStatus: LogoutStatus;
 
-  constructor(public dialog: MatDialog,
+  constructor(
+    public dialog: MatDialog,
     private cookieService: CookieService,
     private loginService: LoginService,
-    private service: CommonService) { }
+    private service: CommonService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     if(this.cookieService.check(this.nameCookie)){
@@ -51,6 +55,18 @@ export class NavbarFormComponent implements OnInit {
     });
   }
 
+  onCreateDocum(): void {
+    const dialogRef = this.dialog.open(CreateDocumComponent, {
+      width: '400px',
+      height: '260px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.router.navigate(['/work', result.id]); 
+      }
+    });
+  }
+
   onLogout() {
     let logout = new Logout(this.loginResponse.login, this.loginResponse.token);
     this.loginService.postLogout(logout).subscribe(
@@ -66,6 +82,17 @@ export class NavbarFormComponent implements OnInit {
       this.service.newEvent('logout');
     } 
     else alert("Ошибка!");
+  }
+
+  getToken(nameCookie: string) {
+    if(this.cookieService.check(nameCookie)){
+      let fullData = this.cookieService.get(nameCookie);
+      let loginFromCookie = JSON.parse(fullData);
+      if(loginFromCookie){
+        return loginFromCookie.token
+      }
+    }
+    else return false;
   }
 
   deleteCookie(nameCookie: string) {

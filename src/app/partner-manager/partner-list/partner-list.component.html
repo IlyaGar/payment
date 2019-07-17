@@ -4,7 +4,8 @@
     
     <div class="form-inline">
         <mat-form-field id="input-search">
-            <input matInput placeholder="Поиск контрагента" id="searchData" name="searchData" [(ngModel)]="searchData.value" #value="ngModel"><!-- (input)="onEnterChange($event.target.value)"-->
+            <input matInput placeholder="Поиск контрагента" id="searchData" name="searchData" [(ngModel)]="searchData.value" #value="ngModel"
+            (keyup.enter)="onSearch(searchData.value)"><!-- (input)="onEnterChange($event.target.value)"-->
         </mat-form-field>  
         <div mat-dialog-actions class="search-group">
             <!--<div class="spinner" *ngIf="!isLoading"><mat-spinner></mat-spinner></div>-->
@@ -47,5 +48,5 @@
 
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Отмена</button>
-    <button mat-button color="primary" (click)="onOkClick(done)" cdkFocusInitial>Ok</button>
+    <button mat-button color="primary" (click)="onOkClick(done)">Ok</button>
 </div>

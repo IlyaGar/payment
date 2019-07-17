@@ -6,20 +6,18 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { DocEdit } from 'src/app/models/doc-edit';
 
-
 @Component({
   selector: 'app-create-docum',
   templateUrl: './create-docum.component.html',
   styleUrls: ['./create-docum.component.css']
 })
+
 export class CreateDocumComponent implements OnInit {
 
-  newDocQuery: NewDocQuery;
-  docEdit: DocEdit = new DocEdit("", "", "", "", "", null, "");
-  name: string;
   nameCookie = 'user';
   isUnCorect = false;
-  idDocument: number;
+  response: string;
+  isNoRules: boolean = false;
 
   constructor(
     private router: Router,
@@ -33,20 +31,22 @@ export class CreateDocumComponent implements OnInit {
   }
 
   onOkClick(name: string) {
-      //this.closeDialogOk(name);
-      //let newDocQuery = new NewDocQuery(this.getToken(this.nameCookie), name);
       if(name) {
-        this.newDocQuery = new NewDocQuery(this.getToken(this.nameCookie), name);
-        //this.workService.postNewDocument(this.newDocQuery).subscribe(d =>  { this.docEdit = d; this.gotoWork(this.docEdit.docNum);});     
-        //this.router.navigate(['/work', { token: this.getToken(this.nameCookie), docName: name , type: 'new'}]);
-        this.workService.postNewDocument(this.newDocQuery).subscribe(d => { this.idDocument = d; this.gotoWork(this.idDocument); });  
-        this.dialogRef.close();
+        let newDocQuery = new NewDocQuery(this.getToken(this.nameCookie), name);
+        this.workService.postNewDocument(newDocQuery).subscribe(d => { this.response = d; this.createDocument(this.response); }); 
+        this.dialogRef.close(name);
       }
       else this.isUnCorect = true;
   }
 
-  gotoWork(numberDocument: number) {
-    this.router.navigate(['/work', numberDocument]);
+  createDocument(data) {
+    if(data.id)
+      this.closeDialogOk(data);
+      //this.router.navigate(['/work', data]);
+    if(data.status == 'false')
+      this.isNoRules = true;
+    if(data.status == 'error')
+      alert(data.status + " " + "Попробуйте еще раз");
   }
 
   closeDialogOk(data): void {

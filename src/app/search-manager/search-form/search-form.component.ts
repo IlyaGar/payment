@@ -9,39 +9,67 @@ import { DocEditQuery } from 'src/app/models/doc-edit-query';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateDocumComponent } from 'src/app/work-manager/create-docum/create-docum.component';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { NewDocQuery } from 'src/app/work-manager/models/new-doc-query';
+import { WorkService } from 'src/app/work-manager/work-service/work.service';
 
+/*export interface SelectedData {
+  numdoc: string;
+  isselect: boolean;
+}*/
+export class SelectedData{
+  constructor(
+    numdoc: string,
+    isselect: boolean,
+  ){}
+}
 
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.css']
 })
+
 export class SearchFormComponent implements OnInit {
 
   docsResponse: DocumentsResponse;
   docsQuery: DocumentsQuery;
   filter = new FilterDocument("", "", "Все объекты", null, null);
   docEditQuery: DocEditQuery;
+  //selected: SelectedData[];
+  //selected: Array<string> = [];
+  selectedChecked: Array<boolean> = [];
+  selectedNumber: Array<string> = [];
   nameCookie = 'user';
   isData = false;
   isInit = false;
   isViewComponent = false;
+  isSelected = false;
   allSelected: string = '0';
   sumSelected: string = '0';
   statusSelect: string = 'Все объекты';
   token: string;
+  isNoRules = false;
+  response: string;
 
   constructor(
     private searchService: SearchService,
     private cookieService: CookieService,
     private common: CommonService,
     private router: Router,
-    public dialog: MatDialog,) { }
+    public dialog: MatDialog,
+  ) {
+      this.common.events$.forEach(event => { console.log(event); this.listenEvent(event) });
+    }
 
   ngOnInit() {
-    this.isViewComponent = true;
-    //this.service.events$.forEach(event => this.listenEvent());
-    //this.service.events$.forEach(event => { console.log(event); this.listenEvent(event) });
+    /*let arr0 = ['20', '200', '200', '200 0', '200 0', '23400', '2300'];
+    let arr1 = ['21', '210', '210', '211 0', '211 0', '23411', '2311'];
+    let arr2 = ['22', '220', '220', '222 0', '222 0', '23422', '2322'];
+    this.docsResponse = new DocumentsResponse([arr0, arr1, arr2], '42', '124');
+    this.giveSumAndCount(true);
+    this.isViewComponent = true;*/
+    
     this.listenEvent('init');
   }
 
@@ -92,12 +120,14 @@ export class SearchFormComponent implements OnInit {
   }
 
   removeZeros() {
-    this.docsResponse.docList.forEach(element => {
-      var splitedCreateDate = element[3].split(' ');
-      var splitedSaveDate = element[4].split(' ');
-      element[3] = splitedCreateDate[0];
-      element[4] = splitedSaveDate[0];
-    });
+    if(this.docsResponse.docList.length > 0) {
+      this.docsResponse.docList.forEach(element => {
+        var splitedCreateDate = element[3].split(' ');
+        var splitedSaveDate = element[4].split(' ');
+        element[3] = splitedCreateDate[0];
+        element[4] = splitedSaveDate[0];
+      });
+    }
   }
 
   onSendFilter(filter: FilterDocument) {
@@ -137,8 +167,31 @@ export class SearchFormComponent implements OnInit {
     let docEditQuery = new DocEditQuery(this.getToken(this.nameCookie), nom);
     this.router.navigate(['/work', docEditQuery.docNum ]);
   }
-
+/*
   onCreateDocum(): void {
+    const dialogRef = this.dialog.open(CreateDocumComponent, {
+      width: '400px',
+      height: '260px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+          let newDocQuery = new NewDocQuery(this.getToken(this.nameCookie), result);
+          this.workService.postNewDocument(newDocQuery).subscribe(d => { this.response = d; this.createDocum(this.response); });  
+      }
+    });
+  }
+
+  createDocum(data) {
+    if(data as string)
+      this.router.navigate(['/work', data]);
+    if(data.status == 'false')
+      this.isNoRules = true;
+    if(data.status == 'error')
+      alert(data.status + " " + "Попробуйте еще раз");
+  }
+*/
+  onMerge() {
+    this.selectedNumber;
     const dialogRef = this.dialog.open(CreateDocumComponent, {
       width: '400px',
       height: '260px',
@@ -148,5 +201,31 @@ export class SearchFormComponent implements OnInit {
         //this.router.navigate(['/work']);
       }
     });
+  }
+
+  onCheck(data: MatCheckboxChange, numdoc: string) {
+    if(data.checked) {
+      this.isSelected = true;
+      this.selectedChecked;
+      this.selectedNumber.push(numdoc);
+    }
+    else {
+      if(this.selectedNumber.includes(numdoc)) {
+        for(var i = 0; i < this.selectedNumber.length; i++) { 
+          if (this.selectedNumber[i] === numdoc) {
+            this.selectedNumber.splice(i, 1); 
+            i--;
+          }
+        }
+      }
+    }
+    if(!this.selectedChecked.includes(true))
+      this.isSelected = false;
+  }
+
+  onResetCheck(data, numdoc) {
+    this.isSelected = false;
+    this.selectedChecked = [];
+    this.selectedNumber = [];
   }
 }

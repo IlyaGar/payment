@@ -13,7 +13,7 @@ export class AppComponent {
 
   title = 'app-docum';
 
-  openOrderDialog(id: number): void {
+  /*openLoginDialog(id: number): void {
     const dialogRef = this.dialog.open(LoginFormComponent, {
       width: '400px',
       height: '340px',
@@ -21,5 +21,5 @@ export class AppComponent {
     dialogRef.afterClosed().subscribe(result => {
 
     });
-  }
+  }*/
 }

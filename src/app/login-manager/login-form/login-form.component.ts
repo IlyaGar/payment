@@ -26,7 +26,8 @@ export class LoginFormComponent implements OnInit {
     private cookieService: CookieService,
     public dialogRef: MatDialogRef<LoginFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: LoginQuery,
-    private service: CommonService) { }
+    private service: CommonService
+  ) { }
 
   ngOnInit() {
   }

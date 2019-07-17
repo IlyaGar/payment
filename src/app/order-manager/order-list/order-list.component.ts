@@ -2,25 +2,15 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
+import { OrderService } from '../order-service/order.service';
+import { GetContract } from '../models/order-query';
 import { OrderListItem } from '../models/order-list';
+import { ResponseContract } from '../models/response-contract';
 
 export interface DialogData {
-  list: Array<string>;
+  token: string,
+  provider: string,
 }
-
-const ELEMENT_DATA: OrderListItem[] = [
-  {order: "1"},
-  {order: "2"},
-  {order: "3"},
-  {order: "4"},
-  {order: "5"},
-  {order: "6"},
-  {order: "7"},
-  {order: "8"},
-  {order: "9"},
-  {order: "10"},
-  {order: "987"},
-];
 
 @Component({
   selector: 'app-order-list',
@@ -33,34 +23,19 @@ export class OrderListComponent implements OnInit {
   enterOrder: string;
   displayedColumns = ['order', 'select'];
   selection = new SelectionModel<OrderListItem>(true, []);
-  dataSource = new MatTableDataSource<OrderListItem>(ELEMENT_DATA);
+  dataSource: any;
+  list: Array<OrderListItem> = [];
+  responseList: ResponseContract;
 
-  constructor(public dialogRef: MatDialogRef<OrderListComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  constructor(
+    private orderService: OrderService,
+    public dialogRef: MatDialogRef<OrderListComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) { }
 
   ngOnInit() {
-    if(this.data.list) {
-      let orderListFromWork = [];
-      this.data.list.forEach(element => {
-        orderListFromWork.push(new OrderListItem(element))
-      });
-      var array1 = ['a', 'b', 'c'];
-      var array2 = ['d', 'e', 'f'];
-
-      let cc = array1.concat(array2);
-      let aaaa = this.dataSource.data.concat(orderListFromWork);
-      //if(this.dataSource.data.find(x => x.order === this.data.list)) { //объединение списков выбранных заказов и заказов в базе  
-      //}
-      if(this.data.list.length > 0) {
-        this.data.list.forEach(element => {
-          this.dataSource.data.forEach(elementSelect => {
-            if(element == elementSelect.order) {
-              this.selection.select(elementSelect);
-            }
-          });
-        });
-      }
-    }
+    let query = new GetContract(this.data.token, this.data.provider);
+    this.orderService.postGetPartner(query).subscribe(d => { this.responseList = d; this.loadTable(this.responseList); });
   }
 
   onOkClick() {
@@ -68,12 +43,27 @@ export class OrderListComponent implements OnInit {
       if(this.enterOrder.length > 0) {
         if(!this.selection.selected.find(x => x.order === this.enterOrder))
           this.selection.selected.push(new OrderListItem(this.enterOrder));
+          let e = 9;
       }
     }
   }
   
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  loadTable(orderList) {
+    if(orderList.list) {
+      this.getOrderListItem(orderList.list);
+      this.dataSource = new MatTableDataSource<OrderListItem>(this.list);
+    }
+    if(orderList.status == 'false'){}
+  }
+
+  getOrderListItem(orderList: Array<string>) {
+    orderList.forEach(element => {
+      this.list.push(new OrderListItem(element));
+    });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

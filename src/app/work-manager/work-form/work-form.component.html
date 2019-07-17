@@ -1,4 +1,3 @@
-<h2>Форма работы с документом</h2>
 <div class="filter div-padding">
     <div class="column1">
         <div class="form-inline">
@@ -12,14 +11,14 @@
             </div>
             <div>
                 <label class="lable-dat">Дата создания:</label>
-                <div class="form-control output-date">{{docEdit.docDate | date:'dd-MM-yyyy'}}</div>
+                <div class="form-control output-date">{{docEdit.docDate}}</div>
             </div>
             <div>
                 <label>Сумма:</label>
                 <div class="form-control output-sum">{{docEdit.docSum}}</div>
             </div>
             <div class="del-pad">
-                <button type="button" class="btn btn-success button-icon" name="" (click)="openSaveDialog()" data-toggle="tooltip" data-placement="bottom" title="Сохранить документ">
+                <button type="button" class="btn btn-success button-icon" name="" (click)="openSaveDialog(docEdit.docNum)" data-toggle="tooltip" data-placement="bottom" title="Сохранить документ">
                     <img src="../../assets/save-icon1.png" width="20" height="20" />
                 </button>
                 <button type="button" class="btn btn-danger button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Удалить документ">
@@ -61,38 +60,56 @@
         </div>
     </div>                        
 </div>
-
-<br />
 <div class="table-scroll">
-<table class="table table-hover">
+<table class="table table-hover table-bordered mat-elevation-z8">
+   <!-- <colgroup>
+        <col span="1" style="width: 5%;">
+        <col span="1" style="width: 5%;">
+        <col span="1" style="width: 5%;">
+        <col span="1" style="width: 5%;">
+        <col span="1" style="width: 5%;">
+        <col span="1" style="width: 5%;">
+        <col span="1" style="width: 5%;">
+        <col span="1" style="width: 5%;">
+        <col span="1" style="width: 10%;">
+        <col span="1" style="width: 40%;">
+        <col span="1" style="width: 2%;">
+        <col span="1" style="width: 2%;">
+    </colgroup>-->
     <thead>
         <tr>
-            <th>Контрагент</th>
-            <th>Сальдо</th>
-            <th>Последняя оплата</th>
-            <th>Остатки</th>
-            <th>Задолжность</th>
-            <th>Сумма оплаты</th>
-            <th>Примечание</th>
-            <th>Номер платежного поручения</th>
-            <th>Договор</th>
-            <th>Выбрать</th>
-            <th>Удалить</th>
+            <th scope="col">Контрагент</th>
+            <th scope="col">УНП</th>
+            <th scope="col">Сальдо</th>
+            <th scope="col">Последняя оплата</th>
+            <th scope="col">Остатки</th>
+            <th scope="col">Задолжность</th>
+            <th scope="col">Сумма оплаты</th>
+            <th scope="col">Примечание</th>
+            <th scope="col" class="col9">Номер платежного поручения</th>
+            <th scope="col" class="col10">Договор</th>
+            <th scope="col">Выбрать</th>
+            <th scope="col">Удалить</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let doc of docEdit.docBody">
-            <td>{{doc[0]}}</td>
+            <td scope="row" id="click" (dblclick)="openDetailedView($event)" >{{doc[0]}}</td>
             <td>{{doc[1]}}</td>
             <td>{{doc[2]}}</td>
             <td>{{doc[3]}}</td>
             <td>{{doc[4]}}</td>
-            <td><input type="text" class="form-control" required [(ngModel)]="doc[5]" (input)="onEnterChange($event.target.value, testdata)"></td>
-            <td><input type="text" class="form-control" required [(ngModel)]="doc[6]"></td>
-            <td><input type="text" class="form-control" required [(ngModel)]="doc[7]" (change)="onEnterChange($event.target.value, testdata)" ></td>
-            <td><div class="form-control no-input">{{doc[8]}}</div><!--<input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" >--></td>
-            <td><button type="button" class="btn btn-primary btn-sm" (click)="openOrderDialog(docEdit.docNum, doc[8], doc[9])">Выбрать договор</button></td>
-            <td><button type="button" class="btn btn-danger btn-sm">Удалить</button></td>
+            <td>{{doc[5]}}</td>
+            <td><input currencyMask class="form-control" [(ngModel)]="doc[6]" [options]="{ prefix: '', thousands: ' ', decimal: ',' }"/></td>
+            <td><input type="text" class="form-control" required [(ngModel)]="doc[7]"/></td>
+            <td><input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" /></td>
+            <!--<<td><textarea class="form-control">{{doc[9]}}</textarea></td>-->
+            <td>{{doc[9]}}</td>
+            <!--<input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" >-->
+            <td><button type="button" class="btn btn-primary button-table" (click)="openOrderDialog(doc[0], doc[10])" title="Выбрать договор">Договор</button></td>
+            <td><button type="button" class="btn btn-danger button-table" name="" data-toggle="tooltip" data-placement="bottom" title="Удалить запись">
+                    <span class="img-centr"><img src="../../assets/delete-512.png" width="16" height="16" /></span></button><!---->
+            </td>
         </tr>
     </tbody>
 </table>

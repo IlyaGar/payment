@@ -13,13 +13,13 @@ import { DocEdit } from 'src/app/models/doc-edit';
 export class SearchService {
 
   private url = environment.apiUrl + 'doclist/';
-  private urldocedit = environment.apiUrl + 'doclist/';
+  private urldocedit = environment.apiUrl + '!!!!/';
 
   constructor(private http: HttpClient) { }
 
   postDocument(doc: DocumentsQuery): Observable<DocumentsResponse> {
     if(doc.statusParam == 'Все объекты') doc.statusParam = "";
-    let v = JSON.stringify(doc);
+    //let v = JSON.stringify(doc);
     return this.http.post<DocumentsResponse>(this.url, doc);
   }
 

@@ -96,16 +96,18 @@ export class PartnerListComponent implements OnInit {
     'Walk dog'
   ];*/
 
-  constructor(public dialogRef: MatDialogRef<PartnerListComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private cookieService: CookieService,
-              private partnerService: PartnerService) { }
+  constructor(
+    public dialogRef: MatDialogRef<PartnerListComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private cookieService: CookieService,
+    private partnerService: PartnerService
+  ) { }
 
   ngOnInit() {
-    this.todoListAgent.forEach(element => {
+    /*this.todoListAgent.forEach(element => {
       let t = 0;
       this.todo.push(element.name.toString());
-    });
+    });*/
     this.data.list.forEach(element => {
       this.done.push(element);
     });
@@ -113,14 +115,9 @@ export class PartnerListComponent implements OnInit {
       this.done.push(element.name);
     });*/
 
-    //this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), ''),
+    //this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), '');
     //this.partnerService.postGetPartner(this.providerQuery).subscribe(d => { this.providerResponse = d; this.initList(); } ); 
   }
-
-  @HostListener('scroll', ['$event'])
-  onScroll(event) {
-    let e = 9;
-}
 
   initList() {
     if(this.isEmptySearch) {
@@ -162,10 +159,6 @@ export class PartnerListComponent implements OnInit {
     } else {
       this[targets[1]].splice(this[targets[1]].indexOf(itemName), 1);
     }
-      /*this[targets[0]] = [
-        ...this[targets[1]].splice(this[targets[1]].indexOf(itemName), 1), 
-        ...this[targets[0]]
-        ];*/
   }
 
   autodrop(event: CdkDragDrop<string[]>, name: string) {
@@ -175,11 +168,6 @@ export class PartnerListComponent implements OnInit {
         if(name == 'todo') this['done'].splice(event.previousIndex, 1);//transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
         else copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex); 
     }
-    /*if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-    }*/
   }
 
   getToken(nameCookie: string) {
@@ -194,20 +182,6 @@ export class PartnerListComponent implements OnInit {
   }
 
   async onEnterChange(enterValue: string) {  
-   /* if(enterValue != "") {
-      this.isLoading = true;
-      this.isEmptySearch = true;
-      this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), enterValue);
-      await delay(250);
-      this.partnerService.postGetPartner(this.providerQuery).subscribe(d => { this.providerResponse = d; this.initList(); } ); 
-    }
-    else {
-      this.isLoading = false;
-      this.isEmptySearch = false;
-      await delay(200);
-      this.isData = true;
-      this.todo = null;
-    }*/
   } 
   
   onSearch(value) {

@@ -1,5 +1,4 @@
 <div>
-    <h2>Панель поиска по выбору</h2>
     <div class="filter div-padding">
         <div class="column1">
             <div class="form-inline">
@@ -53,15 +52,21 @@
             </div>
         </div>
         <div class="column2">
-            <button type="button" id="newdoc" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Создать новый документ"
-                (click)="onCreateDocum()" >Новый документ</button>
+            <!--<div>
+                <button type="button" id="newdoc" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Создать новый документ"
+                    (click)="onCreateDocum()" >Новый документ</button>
+            </div>-->
+            <div>
+                <button type="button" id="merge" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Объединить документы"
+                    (click)="onMerge()" >Объединить</button>
+            </div>
         </div>        
     </div>
-    <br />
-    <table class="table table-hover">
+    <table class="table table-hover mat-elevation-z8">
         <thead>
             <tr>
-                <th scope="col">№ Документа</th>
+                <th scope="col" class="col1"><mat-checkbox *ngIf="isSelected" [(ngModel)]="isSelected" (change)="onResetCheck($event)"></mat-checkbox></th>
+                <th scope="col" class="col2">№ Документа</th>
                 <th scope="col">Наименование</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Дата создания</th>
@@ -71,26 +76,18 @@
             </tr>
         </thead>
         <tbody>
-                <tr (click)="onSelection(22)">
-                        <td scope="row">22</td>
-                        <td scope="row">22</td>
-                        <td scope="row">22</td>
-                        <td scope="row">22</td>
-                        <td scope="row">22</td>
-                        <td scope="row">22</td>
-                        <td scope="row">22</td>
-                    </tr>
-            </tbody>
-        <tbody *ngIf="isData">
-            <tr *ngFor="let doc of docsResponse.docList" (click)="onSelection(doc[0])">
-                <td scope="row">{{doc[0]}}</td>
-                <td scope="row">{{doc[1]}}</td>
-                <td scope="row">{{doc[2]}}</td>
-                <td scope="row">{{doc[3]}}</td>
-                <td scope="row">{{doc[4]}}</td>
-                <td scope="row">{{doc[5]}}</td>
-                <td scope="row">{{doc[6]}}</td>
+        <tbody *ngIf="docsResponse">
+            <tr *ngFor="let doc of docsResponse.docList" >
+                <td><mat-checkbox [(ngModel)]="selectedChecked[doc[0]]" (change)="onCheck($event, doc[0])"></mat-checkbox></td>
+                <td scope="row" (click)="onSelection(doc[0])">{{doc[0]}}</td>
+                <td scope="row" (click)="onSelection(doc[0])">{{doc[1]}}</td>
+                <td scope="row" (click)="onSelection(doc[0])">{{doc[2]}}</td>
+                <td scope="row" (click)="onSelection(doc[0])">{{doc[3]}}</td>
+                <td scope="row" (click)="onSelection(doc[0])">{{doc[4]}}</td>
+                <td scope="row" (click)="onSelection(doc[0])">{{doc[5]}}</td>
+                <td scope="row" (click)="onSelection(doc[0])">{{doc[6]}}</td>
             </tr>
         </tbody>
     </table>
 </div>
+
