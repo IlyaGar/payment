@@ -55,7 +55,7 @@ export class SaveFormComponent implements OnInit {
       error => console.log(error));
   }
 
-  onNoClick(data): void {
+  onNoClick(): void {
     this.dialogRef.close();
   }
 
