@@ -106,12 +106,11 @@ export class PartnerListComponent implements OnInit {
   initList() {
     if(this.isEmptySearch) {
       if(this.providerResponse) {
-        this.isLoading = false;
         if(this.providerResponse.list != null) {
           if(this.providerResponse.list.length != 0) {
             this.todo = this.providerResponse.list;
             this.isData = true;
-            
+            this.isLoading = false;
           } else { this.isData = false; this.todo = null; }
         } else { this.isData = false; this.todo = null; }
       } else { this.isData = false; this.todo = null; }

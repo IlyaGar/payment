@@ -1,3 +1,4 @@
+
 <mat-card *ngIf="isCorectLogin">
 
     <mat-card-title>Вход в систему</mat-card-title>
@@ -34,3 +35,8 @@
   <button mat-button color="primary" *ngIf="isCorectLogin" (click)="onOkClick()" cdkFocusInitial>Ok</button>
   <button mat-button color="primary" *ngIf="!isCorectLogin" (click)="onOkClickUnCorect()" cdkFocusInitial>Ok</button>
 </div>
+<!--<div>
+    {{loginResponse.token}}
+</div>
+<button color="primary" (click)="onClick()">Token</button>
+<button mat-button color="primary" [mat-dialog-close]="loginResponse" cdkFocusInitial>Ok</button>-->

@@ -4,7 +4,7 @@
     <mat-card-content>
 
         <mat-form-field class="input-full-width">
-                <input matInput placeholder="Наименование документа" [(ngModel)]="name"
+                <input matInput placeholder="Наименование документа" id="name" name="name" [(ngModel)]="name"
                     aria-describedby="name" minlength="1" maxlength="50" matInput (keyup.enter)="onOkClick(name)">
         </mat-form-field>
     

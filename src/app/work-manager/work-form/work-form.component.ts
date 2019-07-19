@@ -15,7 +15,6 @@ import { DeleteDoc } from 'src/app/models/doc-delete';
 import { Status } from 'src/app/models/status';
 import { AttentionFormComponent } from 'src/app/dialog-windows/dialog-attention/attention-form/attention-form.component';
 import { SaveDocQuery } from 'src/app/models/save-doc-query';
-import { delay } from 'q';
 
 @Component({
   selector: 'app-work-form',
@@ -169,16 +168,8 @@ export class WorkFormComponent implements OnInit {
   }
 
   onDelete(docNum: string) {
-    const dialogRef = this.dialog.open(AttentionFormComponent, {
-      width: '400px',
-      height: '200px',
-      data: {status: 'delete'},
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        let model = new DeleteDoc(this.token, docNum);
-        this.workService.postDeleteDocument(model).subscribe(s =>  { this.status = s; this.checkStatus(this.status ); }); }
-    });
+    let model = new DeleteDoc(this.token, docNum);
+    this.workService.postDeleteDocument(model).subscribe(s =>  { this.status = s; this.checkStatus(this.status ); });
   }
 
   checkStatus(status: Status) {
@@ -215,25 +206,11 @@ export class WorkFormComponent implements OnInit {
   }
 
   deleteItem(idrow: string) {
-    const dialogRef = this.dialog.open(AttentionFormComponent, {
-      width: '400px',
-      height: '200px',
-      data: {status: 'delete'},
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        let item = this.docEdit.docBody.find(x => x[10] === idrow);
-        const index = this.docEdit.docBody.indexOf(item, 0);
-        if (index > -1) {
-          this.docEdit.docBody.splice(index, 1);
-        }
-        this.saveDocument('deletrow'); }
-    });
-  }
-
-  async onReport(docNum){
-    await delay(10000);
-    let vaaa = 5;
-    this.openSaveDialog(docNum);
+    let item = this.docEdit.docBody.find(x => x[10] === idrow);
+    const index = this.docEdit.docBody.indexOf(item, 0);
+    if (index > -1) {
+      this.docEdit.docBody.splice(index, 1);
+    }
+    this.saveDocument('deletrow');
   }
 }
