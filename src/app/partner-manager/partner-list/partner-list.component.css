@@ -70,12 +70,12 @@
   .notfaund {
     color: rebeccapurple;
   } 
-  .spinner {
-    margin: 0%;
-    padding-right: 20%;
-    transform: scale(0.2);
-  }
+
   .search-group {
     margin-left: 1%;
     margin-bottom: 1%;
+  }
+  mat-spinner {
+    margin-left: 0.45em;
+    margin-right: 1em;
   }

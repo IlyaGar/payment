@@ -21,7 +21,7 @@ table {
     padding-left: 1%;
     float: left;
 }
-input, button, output {
+button, output {
     margin-left: 0.2em;
     margin-right: 0.2em;  
 }
@@ -76,13 +76,15 @@ button {
 .import-marg {
     margin-left: 2.2%;
 }
-td {
+/*td {
     margin-top: 0%;
     margin-bottom: 0%;
     padding-top: 0%;
     padding-bottom: 0%;
-    margin-right: 3%;
     vertical-align: middle;
+}*/
+td {
+    padding: 0.25%;
 }
 td#click:hover {
     background: #aca9a8;
@@ -112,42 +114,6 @@ td#click:hover {
 .table-scroll{
     min-width: 70em;
     overflow: auto;
-}
-/*.col1 {
-    width: 10%;
-}
-.col2 {
-    width: 5%;
-}
-.col3 {
-    width: 5%;
-}
-.col4 {
-    width: 5%;
-}
-.col5 {
-    width: 5%;
-}
-.col6 {
-    width: 5%;
-}
-.col7 {
-    width: 5%;
-}
-.col8 {
-    width: 10%;
-}
-.col9 {
-    width: 10%;
-}*/
-.col9 {
-    width: 100px !important;
-}
-.col10 {
-    width: 300px !important;
-}
-.input-table {
-    width: 100px !important;
 }
 .input-table1 {
     margin: 0%;

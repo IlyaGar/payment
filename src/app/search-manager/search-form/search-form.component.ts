@@ -167,38 +167,16 @@ export class SearchFormComponent implements OnInit {
     let docEditQuery = new DocEditQuery(this.getToken(this.nameCookie), nom);
     this.router.navigate(['/work', docEditQuery.docNum ]);
   }
-/*
-  onCreateDocum(): void {
-    const dialogRef = this.dialog.open(CreateDocumComponent, {
-      width: '400px',
-      height: '260px',
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-          let newDocQuery = new NewDocQuery(this.getToken(this.nameCookie), result);
-          this.workService.postNewDocument(newDocQuery).subscribe(d => { this.response = d; this.createDocum(this.response); });  
-      }
-    });
-  }
 
-  createDocum(data) {
-    if(data as string)
-      this.router.navigate(['/work', data]);
-    if(data.status == 'false')
-      this.isNoRules = true;
-    if(data.status == 'error')
-      alert(data.status + " " + "Попробуйте еще раз");
-  }
-*/
   onMerge() {
-    this.selectedNumber;
     const dialogRef = this.dialog.open(CreateDocumComponent, {
       width: '400px',
       height: '260px',
+      data: { token: this.token, list: this.selectedNumber },
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        //this.router.navigate(['/work']);
+        this.router.navigate(['/work', result.id]);
       }
     });
   }

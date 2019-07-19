@@ -22,6 +22,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import { SaveFormComponent } from './dialog-windows/save-manager/save-form/save-form.component';
 import { DetailPartnerFormComponent } from './dialog-windows/detail-partner-view/detail-partner-form/detail-partner-form.component';
 import { NgxCurrencyModule } from "ngx-currency";
+import { AttentionFormComponent } from './dialog-windows/dialog-attention/attention-form/attention-form.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { NgxCurrencyModule } from "ngx-currency";
     PartnerListComponent,
     SaveFormComponent,
     DetailPartnerFormComponent,
+    AttentionFormComponent,
   ],
   imports: [
     FormsModule,
@@ -66,6 +68,7 @@ import { NgxCurrencyModule } from "ngx-currency";
     LoginFormComponent,
     CreateDocumComponent,
     DetailPartnerFormComponent,
+    AttentionFormComponent,
   ],
   bootstrap: [
     AppComponent,

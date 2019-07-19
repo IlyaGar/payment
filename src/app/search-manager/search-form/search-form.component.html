@@ -57,7 +57,7 @@
                     (click)="onCreateDocum()" >Новый документ</button>
             </div>-->
             <div>
-                <button type="button" id="merge" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Объединить документы"
+                <button type="button" id="merge" class="btn btn-success" *ngIf="isSelected" data-toggle="tooltip" data-placement="bottom" title="Объединить документы"
                     (click)="onMerge()" >Объединить</button>
             </div>
         </div>        

@@ -41,7 +41,6 @@ export class PartnerListComponent implements OnInit {
   done: Array<string> = [];
   newTodo: Array<string> = [];
 
-
   todoListAgent: ListAgent[] = 
   [
     { name: 'Get to work' },
@@ -80,21 +79,6 @@ export class PartnerListComponent implements OnInit {
     { name: 'Check e-mail' },
     { name: 'Walk dog' }
   ];
-
-  /*todo = [
-    'Get to work',
-    'Pick up groceries',
-    'Go home',
-    'Fall asleep'
-  ];
-
-  done = [
-    'Get up',
-    'Brush teeth',
-    'Take a shower',
-    'Check e-mail',
-    'Walk dog'
-  ];*/
 
   constructor(
     public dialogRef: MatDialogRef<PartnerListComponent>,
@@ -185,6 +169,7 @@ export class PartnerListComponent implements OnInit {
   } 
   
   onSearch(value) {
+    this.isLoading = true;
     this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), value);
     this.partnerService.postGetPartner(this.providerQuery).subscribe(d => { this.providerResponse = d; this.initList(); } );  
   }

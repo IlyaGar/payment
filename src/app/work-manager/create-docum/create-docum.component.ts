@@ -2,9 +2,14 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { WorkService } from '../work-service/work.service';
 import { NewDocQuery } from '../models/new-doc-query';
-import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
-import { DocEdit } from 'src/app/models/doc-edit';
+import { DocMerge } from '../models/doc-merge';
+import { AttentionFormComponent } from 'src/app/dialog-windows/dialog-attention/attention-form/attention-form.component';
+import { MatDialog } from '@angular/material/dialog';
+
+export interface DialogData {
+  token: string;
+  list: Array<string>;
+}
 
 @Component({
   selector: 'app-create-docum',
@@ -14,17 +19,15 @@ import { DocEdit } from 'src/app/models/doc-edit';
 
 export class CreateDocumComponent implements OnInit {
 
-  nameCookie = 'user';
   isUnCorect = false;
   response: string;
   isNoRules: boolean = false;
 
   constructor(
-    private router: Router,
-    private cookieService: CookieService,
     private workService: WorkService,
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<CreateDocumComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) { }
 
   ngOnInit() {
@@ -32,21 +35,16 @@ export class CreateDocumComponent implements OnInit {
 
   onOkClick(name: string) {
       if(name) {
-        let newDocQuery = new NewDocQuery(this.getToken(this.nameCookie), name);
-        this.workService.postNewDocument(newDocQuery).subscribe(d => { this.response = d; this.createDocument(this.response); }); 
-        this.dialogRef.close(name);
+        if(!this.data.list) {
+          let newDocQuery = new NewDocQuery(this.data.token, name);
+          this.workService.postNewDocument(newDocQuery).subscribe(d => { this.response = d; this.createDocument(this.response); }); 
+        }
+        if(this.data.list) {
+          let docMerge = new DocMerge(this.data.token, name, this.data.list);
+          this.workService.postDocumentMerge(docMerge).subscribe(d => { this.response = d; this.createDocument(this.response); }); 
+        }
       }
       else this.isUnCorect = true;
-  }
-
-  createDocument(data) {
-    if(data.id)
-      this.closeDialogOk(data);
-      //this.router.navigate(['/work', data]);
-    if(data.status == 'false')
-      this.isNoRules = true;
-    if(data.status == 'error')
-      alert(data.status + " " + "Попробуйте еще раз");
   }
 
   closeDialogOk(data): void {
@@ -57,21 +55,21 @@ export class CreateDocumComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  getCookie(nameCookie: string) {
-    if(this.cookieService.check(nameCookie)){
-      return this.cookieService.get(nameCookie);
-    }
-    else return false;
+  createDocument(data) {
+    if(data.id)
+      this.closeDialogOk(data);
+    if(data.status == 'false')
+      this.isNoRules = true;
+    if(data.status == 'error')
+      this.openAttentionDialog(data.status);  
   }
 
-  getToken(nameCookie: string) {
-    if(this.cookieService.check(nameCookie)){
-      let fullData = this.cookieService.get(nameCookie);
-      let loginFromCookie = JSON.parse(fullData);
-      if(loginFromCookie){
-        return loginFromCookie.token
-      }
-    }
-    else return false;
+  openAttentionDialog(status: string) {
+    const dialogRef = this.dialog.open(AttentionFormComponent, {
+      width: '400px',
+      height: '200px',
+      data: {status: status},
+    });
+    dialogRef.afterClosed().subscribe(result => {});
   }
 }

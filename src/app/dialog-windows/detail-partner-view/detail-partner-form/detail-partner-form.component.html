@@ -1,9 +1,100 @@
 <mat-card class="shadow">
-  <mat-card-title>Детальный просмотр</mat-card-title>
+  <mat-card-title>Детальный просмотр данных</mat-card-title>
 
-</mat-card>
-<br />
-<div mat-dialog-actions>
+<div class="form">
+  <div class="contaner-left">
+
+      <div class="form-inline">
+        <label id="nameLable">Контрагент:</label>
+        <div class="form-control"></div>
+      </div>
+
+      <div class="form-inline">
+        <label id="idLable">ID:</label>
+        <div class="form-control"></div>
+      </div>
+
+      <div class="form-inline">
+        <label id="dateStartLable">с:</label>
+        <input type="date" name="startDate" id="startDate" class="form-control"/>
+        <!--<input type="date" name="startDate" id="startDate" class="form-control" [(ngModel)]="filter.startDate" #startDate="ngModel" aria-describedby="dateStartLable" />-->
+        <label id="dateFinishLable">по:</label>
+        <input type="date" name="finishDate" id="finishDate" class="form-control"/>
+      </div>
+
+      <div class="form-inline">
+        <label id="idLable">Начальное сальдо:</label>
+        <div class="form-control"></div>
+      </div>
+      
+      <div class="form-inline">
+        <label id="idLable">Конечное сальдо:</label>
+        <div class="form-control"></div>
+      </div>
+
+      <table class="table table-hover mat-elevation-z8">
+        <thead>
+            <tr>
+                <th scope="col">Дата</th>
+                <th scope="col">№ Документа</th>
+                <th scope="col">Вид операции</th>
+                <th scope="col">Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tbody>
+            <!--<tr *ngFor="let doc of !!!!!" >
+                <td scope="row" (click)="onSelection(doc[0])"></td>
+                <td scope="row" (click)="onSelection(doc[0])"></td>
+                <td scope="row" (click)="onSelection(doc[0])"></td>
+                <td scope="row" (click)="onSelection(doc[0])"></td>
+            </tr>-->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="contaner-right">
+
+      <table class="table table-hover mat-elevation-z8">
+        <thead>
+            <tr>
+                <th scope="col">Дата</th>
+                <th scope="col">№ Документа</th>
+                <th scope="col">Вид операции</th>
+                <th scope="col">Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tbody>
+            <!--<tr *ngFor="let doc of !!!!!" >
+                <td scope="row" (click)="onSelection(doc[0])"></td>
+                <td scope="row" (click)="onSelection(doc[0])"></td>
+                <td scope="row" (click)="onSelection(doc[0])"></td>
+                <td scope="row" (click)="onSelection(doc[0])"></td>
+            </tr>-->
+        </tbody>
+      </table>
+
+      <div class="form-inline">
+          <label id="summLable">Сумма:</label>
+          <div class="form-control"></div>
+        </div>
+  
+        <div class="form-inline">
+          <label id="numLable">№ платю поручения:</label>
+          <div class="form-control"></div>
+        </div>
+  
+        <div class="form-inline">
+          <label id="dateLable">Дата:</label>
+          <input type="date" name="dateorder" id="dateorder" class="form-control"/>
+        </div>
+
+    </div>
+  </div>
+
+<div mat-dialog-actions class="foot">
     <button mat-button (click)="onNoClick()">Отмена</button>
     <button mat-button color="primary" (click)="onOkClick()" cdkFocusInitial>Ok</button>
 </div>
+</mat-card>

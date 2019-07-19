@@ -21,7 +21,7 @@
                 <button type="button" class="btn btn-success button-icon" name="" (click)="openSaveDialog(docEdit.docNum)" data-toggle="tooltip" data-placement="bottom" title="Сохранить документ">
                     <img src="../../assets/save-icon1.png" width="20" height="20" />
                 </button>
-                <button type="button" class="btn btn-danger button-icon" name="" data-toggle="tooltip" data-placement="bottom" title="Удалить документ">
+                <button type="button" class="btn btn-danger button-icon" name="" (click)="onDelete(docEdit.docNum)"  data-toggle="tooltip" data-placement="bottom" title="Удалить документ">
                     <img src="../../assets/delete-512.png" width="20" height="20" />
                 </button>
             </div>
@@ -62,9 +62,7 @@
 </div>
 <div class="table-scroll">
 <table class="table table-hover table-bordered mat-elevation-z8">
-   <!-- <colgroup>
-        <col span="1" style="width: 5%;">
-        <col span="1" style="width: 5%;">
+   <colgroup>
         <col span="1" style="width: 5%;">
         <col span="1" style="width: 5%;">
         <col span="1" style="width: 5%;">
@@ -72,10 +70,12 @@
         <col span="1" style="width: 5%;">
         <col span="1" style="width: 5%;">
         <col span="1" style="width: 10%;">
-        <col span="1" style="width: 40%;">
+        <col span="1" style="width: 10%;">
+        <col span="1" style="width: 10%;">
+        <col span="1" style="width: 30%;">
         <col span="1" style="width: 2%;">
         <col span="1" style="width: 2%;">
-    </colgroup>-->
+    </colgroup>
     <thead>
         <tr>
             <th scope="col">Контрагент</th>
@@ -94,7 +94,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let doc of docEdit.docBody">
-            <td scope="row" id="click" (dblclick)="openDetailedView($event)" >{{doc[0]}}</td>
+            <td scope="row" id="click" (dblclick)="openDetailView(doc[0])" >{{doc[0]}}</td>
             <td>{{doc[1]}}</td>
             <td>{{doc[2]}}</td>
             <td>{{doc[3]}}</td>
@@ -103,11 +103,9 @@
             <td><input currencyMask class="form-control" [(ngModel)]="doc[6]" [options]="{ prefix: '', thousands: ' ', decimal: ',' }"/></td>
             <td><input type="text" class="form-control" required [(ngModel)]="doc[7]"/></td>
             <td><input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" /></td>
-            <!--<<td><textarea class="form-control">{{doc[9]}}</textarea></td>-->
             <td>{{doc[9]}}</td>
-            <!--<input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" >-->
             <td><button type="button" class="btn btn-primary button-table" (click)="openOrderDialog(doc[0], doc[10])" title="Выбрать договор">Договор</button></td>
-            <td><button type="button" class="btn btn-danger button-table" name="" data-toggle="tooltip" data-placement="bottom" title="Удалить запись">
+            <td><button type="button" class="btn btn-danger button-table" name="" (click)="deleteItem(doc[10])" data-toggle="tooltip" data-placement="bottom" title="Удалить запись">
                     <span class="img-centr"><img src="../../assets/delete-512.png" width="16" height="16" /></span></button><!---->
             </td>
         </tr>

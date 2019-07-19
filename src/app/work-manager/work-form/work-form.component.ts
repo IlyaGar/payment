@@ -3,21 +3,18 @@ import { PartnerListComponent } from '../../partner-manager/partner-list/partner
 import { MatDialog } from '@angular/material/dialog';
 import { OrderListComponent } from '../../order-manager/order-list/order-list.component';
 import { DocEditQuery } from 'src/app/models/doc-edit-query';
-import { CommonService } from 'src/app/common/common.service';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { WorkService } from '../work-service/work.service';
 import { DocEdit } from 'src/app/models/doc-edit';
 import { NewDocQuery } from '../models/new-doc-query';
 import { CookieService } from 'ngx-cookie-service';
 import { SaveProvider } from '../models/save-provider';
 import { SaveFormComponent } from 'src/app/dialog-windows/save-manager/save-form/save-form.component';
-import { GetContract } from 'src/app/order-manager/models/order-query';
-import { OrderListItem } from 'src/app/order-manager/models/order-list';
 import { DetailPartnerFormComponent } from 'src/app/dialog-windows/detail-partner-view/detail-partner-form/detail-partner-form.component';
-
-export interface OrderData {
-  order: string;
-}
+import { DeleteDoc } from 'src/app/models/doc-delete';
+import { Status } from 'src/app/models/status';
+import { AttentionFormComponent } from 'src/app/dialog-windows/dialog-attention/attention-form/attention-form.component';
+import { SaveDocQuery } from 'src/app/models/save-doc-query';
 
 @Component({
   selector: 'app-work-form',
@@ -30,13 +27,11 @@ export class WorkFormComponent implements OnInit {
   docEditQuery: DocEditQuery;
   newDocQuery: NewDocQuery;
   docEdit: DocEdit = new DocEdit("", "", "", "", "", "", null);
+  status: Status;
   doc: any;
   idDocument: string;
   nameCookie = 'user';
   token: string;
-  listOrders: string[] = [];
-  listPartners: string[] = [];
-  listProviders: string[] = [];
 
   /*listData: Array<string> = ['provider', '1001', 'saldo', '2019.06.05', '21', 'no', '123456', 'lalala', '1234', '987, 1, 2'];
   listlistData: Array<Array<string>> = [this.listData];
@@ -45,8 +40,8 @@ export class WorkFormComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private workService: WorkService,
-    private common: CommonService,
     private cookieService: CookieService,
+    private router: Router,
     private activateRoute: ActivatedRoute
     ) {
         activateRoute.params.subscribe(params => { this.doc = params; this.getDocEditQuery(); });
@@ -68,10 +63,6 @@ export class WorkFormComponent implements OnInit {
       this.docEditQuery = new DocEditQuery(this.getToken(this.nameCookie), this.idDocument);
     }
   }
-
-  onEventSummChange(enterValue: string) {  
-    //var splitted = enterValue.split(","); 
-  } 
 
   onClickB() {
     this.docEditQuery = this.doc;
@@ -100,6 +91,10 @@ export class WorkFormComponent implements OnInit {
   }
 
   openPartnerDialog(): void {
+    this.saveDocument('provider');
+  }
+    
+  openPD(): void {
     const dialogRef = this.dialog.open(PartnerListComponent, {
       width: '880px',
       height: '680px',
@@ -107,10 +102,9 @@ export class WorkFormComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.listPartners = result;
-        this.postlistPartners(this.listPartners);
+        this.postlistPartners(result);
       }
-     });
+    });
   }
 
   openOrderDialog(provider: string, idrow: string): void {
@@ -120,9 +114,7 @@ export class WorkFormComponent implements OnInit {
       data: { token: this.token, provider: provider },
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.getStringContract(result);
-      //this.docEdit.docBody.find(x => x[0] === provider)[9] = this.listProviders.toString();
-      this.docEdit.docBody.find(x => x[10] === idrow)[9] = this.listProviders.toString();
+      this.docEdit.docBody.find(x => x[10] === idrow)[9] = result;
     });
   }
 
@@ -133,28 +125,20 @@ export class WorkFormComponent implements OnInit {
         height: '300px',
         data: {doc: this.docEdit, token: this.token},
       });
-      dialogRef.afterClosed().subscribe(result => {
-        let e = this.docEdit.docName;
-      });
+      dialogRef.afterClosed().subscribe(result => { this.ngOnInit(); });
     }
   }
 
-  openDetailedView() {
+  openDetailView(provider: string) {
     const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
       width: '1000px',
       height: '800px',
-      data: {list: '!!!!'},
+      data: {provider: provider},
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         let e = 9;
       }
-     });
-  }
-
-  getStringContract(data: Array<OrderListItem>) {
-    data.forEach(element => {
-      this.listProviders.push(element.order);
     });
   }
 
@@ -183,24 +167,50 @@ export class WorkFormComponent implements OnInit {
     return list;
   }
 
-  getOrders(orders: string) {
-    return orders.split(", "); 
+  onDelete(docNum: string) {
+    let model = new DeleteDoc(this.token, docNum);
+    this.workService.postDeleteDocument(model).subscribe(s =>  { this.status = s; this.checkStatus(this.status ); });
   }
 
-  transformSumm(event, summ){
-    let list = [];
-    for (var _i = 0; _i < event.split('').length; _i++) {
-      if(_i % 3 === 0 && _i > 0) {
-        list.push(' ');
-      }
-      list.push(event.split('')[_i]);
+  checkStatus(status: Status) {
+    if(status.status === 'true') 
+      this.router.navigate(['/search']);
+    else 
+      this.openAttentionDialog(status.status);
+  }
+
+  openAttentionDialog(status: string) {
+    const dialogRef = this.dialog.open(AttentionFormComponent, {
+      width: '400px',
+      height: '200px',
+      data: {status: status},
+    });
+    dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  saveDocument(action) {
+    let docSave = new SaveDocQuery(this.token, this.docEdit.docNum, this.docEdit.docName, this.docEdit.docStatus, this.docEdit.docBody);
+    this.workService.postSaveDocument(docSave).subscribe(d => {this.status = d; this.checkDoc(action, this.status);},
+      error => console.log(error));
+  }
+
+  checkDoc(action, data) {
+    if(data.status == 'true') {
+      if(action === 'deletrow') 
+        var e = 9;
+      if(action === 'provider') 
+        this.openPD();
+    }  
+    else 
+      this.openAttentionDialog(data.status);
+  }
+
+  deleteItem(idrow: string) {
+    let item = this.docEdit.docBody.find(x => x[10] === idrow);
+    const index = this.docEdit.docBody.indexOf(item, 0);
+    if (index > -1) {
+      this.docEdit.docBody.splice(index, 1);
     }
-    /*event.split('').forEach(element => {
-      list.push(element);
-      if(_i % 3 == 0 && _i > 3) {
-        list.push(' '); }
-        _i++;
-    });*/
-    console.log(list.toString());
+    this.saveDocument('deletrow');
   }
 }

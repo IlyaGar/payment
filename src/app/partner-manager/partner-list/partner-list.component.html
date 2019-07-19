@@ -5,14 +5,18 @@
     <div class="form-inline">
         <mat-form-field id="input-search">
             <input matInput placeholder="Поиск контрагента" id="searchData" name="searchData" [(ngModel)]="searchData.value" #value="ngModel"
-            (keyup.enter)="onSearch(searchData.value)"><!-- (input)="onEnterChange($event.target.value)"-->
+            (keyup.enter)="onSearch(searchData.value)">
+            
         </mat-form-field>  
         <div mat-dialog-actions class="search-group">
-            <!--<div class="spinner" *ngIf="!isLoading"><mat-spinner></mat-spinner></div>-->
+            <mat-spinner *ngIf="isLoading" strokeWidth="3" [diameter]="25"></mat-spinner>
+            <div *ngIf="!isLoading" style="margin-left: 3em;">&emsp;</div>
             <button mat-button (click)="onSearch(searchData.value)">Искать</button>
             <button mat-button (click)="onClear()">Очистить</button>
         </div>
     </div>
+  
+    
       
     <div class="example-container">
         <div *ngIf="isData">Доступные контрагенты</div> 

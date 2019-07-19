@@ -7,16 +7,6 @@
                 <input matInput placeholder="Наименование документа" id="name" name="name" [(ngModel)]="name"
                     aria-describedby="name" minlength="1" maxlength="50" matInput (keyup.enter)="onOkClick(name)">
         </mat-form-field>
-
-        <!--<input type="text" id="name" name="name" id="name" class="form-control" [(ngModel)]="name" aria-describedby="name" 
-            minlength="1" maxlength="50" matInput placeholder="Наименование документа" />-->
-        
-        <!--<input type="text" [(ngModel)]="nameDoc.name" id="name" name="name" #name="ngModel" minlength="3" maxlength="50" matInput placeholder="Введите Логин" >-->
-            
-        <!--<div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-        <div *ngIf="name.errors.minlength">Наименование документа должно быть длиннее 1 символов.</div>
-        <div *ngIf="name.errors.maxlength">Наименование документа должно быть не длиннее 50 символов.</div>
-        </div>-->
     
         <div *ngIf="isUnCorect">
             <div class="etention">Введите наименование документа.</div>

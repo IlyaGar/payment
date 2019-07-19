@@ -21,7 +21,7 @@ export interface DialogData {
 export class OrderListComponent implements OnInit {
 
   enterOrder: string;
-  displayedColumns = ['order', 'select'];
+  displayedColumns = ['order'];
   selection = new SelectionModel<OrderListItem>(true, []);
   dataSource: any;
   list: Array<OrderListItem> = [];
@@ -41,15 +41,17 @@ export class OrderListComponent implements OnInit {
   onOkClick() {
     if(this.enterOrder) {
       if(this.enterOrder.length > 0) {
-        if(!this.selection.selected.find(x => x.order === this.enterOrder))
-          this.selection.selected.push(new OrderListItem(this.enterOrder));
-          let e = 9;
+        this.dialogRef.close(this.enterOrder);
       }
     }
   }
   
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onSelectItem(element) {
+    this.enterOrder = element + ' ';
   }
 
   loadTable(orderList) {
@@ -64,27 +66,5 @@ export class OrderListComponent implements OnInit {
     orderList.forEach(element => {
       this.list.push(new OrderListItem(element));
     });
-  }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-      const numSelected = this.selection.selected.length;
-      const numRows = this.dataSource.data.length;
-      return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: OrderListItem): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.order + 1}`;
   }
 }
