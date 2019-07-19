@@ -22,6 +22,7 @@ export class CreateDocumComponent implements OnInit {
   isUnCorect = false;
   response: string;
   isNoRules: boolean = false;
+  name: string;
 
   constructor(
     private workService: WorkService,
@@ -51,7 +52,7 @@ export class CreateDocumComponent implements OnInit {
     this.dialogRef.close(data);
   }
 
-  onNoClick(data): void {
+  onNoClick(): void {
     this.dialogRef.close();
   }
 

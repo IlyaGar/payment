@@ -42,7 +42,7 @@ export class LoginFormComponent implements OnInit {
     this.dialogRef.close(data);
   }
 
-  onNoClick(data): void {
+  onNoClick(): void {
     this.dialogRef.close();
   }
 

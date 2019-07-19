@@ -69,7 +69,10 @@ export class SearchFormComponent implements OnInit {
     this.docsResponse = new DocumentsResponse([arr0, arr1, arr2], '42', '124');
     this.giveSumAndCount(true);
     this.isViewComponent = true;*/
-    
+    const session = sessionStorage.getItem('currentUser');
+    if(session) {
+      this.filter = JSON.parse(session);
+    }
     this.listenEvent('init');
   }
 
@@ -136,6 +139,12 @@ export class SearchFormComponent implements OnInit {
       this.loadData();
       this.allSelected = this.docsResponse.docCount;
       this.sumSelected = this.docsResponse.docSum;
+      sessionStorage.setItem('currentUser', JSON.stringify({ 
+        name: this.filter.name, 
+        nomer: this.filter.nomer, 
+        status: this.filter.status, 
+        startDate: this.filter.startDate,
+        finishDate: this.filter.finishDate}));
     }
   }
 
@@ -172,7 +181,7 @@ export class SearchFormComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateDocumComponent, {
       width: '400px',
       height: '260px',
-      data: { token: this.token, list: this.selectedNumber },
+      data: { token: this.getToken(this.nameCookie), list: this.selectedNumber },
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){

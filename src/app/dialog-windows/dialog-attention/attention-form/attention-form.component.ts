@@ -15,6 +15,7 @@ export class AttentionFormComponent implements OnInit {
 
   isFalse = false;
   isError = false;
+  isDelete = false;
 
   constructor(
     public dialogRef: MatDialogRef<AttentionFormComponent>,
@@ -26,13 +27,21 @@ export class AttentionFormComponent implements OnInit {
       this.isFalse = true;
     if(this.data.status === 'error')
       this.isError = true;
+    if(this.data.status === 'delete')
+      this.isDelete = true;
   }
 
   onOkClick() {
-    this.dialogRef.close();
+    if(this.isDelete === true)
+      this.dialogRef.close(true);
+    else 
+      this.dialogRef.close();
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    if(this.isDelete === true)
+      this.dialogRef.close(false);
+    else
+      this.dialogRef.close();
   }
 }
