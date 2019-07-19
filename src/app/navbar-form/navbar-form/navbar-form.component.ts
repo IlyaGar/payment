@@ -59,6 +59,7 @@ export class NavbarFormComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateDocumComponent, {
       width: '400px',
       height: '260px',
+      data: {token: this.getToken(this.nameCookie), list: null},
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
