@@ -91,11 +91,11 @@ export class WorkFormComponent implements OnInit {
     });
   }
 
-  openPartnerDialog(): void {
+  onOpenPartnerDialog(): void {
     this.saveDocument('provider');
   }
     
-  openPD(): void {
+  openPartnerDialog(): void {
     const dialogRef = this.dialog.open(PartnerListComponent, {
       width: '880px',
       height: '680px',
@@ -208,7 +208,7 @@ export class WorkFormComponent implements OnInit {
       if(action === 'deletrow') 
         var e = 9;
       if(action === 'provider') 
-        this.openPD();
+        this.openPartnerDialog();
     }  
     else 
       this.openAttentionDialog(data.status);
