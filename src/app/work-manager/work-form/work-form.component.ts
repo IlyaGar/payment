@@ -25,6 +25,7 @@ import { delay } from 'q';
 
 export class WorkFormComponent implements OnInit {
 
+  
   docEditQuery: DocEditQuery;
   newDocQuery: NewDocQuery;
   docEdit: DocEdit = new DocEdit("", "", "", "", "", "", null);
@@ -236,7 +237,8 @@ export class WorkFormComponent implements OnInit {
     this.openSaveDialog(docNum);
   }
 
-  postMethod(files: FileList) {
+  postFileMethod(event) {
+    let files = event.target.files;
     this.fileToUpload = files.item(0); 
     let formData = new FormData(); 
     for(let i = 0; i < files.length; i++){
