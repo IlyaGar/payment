@@ -33,10 +33,11 @@ export class WorkFormComponent implements OnInit {
   idDocument: string;
   nameCookie = 'user';
   token: string;
+  fileToUpload: File;
 
-  /*listData: Array<string> = ['provider', '1001', 'saldo', '2019.06.05', '21', 'no', '123456', 'lalala', '1234', '987, 1, 2'];
+  listData: Array<string> = ['provider', '1001', 'saldo', '2019.06.05', '21', 'no', '123456', 'lalala', '1234', '987, 1, 2'];
   listlistData: Array<Array<string>> = [this.listData];
-  docEditTest: DocEdit = new DocEdit("true", "22", "test-name", "2019-05-06", "2236", "Черновик", this.listlistData);*/
+  docEditTest: DocEdit = new DocEdit("true", "22", "test-name", "2019-05-06", "2236", "Черновик", this.listlistData);
 
   constructor(
     public dialog: MatDialog,
@@ -54,8 +55,8 @@ export class WorkFormComponent implements OnInit {
       this.token = this.getToken(this.nameCookie);
     }
 
-    //this.token = this.getToken(this.nameCookie);
-    //this.docEdit = this.docEditTest;
+    /*this.token = this.getToken(this.nameCookie);
+    this.docEdit = this.docEditTest;*/
   }
 
   getDocEditQuery() {
@@ -144,10 +145,10 @@ export class WorkFormComponent implements OnInit {
   }
 
   getToken(nameCookie: string) {
-    if(this.cookieService.check(nameCookie)){
+    if(this.cookieService.check(nameCookie)) {
       let fullData = this.cookieService.get(nameCookie);
       let loginFromCookie = JSON.parse(fullData);
-      if(loginFromCookie){
+      if(loginFromCookie) {
         return loginFromCookie.token
       }
     }
@@ -162,9 +163,7 @@ export class WorkFormComponent implements OnInit {
   getProviders() {
     let list = [];
     if(this.docEdit.docBody.length > 0) {
-      this.docEdit.docBody.forEach(element => {
-        list.push(element[0]);
-    });}
+      this.docEdit.docBody.forEach(element => { list.push(element[0]); });}
     return list;
   }
 
@@ -177,7 +176,7 @@ export class WorkFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         let model = new DeleteDoc(this.token, docNum);
-        this.workService.postDeleteDocument(model).subscribe(s =>  { this.status = s; this.checkStatus(this.status ); }); }
+        this.workService.postDeleteDocument(model).subscribe(s => { this.status = s; this.checkStatus(this.status ); }); }
     });
   }
 
@@ -206,7 +205,7 @@ export class WorkFormComponent implements OnInit {
   checkDoc(action, data) {
     if(data.status == 'true') {
       if(action === 'deletrow') 
-        var e = 9;
+        console.log("deletr row ok");
       if(action === 'provider') 
         this.openPartnerDialog();
     }  
@@ -235,5 +234,21 @@ export class WorkFormComponent implements OnInit {
     await delay(10000);
     let vaaa = 5;
     this.openSaveDialog(docNum);
+  }
+
+  postMethod(files: FileList) {
+    this.fileToUpload = files.item(0); 
+    let formData = new FormData(); 
+    for(let i = 0; i < files.length; i++){
+      formData.append('file', files[i], files[i].name);
+    }
+    this.workService.postFile1C(formData).subscribe((val) => {   
+      this.checkFile(val);
+      console.log(val);
+    });
+  }
+
+  checkFile(val) {
+    let e = 9;
   }
 }

@@ -21,7 +21,8 @@ export class WorkService {
   private urlsave = environment.apiUrl + 'saveas/';
   private urldelete = environment.apiUrl + 'deletedoc/';
   private urlpartner = environment.apiUrl + 'provider/set/';
-  private urlmerge = environment.apiUrl + 'docunion/';
+  private urlmerge = environment.apiUrl + 'union/';
+  private urlfile = environment.apiUrl + 'payonec/';
 
   constructor(private http: HttpClient) { }
 
@@ -48,4 +49,12 @@ export class WorkService {
   postDeleteDocument(doc: DeleteDoc): Observable<Status> {
     return this.http.post<Status>(this.urldelete, doc);
   }
+
+  postFile1C(file: FormData): Observable<Status> {
+    return this.http.post<Status>(this.urlfile, file);
+  }
+
+  /*postFile1C(files: FileList): Observable<Status> {
+    return this.http.post<Status>(this.urlfile, files);
+  }*/
 }

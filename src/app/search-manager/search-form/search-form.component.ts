@@ -69,10 +69,12 @@ export class SearchFormComponent implements OnInit {
     this.docsResponse = new DocumentsResponse([arr0, arr1, arr2], '42', '124');
     this.giveSumAndCount(true);
     this.isViewComponent = true;*/
+
     const session = sessionStorage.getItem('currentUser');
     if(session) {
       this.filter = JSON.parse(session);
     }
+    
     this.listenEvent('init');
   }
 
