@@ -50,7 +50,7 @@
                 <div class="form-inline import-marg">
                     <label>Импорт данных:</label>
 
-                    <input hidden type="file" accept=".xlsx, .xls" multiple="multiple" #onFileInput (change)="postFileMethod($event.target.files)"/>
+                    <input hidden type="file" accept=".xlsx, .xls" multiple="multiple" #onFileInput (change)="postFileMethod($event)"/>
 
                     <button type="file" class="btn btn-light button-icon" name="" (click)="onFileInput.click()" data-toggle="tooltip" data-placement="bottom" title="Импорт данных в 1С">
                         <img src="../../assets/icons8-1с-30.png" width="20" height="20" />
