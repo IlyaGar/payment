@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { DocEditQuery } from 'src/app/models/doc-edit-query';
 import { Observable } from 'rxjs';
@@ -10,6 +10,7 @@ import { SaveDocQuery } from 'src/app/models/save-doc-query';
 import { Status } from 'src/app/models/status';
 import { DeleteDoc } from 'src/app/models/doc-delete';
 import { DocMerge } from '../models/doc-merge';
+import { ExcelPostFle } from '../models/excel-post-file';
 
 @Injectable({
   providedIn: 'root'
@@ -50,11 +51,11 @@ export class WorkService {
     return this.http.post<Status>(this.urldelete, doc);
   }
 
-  postFile1C(file: FormData): Observable<Status> {
-    return this.http.post<Status>(this.urlfile, file);
-  }
+  postFileExcel(files: FormData): Observable<any> {
+    //let headers = new HttpHeaders();
+    //headers.append('Content-Type', 'application/json');
+    //headers.set('enctype', 'multipart/form-data');
 
-  /*postFile1C(files: FileList): Observable<Status> {
-    return this.http.post<Status>(this.urlfile, files);
-  }*/
+    return this.http.post<any>(this.urlfile, files);
+  }
 }

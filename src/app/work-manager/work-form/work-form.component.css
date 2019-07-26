@@ -12,6 +12,11 @@ table {
     width: 99.5%;
     margin: 0% 0.25% 1% 0.25%;
 }
+tr#row:hover {
+    /*background: #2bac9a;*/
+    cursor: pointer;
+    box-shadow: inset 1px 2px 5px 2px #4e4c4c;
+}
 .column1 {
     padding-left: 1%;
     float: left; 
@@ -56,16 +61,19 @@ button {
     width: 12.5em;
     margin-left: 0.2em;
     margin-right: 0.2em;  
+    background-color: #da9257;
 }
 .output-date {
     width: 7.1em;
     margin-left: 0.2em;
     margin-right: 0.2em; 
+    background-color: #da9257;
 }
 .output-sum {
     width: 8.3em;
     margin-left: 0.2em;
     margin-right: 0.2em;  
+    background-color: #da9257;
 }
 .output-val{
     width: 12.5em;
@@ -120,4 +128,12 @@ td#click:hover {
     padding: 0%;
     width: 5em!important;
 }
-
+.tr-red {
+    background-color: rgb(252, 144, 144);
+}
+.tr-yellow {
+    background-color: rgb(255, 255, 89);
+}
+.tr-white {
+    background-color: rgb(240, 240, 240);
+}

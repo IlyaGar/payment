@@ -52,7 +52,7 @@
 
                     <input hidden type="file" accept=".xlsx, .xls" multiple="multiple" #onFileInput (change)="postFileMethod($event)"/>
 
-                    <button type="file" class="btn btn-light button-icon" name="" (click)="onFileInput.click()" data-toggle="tooltip" data-placement="bottom" title="Импорт данных в 1С">
+                    <button type="file" class="btn btn-light button-icon" name="" (click)="onFileInput.click()" data-toggle="tooltip" data-placement="bottom" title="Импорт платежных поручений">
                         <!--<img src="../../assets/icons8-1с-30.png" width="20" height="20" />-->
                         <img src="../../assets/Excel_logo.png" width="25" height="25" />
                     </button>
@@ -65,7 +65,7 @@
     </div>                        
 </div>
 <div class="table-scroll">
-<table class="table table-hover table-bordered mat-elevation-z8">
+<table class="table  table-bordered mat-elevation-z8">
    <colgroup>
         <col span="1" style="width: 5%;">
         <col span="1" style="width: 5%;">
@@ -90,23 +90,26 @@
             <th scope="col">Задолжность</th>
             <th scope="col">Сумма оплаты</th>
             <th scope="col">Примечание</th>
-            <th scope="col" class="col9">Номер платежного поручения</th>
-            <th scope="col" class="col10">Договор</th>
+            <th scope="col">Номер платежного поручения</th>
+            <th scope="col">Договор</th>
             <th scope="col">Выбрать</th>
-            <th scope="col">Удалить</th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let doc of docEdit.docBody">
+        <tr id="row" *ngFor="let doc of docEdit.docBody" [ngClass]="{'tr-red': doc[11]==='rer', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}">
             <td scope="row" id="click" (dblclick)="openDetailView(doc[0])" >{{doc[0]}}</td>
             <td>{{doc[1]}}</td>
             <td>{{doc[2]}}</td>
             <td>{{doc[3]}}</td>
             <td>{{doc[4]}}</td>
             <td>{{doc[5]}}</td>
-            <td><input currencyMask class="form-control" [(ngModel)]="doc[6]" [options]="{ prefix: '', thousands: ' ', decimal: ',' }"/></td>
-            <td><input type="text" class="form-control" required [(ngModel)]="doc[7]"/></td>
-            <td><input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" /></td>
+            <td><input currencyMask class="form-control" [(ngModel)]="doc[6]" [options]="{ prefix: '', thousands: ' ', decimal: ',' }" 
+                [ngClass]="{'tr-red': doc[11]==='white', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
+            <td><input type="text" class="form-control" required [(ngModel)]="doc[7]" 
+                [ngClass]="{'tr-red': doc[11]==='white', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
+            <td><input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" 
+                [ngClass]="{'tr-red': doc[11]==='white', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
             <td>{{doc[9]}}</td>
             <td><button type="button" class="btn btn-primary button-table" (click)="openOrderDialog(doc[0], doc[10])" title="Выбрать договор">Договор</button></td>
             <td><button type="button" class="btn btn-danger button-table" name="" (click)="deleteItem(doc[10])" data-toggle="tooltip" data-placement="bottom" title="Удалить запись">

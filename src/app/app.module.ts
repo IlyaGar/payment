@@ -23,6 +23,9 @@ import { SaveFormComponent } from './dialog-windows/save-manager/save-form/save-
 import { DetailPartnerFormComponent } from './dialog-windows/detail-partner-view/detail-partner-form/detail-partner-form.component';
 import { NgxCurrencyModule } from "ngx-currency";
 import { AttentionFormComponent } from './dialog-windows/dialog-attention/attention-form/attention-form.component';
+import { LoginPageFormComponent } from './login-manager/login-page-form/login-page-form.component';
+import { SaldoFormComponent } from './dialog-windows/saldo-manager/saldo-form/saldo-form.component';
+import { LictDocumentsComponent } from './dialog-windows/list-documents/lict-documents/lict-documents.component';
 
 
 @NgModule({
@@ -40,6 +43,9 @@ import { AttentionFormComponent } from './dialog-windows/dialog-attention/attent
     SaveFormComponent,
     DetailPartnerFormComponent,
     AttentionFormComponent,
+    LoginPageFormComponent,
+    SaldoFormComponent,
+    LictDocumentsComponent,
   ],
   imports: [
     FormsModule,
@@ -69,6 +75,7 @@ import { AttentionFormComponent } from './dialog-windows/dialog-attention/attent
     CreateDocumComponent,
     DetailPartnerFormComponent,
     AttentionFormComponent,
+    SaldoFormComponent,
   ],
   bootstrap: [
     AppComponent,

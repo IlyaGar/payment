@@ -1,0 +1,13 @@
+mat-card {
+    box-shadow: 1px 2px 5px #000000;
+    background-color: rgb(243, 243, 243);   
+}
+div > label {
+    margin-right: 0.4em;
+}
+div > input {
+    margin-right: 0.4em;
+}
+mat-card-content > label {
+    margin-left: 1em;
+}

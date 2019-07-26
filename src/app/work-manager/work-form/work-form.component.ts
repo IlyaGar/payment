@@ -51,10 +51,21 @@ export class WorkFormComponent implements OnInit {
       }
 
   ngOnInit() {
-    if(this.idDocument) {
-      this.workService.postGetDocument(this.docEditQuery).subscribe(d =>  { this.docEdit = d; this.addIdRow(); this.removeZeros(); });
-      this.token = this.getToken(this.nameCookie);
+    if(this.cookieService.check(this.nameCookie)) {
+      let fullData = this.cookieService.get(this.nameCookie);
+      let loginFromCookie = JSON.parse(fullData);
+      if(loginFromCookie) {
+        if(this.idDocument) {
+          this.workService.postGetDocument(this.docEditQuery).subscribe(d =>  { 
+            this.docEdit = d; 
+            //this.addIdAndZeroDescriptRow(); 
+            this.removeZeros(); 
+          });
+          this.token = this.getToken(this.nameCookie);
+        }
+      }
     }
+    else this.router.navigate(['/login']);
 
     /*this.token = this.getToken(this.nameCookie);
     this.docEdit = this.docEditTest;*/
@@ -73,6 +84,7 @@ export class WorkFormComponent implements OnInit {
 
   removeZeros() {
     if(this.docEdit) {
+      this.addIdAndZeroDescriptRow();
       //TypeError: Cannot read property 'includes' of undefined
       if(this.docEdit.docDate.includes(' ')) {
         var splitedPayDate = this.docEdit.docDate.split(' ');
@@ -86,11 +98,22 @@ export class WorkFormComponent implements OnInit {
     }}
   }
 
-  addIdRow() {
+  addIdAndZeroDescriptRow() {
     let i = 0;
     this.docEdit.docBody.forEach(element => {
       element[10] = (i++).toString();
+      let elstring = element[2].slice(1);
+      var num = parseFloat(elstring.replace(/\s/g, "").replace(",", "."));
+      element[11] = 'white';
+      if(num < 0 && num > -500)
+        element[11] = 'yellow';
+      if(num < -500)
+        element[11] = 'red';
     });
+  }
+
+  checkSaldo() {
+    let i = 0;
   }
 
   onOpenPartnerDialog(): void {
@@ -117,7 +140,9 @@ export class WorkFormComponent implements OnInit {
       data: { token: this.token, provider: provider },
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.docEdit.docBody.find(x => x[10] === idrow)[9] = result;
+      if(result) {
+        this.docEdit.docBody.find(x => x[10] === idrow)[9] = result;
+      }
     });
   }
 
@@ -231,26 +256,33 @@ export class WorkFormComponent implements OnInit {
     });
   }
 
+  postFileMethod(event) {
+    let files = event.target.files;
+    if(files.length > 0) {
+      let formData = new FormData(); 
+      for(let i = 0; i < files.length; i++){
+        formData.append('file', files[i], files[i].name);
+      }
+      formData.append("data", JSON.stringify(new DocEditQuery(this.token, this.docEdit.docNum)));
+      console.log(formData.getAll('file'));
+      //console.log(formData.getAll('data'));
+      this.workService.postFileExcel(formData).subscribe((result) => {
+        if(result) {   
+          console.log(result);
+          this.checkFile(result);
+        }
+      });
+    }
+  }
+
+  checkFile(value) {
+    let e = 9;
+  }
+
   async onReport(docNum){
     await delay(10000);
     let vaaa = 5;
     this.openSaveDialog(docNum);
   }
 
-  postFileMethod(event) {
-    let files = event.target.files;
-    this.fileToUpload = files.item(0); 
-    let formData = new FormData(); 
-    for(let i = 0; i < files.length; i++){
-      formData.append('file', files[i], files[i].name);
-    }
-    this.workService.postFile1C(formData).subscribe((val) => {   
-      this.checkFile(val);
-      console.log(val);
-    });
-  }
-
-  checkFile(val) {
-    let e = 9;
-  }
 }

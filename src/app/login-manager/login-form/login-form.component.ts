@@ -26,16 +26,18 @@ export class LoginFormComponent implements OnInit {
     private cookieService: CookieService,
     public dialogRef: MatDialogRef<LoginFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: LoginQuery,
-    private service: CommonService
+    private commonService: CommonService
   ) { }
 
   ngOnInit() {
   }
 
   onOkClick() {
-    this.loginService.getLogin(this.loginQuery).subscribe(
-      l => {this.loginResponse = l; this.loginUser();},
-      error => console.log(error));
+    this.loginService.getLogin(this.loginQuery).subscribe(l => {
+        this.loginResponse = l; 
+        this.loginUser(); 
+        error => console.log(error)},
+     );
   }
 
   closeDialogOk(data): void {
@@ -65,9 +67,8 @@ export class LoginFormComponent implements OnInit {
     if(this.loginResponse.token){
       this.isCorectLogin = true;
       this.setCookie(this.nameCookie, this.loginResponse);
-      //this.getCookie(this.nameCookie);
       this.closeDialogOk(this.loginResponse);
-      this.service.newEvent('login');
+      this.commonService.newEvent('login');
     }
     else {
       this.isCorectLogin = false;

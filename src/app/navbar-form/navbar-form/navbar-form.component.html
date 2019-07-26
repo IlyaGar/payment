@@ -1,20 +1,35 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark"><!--fixed-top-->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" *ngIf="isLogin"><!--fixed-top-->
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" [routerLink]="['search']">Главная</a>
-      </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+            <a *ngIf="isLogin" class="nav-link" [routerLink]="['search']">Список документов</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+            <a *ngIf="isLogin" class="nav-link" [routerLink]="['mydocs']">Мот документы</a>
+        </li>
     </ul>
     <div>
+
       <button type="button" id="newdoc" class="btn btn-success" *ngIf="isLogin" data-toggle="tooltip" data-placement="bottom" title="Создать новый документ"
-          (click)="onCreateDocum()" >Новый документ</button>
+          (click)="onCreateDocum()">Новый документ</button>
+
+      <!--<input hidden type="file" accept=".xlsx, .xls" #onFileInput (change)="postFileMethod($event)"/>
+
+      <button type="file" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Оборотно-сальдовая ведомость"
+          (click)="onFileInput.click()">Сальдо</button>-->
+        <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Оборотно-сальдовая ведомость"
+          (click)="onOpenSaldoForm()">Сальдо</button>
+
+      <!--<button type="button" id="newdoc" class="btn btn-success" *ngIf="isLogin" data-toggle="tooltip" data-placement="bottom" title="Оборотно-сальдовая ведомость"
+          (click)="onOpenListDocuments()">Мои документы</button>    -->
+
     </div>
-    <form class="form-inline my-2 my-lg-0" *ngIf="!isLogin">
+    <!--<form class="form-inline my-2 my-lg-0" *ngIf="!isLogin">
         <button type="button" class="btn btn-secondary" (click)="onOpenLoginDialog()">Войти</button>
-    </form>
-    <form class="form-inline my-2 my-lg-0" *ngIf="isLogin">
+    </form>-->
+    <form class="form-inline my-2 my-lg-0" >
         <span>Привет! {{loginResponse.cn}}</span>
     </form>
     <form class="form-inline my-2 my-lg-0" *ngIf="isLogin">
-        <button type="button" class="btn btn-secondary" (click)="onLogout()">Выйти</button>
+        <button type="button" class="btn btn-secondary" (click)="onLogOut()">Выйти</button>
     </form>
 </nav>

@@ -70,16 +70,22 @@ export class SearchFormComponent implements OnInit {
     this.giveSumAndCount(true);
     this.isViewComponent = true;*/
 
-    const session = sessionStorage.getItem('currentUser');
-    if(session) {
-      this.filter = JSON.parse(session);
+    if(this.cookieService.check(this.nameCookie)) {
+      let fullData = this.cookieService.get(this.nameCookie);
+      let loginFromCookie = JSON.parse(fullData);
+      if(loginFromCookie) {
+
+        const session = sessionStorage.getItem('currentUser');
+        if(session) {
+          this.filter = JSON.parse(session);
+        }
+        
+        this.listenEvent('init');
+      }
     }
-    
-    this.listenEvent('init');
   }
 
-  listenEvent(event) 
-  {
+  listenEvent(event) {
     if(event == 'login') this.loadData();
     if(event == 'logout') this.clearData();
     if(event == 'init')  this.loadData();
@@ -96,9 +102,12 @@ export class SearchFormComponent implements OnInit {
         fndate = this.filter.finishDate.toString();
       this.docsQuery = new DocumentsQuery(token, this.filter.nomer, this.filter.name, this.filter.status = this.statusSelect, stdate, fndate);
       //this.docsQuery = new DocumentsQuery(token, "", "", "", "", "");
-      this.searchService.postDocument(this.docsQuery).subscribe(
-        d => { this.docsResponse = d; this.isData = true; this.giveSumAndCount(this.isData); },
-        error => console.log(error));
+      this.searchService.postDocument(this.docsQuery).subscribe( d => { 
+        this.docsResponse = d; 
+        this.isData = true; 
+        this.giveSumAndCount(this.isData);
+        error => console.log(error)
+       });
     }
   }
 

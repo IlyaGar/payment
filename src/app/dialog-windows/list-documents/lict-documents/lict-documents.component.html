@@ -1,0 +1,46 @@
+
+<h3>Мои документы</h3>
+<div class="table-container mat-elevation-z8">
+
+    <table mat-table [dataSource]="dataSource" class="table-hover">
+
+        <!-- name column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Наименование </th>
+            <td mat-cell *matCellDef="let element"> {{element[0]}} </td>
+        </ng-container>
+
+        <!-- type column -->
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef> Тип </th>
+            <td mat-cell *matCellDef="let element"> {{element[1]}} </td>
+        </ng-container>
+
+        <!-- percent column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Проценты  </th>
+            <td mat-cell *matCellDef="let element"> 
+                <div class="form-inline" *ngIf="element[2]">
+                    {{element[2]}} %
+                    <mat-spinner strokeWidth="3" [diameter]="25"></mat-spinner>
+                </div>
+                <div class="form-inline" *ngIf="!element[2]">
+                        <button mat-button (click)="onDelete()">
+                                <div class="icon">
+                                    <mat-icon [inline]="true">cloud_download</mat-icon>
+                                </div>
+                            </button>
+                            <button mat-button (click)="onDelete()">
+                                    <div class="icon">
+                                        <mat-icon [inline]="true">delete</mat-icon>
+                                    </div>
+                            </button>   
+                    </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+</div>

@@ -1,0 +1,42 @@
+<div class="container">
+    <mat-card *ngIf="isCorectLogin">
+
+      <mat-card-title>Вход в систему</mat-card-title>
+      <mat-card-content>
+
+      <p>
+        <mat-form-field class="input-full-width">
+          <input type="text" [(ngModel)]="loginQuery.login" id="login" name="login" #login="ngModel" minlength="3" maxlength="20" matInput placeholder="Введите Логин" (keyup.enter)="onOkClick()">
+          <!--<div *ngIf="login.invalid && (login.dirty || login.touched)" class="alert alert-danger">
+            <div *ngIf="login.errors.minlength">Логин должен быть длиннее 3 символов.</div>
+            <div *ngIf="login.errors.maxlength">Логин должен быть не длиннее 20 символов.</div>
+          </div>-->
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field class="input-full-width">
+          <input type="password" [(ngModel)]="loginQuery.password" matInput placeholder="Введите пароль" (keyup.enter)="onOkClick()">
+        </mat-form-field>
+      </p>
+
+      <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Отмена</button>
+        <button mat-button color="primary" *ngIf="isCorectLogin" (click)="onOkClick()">Ok</button>
+      </div>
+
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="!isCorectLogin">
+
+      <div class="etention">Неверное имя пользователи или пароль.</div>
+      <div class="etention">Попробуте снова.</div>
+
+      <div mat-dialog-actions>
+        <button mat-button (click)="onOkClickUnCorect()">Отмена</button>
+        <button mat-button color="primary" (click)="onOkClickUnCorect()" cdkFocusInitial>Ok</button>
+      </div>
+
+    </mat-card>
+</div>
