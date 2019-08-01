@@ -115,7 +115,7 @@ export class SaldoFormComponent implements OnInit {
       formData.append('balance', JSON.stringify(balans));
       console.log(formData.getAll('file'));
       console.log(formData.getAll('balance'));
-      this.saldoService.postSaldoFile(formData).subscribe((response) => {
+      this.saldoService.postSaldoFile(formData).subscribe((response) =>  {
         if(response) {   
           this.checkResponse(response);
         }
@@ -124,6 +124,7 @@ export class SaldoFormComponent implements OnInit {
           this.openAttentionDialog(response);
         }
       });
+      this.onNoClick();
     }
   }
 
