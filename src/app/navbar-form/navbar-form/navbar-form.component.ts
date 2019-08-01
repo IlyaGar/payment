@@ -88,7 +88,7 @@ export class NavbarFormComponent implements OnInit {
   onOpenSaldoForm() {
     const dialogRef = this.dialog.open(SaldoFormComponent, {
       width: '600px',
-      height: '400px',
+      height: '280px',
       data: {token: this.getToken(this.nameCookie)},
     });
     dialogRef.afterClosed().subscribe(result => {

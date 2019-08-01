@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { SaldoService } from '../services/saldo.service';
 import { Balance } from '../models/balans-item';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AttentionFormComponent } from '../../dialog-attention/attention-form/attention-form.component';
 
 @Component({
   selector: 'app-saldo-form',
@@ -16,29 +17,21 @@ export class SaldoFormComponent implements OnInit {
   stdate: string;
   fndate: string;
   file: any;
+  fileUrl: any;
   isFileSelected: boolean = false;
   isStDateSelected: boolean = false;
   isFnDateSelected: boolean = false;
-  isDateSelected: boolean = false;
-
-  name = 'Angular 5';
-  fileUrl;
-
+  isSelected: boolean = false;
   
   constructor(
-
+    public dialog: MatDialog,
     private sanitizer: DomSanitizer,
-
     private saldoService: SaldoService,
     public dialogRef: MatDialogRef<SaldoFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
   ngOnInit() {
-    const data = 'some text';
-    const blob = new Blob([data], { type: 'application/octet-stream' });
-
-    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
 
   onOkClick(doc: string) {
@@ -49,71 +42,101 @@ export class SaldoFormComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  checkRespons(result) {
-    let e = 9;
-  }
-
   selectFileMethod(event) {
     let files = event.target.files;
     if(files.length > 0) { 
-      this.isFileSelected = true;
       this.file = files[0];
+      this.isFileSelected = true;
+      if(this.stdate) {
+        this.isStDateSelected = true;
+        if(this.fndate) {
+          this.isFnDateSelected = true;
+          if(this.file.name) {
+            this.isSelected = true;
+          }
+        }
+      }
+    } else this.isFileSelected = false;
+  }
+
+  selectedStDate() {
+    if(this.stdate) {
+      this.isStDateSelected = true;
+      if(this.isFnDateSelected) 
+        if(this.isFileSelected) 
+          this.isSelected = true;    
+    }
+    else {
+      this.isStDateSelected = false;
+      this.isSelected = false;    
     }
   }
 
-  selectedStDate(event) {
-    this.isStDateSelected = true;
+  selectedFnDate() {
+    if(this.fndate) {
+      this.isFnDateSelected = true;
+      if(this.isStDateSelected) 
+        if(this.isFileSelected)
+          this.isSelected = true;
+    }
+    else {
+      this.isFnDateSelected = false;
+      this.isSelected = false;    
+    }
   }
 
-  selectedFnDate(event) {
-    this.isFnDateSelected = true;
+  onDownloadFile() {
+    this.saldoService.downloadFileSystem().subscribe((response) => {
+      if(response) { 
+        this.downloadFile(response);
+      }
+    });;
+  }
+
+  downloadFile(response) {
+    const blob = new Blob([response], { type: 'application/vnd.ms-excel' });
+    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+
+    const data = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', data);
+    link.setAttribute('download', 'css.xlsx');
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+    link.remove();
   }
 
   postFileMethod() {
     if(this.file) {
-      let balans = new Balance(this.data.token, this.stdate, this.fndate);
+      let startDate = new Date(this.stdate);
+      let finishtDate = new Date(this.fndate);
+      let balans = new Balance(this.data.token, startDate.toLocaleDateString(), finishtDate.toLocaleDateString());
       let formData = new FormData(); 
       formData.append('file', this.file, this.file.name);
       formData.append('balance', JSON.stringify(balans));
       console.log(formData.getAll('file'));
       console.log(formData.getAll('balance'));
-      /*this.saldoService.postGetDocument(formData).subscribe((result) => {
-        if(result) {   
-          console.log(result);
-          this.checkRespons(result);
+      this.saldoService.postSaldoFile(formData).subscribe((response) => {
+        if(response) {   
+          this.checkResponse(response);
         }
-      });*/
-
-      this.saldoService.postSaldoFile(formData).subscribe((result) => {
-        if(result) {   
-          console.log(result);
-          this.downloadFile(result);
-          this.checkRespons(result);
+        else {
+          console.log(response);
+          this.openAttentionDialog(response);
         }
       });
     }
   }
-  downloadFile(data: any) {
-    //const blob = new Blob([data], { type: 'text/csv' });
-    const blob = new Blob([data], { type: 'application/octet-stream' });
-    const url= window.URL.createObjectURL(blob);
-    window.open(url);
+
+  checkResponse(result) {
+    let e = 9;
   }
 
-  download() {
-    let balans = new Balance(this.data.token, this.stdate, this.fndate);
-    let formData = new FormData(); 
-    formData.append('file', this.file, this.file.name);
-    formData.append('balance', JSON.stringify(balans));
-    console.log(formData.getAll('file'));
-    console.log(formData.getAll('balance'));
-    this.saldoService.postSaldoFile(formData).subscribe(response => {
-			let blob:any = new Blob([response.blob()], { type: 'text/json; charset=utf-8' });
-			const url= window.URL.createObjectURL(blob);
-			window.open(url);
-			window.location.href = response.url;
-			//fileSaver.saveAs(blob, 'employees.json');
-		}), error => console.log('Error downloading the file'),
-                 () => console.info('File downloaded successfully');
+  openAttentionDialog(status) {
+    const dialogRef = this.dialog.open(AttentionFormComponent, {
+      width: '400px',
+      height: '200px',
+      data: {status: status},
+    });
+    dialogRef.afterClosed().subscribe(result => {});
   }
 }

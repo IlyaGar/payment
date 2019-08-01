@@ -13,10 +13,6 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { NewDocQuery } from 'src/app/work-manager/models/new-doc-query';
 import { WorkService } from 'src/app/work-manager/work-service/work.service';
 
-/*export interface SelectedData {
-  numdoc: string;
-  isselect: boolean;
-}*/
 export class SelectedData{
   constructor(
     numdoc: string,
@@ -63,14 +59,14 @@ export class SearchFormComponent implements OnInit {
     }
 
   ngOnInit() {
-    /*let arr0 = ['20', '200', '200', '200 0', '200 0', '23400', '2300'];
+    let arr0 = ['20', '200', '200', '200 0', '200 0', '23400', '2300'];
     let arr1 = ['21', '210', '210', '211 0', '211 0', '23411', '2311'];
     let arr2 = ['22', '220', '220', '222 0', '222 0', '23422', '2322'];
     this.docsResponse = new DocumentsResponse([arr0, arr1, arr2], '42', '124');
     this.giveSumAndCount(true);
-    this.isViewComponent = true;*/
+    this.isViewComponent = true;
 
-    if(this.cookieService.check(this.nameCookie)) {
+    /*if(this.cookieService.check(this.nameCookie)) {
       let fullData = this.cookieService.get(this.nameCookie);
       let loginFromCookie = JSON.parse(fullData);
       if(loginFromCookie) {
@@ -82,7 +78,7 @@ export class SearchFormComponent implements OnInit {
         
         this.listenEvent('init');
       }
-    }
+    }*/
   }
 
   listenEvent(event) {
@@ -102,12 +98,11 @@ export class SearchFormComponent implements OnInit {
         fndate = this.filter.finishDate.toString();
       this.docsQuery = new DocumentsQuery(token, this.filter.nomer, this.filter.name, this.filter.status = this.statusSelect, stdate, fndate);
       //this.docsQuery = new DocumentsQuery(token, "", "", "", "", "");
-      this.searchService.postDocument(this.docsQuery).subscribe( d => { 
-        this.docsResponse = d; 
+      this.searchService.postDocument(this.docsQuery).subscribe(response => { 
+        this.docsResponse = response; 
         this.isData = true; 
-        this.giveSumAndCount(this.isData);
-        error => console.log(error)
-       });
+        this.giveSumAndCount(this.isData);}, 
+        error => console.log(error));
     }
   }
 

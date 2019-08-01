@@ -56,8 +56,8 @@ export class WorkFormComponent implements OnInit {
       let loginFromCookie = JSON.parse(fullData);
       if(loginFromCookie) {
         if(this.idDocument) {
-          this.workService.postGetDocument(this.docEditQuery).subscribe(d =>  { 
-            this.docEdit = d; 
+          this.workService.postGetDocument(this.docEditQuery).subscribe(response =>  { 
+            this.docEdit = response; 
             //this.addIdAndZeroDescriptRow(); 
             this.removeZeros(); 
           });
@@ -183,7 +183,10 @@ export class WorkFormComponent implements OnInit {
 
   postlistPartners(data) {
     let partnerQuery = new SaveProvider(this.token, this.doc.id, data);
-    this.workService.postlistPartners(partnerQuery).subscribe(d =>  { this.docEdit = d; this.removeZeros(); });
+    this.workService.postlistPartners(partnerQuery).subscribe(response =>  { 
+      this.docEdit = response; 
+      this.removeZeros(); 
+    });
   }
 
   getProviders() {
@@ -202,7 +205,11 @@ export class WorkFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         let model = new DeleteDoc(this.token, docNum);
-        this.workService.postDeleteDocument(model).subscribe(s => { this.status = s; this.checkStatus(this.status ); }); }
+        this.workService.postDeleteDocument(model).subscribe(response => { 
+          this.status = response; 
+          this.checkStatus(this.status ); 
+        }); 
+      }
     });
   }
 
@@ -224,8 +231,11 @@ export class WorkFormComponent implements OnInit {
 
   saveDocument(action) {
     let docSave = new SaveDocQuery(this.token, this.docEdit.docNum, this.docEdit.docName, this.docEdit.docStatus, this.docEdit.docBody);
-    this.workService.postSaveDocument(docSave).subscribe(d => {this.status = d; this.checkDoc(action, this.status);},
-      error => console.log(error));
+    this.workService.postSaveDocument(docSave).subscribe(response => {
+      this.status = response; 
+      this.checkDoc(action, this.status) },
+      error => console.log(error)
+    );
   }
 
   checkDoc(action, data) {
@@ -266,10 +276,10 @@ export class WorkFormComponent implements OnInit {
       formData.append("data", JSON.stringify(new DocEditQuery(this.token, this.docEdit.docNum)));
       console.log(formData.getAll('file'));
       //console.log(formData.getAll('data'));
-      this.workService.postFileExcel(formData).subscribe((result) => {
-        if(result) {   
-          console.log(result);
-          this.checkFile(result);
+      this.workService.postFileExcel(formData).subscribe(response => {
+        if(response) {   
+          console.log(response);
+          this.checkFile(response);
         }
       });
     }
@@ -284,5 +294,4 @@ export class WorkFormComponent implements OnInit {
     let vaaa = 5;
     this.openSaveDialog(docNum);
   }
-
 }
