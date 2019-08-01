@@ -11,9 +11,13 @@
           <div class="etention">Что то пошло не так! Попробуйте снова.</div>
         </div>
 
-        <div *ngIf="isDelete">
-            <div class="etention">Вы действительно хотите удалить запись?</div>
+        <div *ngIf="isDeleteDoc">
+            <div class="etention">Вы действительно хотите удалить документ?</div>
         </div>
+
+        <div *ngIf="isDeleteRow">
+          <div class="etention">Вы действительно хотите удалить запись?</div>
+      </div>
 
     </mat-card-content>
 </mat-card>

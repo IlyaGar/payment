@@ -79,6 +79,7 @@ export class SearchFormComponent implements OnInit {
         this.listenEvent('init');
       }
     }
+    else this.router.navigate(['/login']);
   }
 
   listenEvent(event) {

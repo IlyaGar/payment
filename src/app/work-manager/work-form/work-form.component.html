@@ -97,19 +97,22 @@
         </tr>
     </thead>
     <tbody>
-        <tr id="row" *ngFor="let doc of docEdit.docBody" [ngClass]="{'tr-red': doc[11]==='rer', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}">
+        <tr id="row" *ngFor="let doc of docEdit.docBody" [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}">
+            <!-- Контрагент -->
             <td scope="row" id="click" (dblclick)="openDetailView(doc[0])" >{{doc[0]}}</td>
             <td>{{doc[1]}}</td>
             <td>{{doc[2]}}</td>
             <td>{{doc[3]}}</td>
             <td>{{doc[4]}}</td>
             <td>{{doc[5]}}</td>
-            <td><input currencyMask class="form-control" [(ngModel)]="doc[6]" [options]="{ prefix: '', thousands: ' ', decimal: ',' }" 
-                [ngClass]="{'tr-red': doc[11]==='white', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
+            <!-- <td>{{doc[6]}}</td> -->
+            <!-- [options]="{ prefix: '', thousands: ' ', decimal: ',' }"  -->
+            <td><input currencyMask class="form-control" [(ngModel)]="doc[6]" [options]="{ prefix: '', thousands: ' ', decimal: ',' }"
+                [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
             <td><input type="text" class="form-control" required [(ngModel)]="doc[7]" 
-                [ngClass]="{'tr-red': doc[11]==='white', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
+                [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
             <td><input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" 
-                [ngClass]="{'tr-red': doc[11]==='white', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
+                [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
             <td>{{doc[9]}}</td>
             <td><button type="button" class="btn btn-primary button-table" (click)="openOrderDialog(doc[0], doc[10])" title="Выбрать договор">Договор</button></td>
             <td><button type="button" class="btn btn-danger button-table" name="" (click)="deleteItem(doc[10])" data-toggle="tooltip" data-placement="bottom" title="Удалить запись">

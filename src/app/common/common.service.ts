@@ -12,6 +12,10 @@ export class CommonService {
     this._subject.next(event);
   }
 
+  newDoc(event) {
+    this._subject.next(event);
+  }
+
   get events$ () {
     return this._subject.asObservable();
   }

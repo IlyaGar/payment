@@ -77,6 +77,7 @@ export class NavbarFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.router.navigate(['/work', result.id]); 
+        this.commonService.newDoc(result.id);
       }
     });
   }

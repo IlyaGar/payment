@@ -5,6 +5,7 @@ import { NewDocQuery } from '../models/new-doc-query';
 import { DocMerge } from '../models/doc-merge';
 import { AttentionFormComponent } from 'src/app/dialog-windows/dialog-attention/attention-form/attention-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 export interface DialogData {
   token: string;
@@ -27,6 +28,7 @@ export class CreateDocumComponent implements OnInit {
   constructor(
     private workService: WorkService,
     public dialog: MatDialog,
+    private router: Router,
     public dialogRef: MatDialogRef<CreateDocumComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) { }
@@ -57,8 +59,10 @@ export class CreateDocumComponent implements OnInit {
   }
 
   createDocument(data) {
-    if(data.id)
+    if(data.id) {
+      //this.router.navigate(['/work', data.id]); 
       this.closeDialogOk(data);
+    }
     if(data.status == 'false')
       this.isNoRules = true;
     if(data.status == 'error')

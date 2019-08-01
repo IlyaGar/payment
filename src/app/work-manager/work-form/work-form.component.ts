@@ -16,6 +16,7 @@ import { Status } from 'src/app/models/status';
 import { AttentionFormComponent } from 'src/app/dialog-windows/dialog-attention/attention-form/attention-form.component';
 import { SaveDocQuery } from 'src/app/models/save-doc-query';
 import { delay } from 'q';
+import { CommonService } from 'src/app/common/common.service';
 
 @Component({
   selector: 'app-work-form',
@@ -24,7 +25,6 @@ import { delay } from 'q';
 })
 
 export class WorkFormComponent implements OnInit {
-
   
   docEditQuery: DocEditQuery;
   newDocQuery: NewDocQuery;
@@ -36,18 +36,20 @@ export class WorkFormComponent implements OnInit {
   token: string;
   fileToUpload: File;
 
-  listData: Array<string> = ['provider', '1001', 'saldo', '2019.06.05', '21', 'no', '123456', 'lalala', '1234', '987, 1, 2'];
-  listlistData: Array<Array<string>> = [this.listData];
-  docEditTest: DocEdit = new DocEdit("true", "22", "test-name", "2019-05-06", "2236", "Черновик", this.listlistData);
+  // listData: Array<string> = ['provider', '1001', 'saldo', '2019.06.05', '21', 'no', '123456', 'lalala', '1234', '987, 1, 2'];
+  // listlistData: Array<Array<string>> = [this.listData];
+  // docEditTest: DocEdit = new DocEdit("true", "22", "test-name", "2019-05-06", "2236", "Черновик", this.listlistData);
 
   constructor(
     public dialog: MatDialog,
     private workService: WorkService,
     private cookieService: CookieService,
     private router: Router,
+    private common: CommonService,
     private activateRoute: ActivatedRoute
     ) {
         activateRoute.params.subscribe(params => { this.doc = params; this.getDocEditQuery(); });
+        this.common.events$.forEach(event => { console.log(event); this.ngOnInitNewDoc(event) });
       }
 
   ngOnInit() {
@@ -69,6 +71,25 @@ export class WorkFormComponent implements OnInit {
 
     /*this.token = this.getToken(this.nameCookie);
     this.docEdit = this.docEditTest;*/
+  }
+
+  ngOnInitNewDoc(event) {
+    if(this.cookieService.check(this.nameCookie)) {
+      let fullData = this.cookieService.get(this.nameCookie);
+      let loginFromCookie = JSON.parse(fullData);
+      this.docEditQuery.docNum = event;
+      if(loginFromCookie) {
+        if(this.idDocument) {
+          this.workService.postGetDocument(this.docEditQuery).subscribe(response =>  { 
+            this.docEdit = response; 
+            //this.addIdAndZeroDescriptRow(); 
+            this.removeZeros(); 
+          });
+          this.token = this.getToken(this.nameCookie);
+        }
+      }
+    }
+    else this.router.navigate(['/login']);
   }
 
   getDocEditQuery() {
@@ -101,6 +122,7 @@ export class WorkFormComponent implements OnInit {
   addIdAndZeroDescriptRow() {
     let i = 0;
     this.docEdit.docBody.forEach(element => {
+      element[6]= element[6].replace(/\s/g, "").replace(",", ".");
       element[10] = (i++).toString();
       let elstring = element[2].slice(1);
       var num = parseFloat(elstring.replace(/\s/g, "").replace(",", "."));
@@ -200,7 +222,7 @@ export class WorkFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AttentionFormComponent, {
       width: '400px',
       height: '200px',
-      data: {status: 'delete'},
+      data: {status: 'deletedoc'},
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
@@ -232,8 +254,10 @@ export class WorkFormComponent implements OnInit {
   saveDocument(action) {
     let docSave = new SaveDocQuery(this.token, this.docEdit.docNum, this.docEdit.docName, this.docEdit.docStatus, this.docEdit.docBody);
     this.workService.postSaveDocument(docSave).subscribe(response => {
-      this.status = response; 
-      this.checkDoc(action, this.status) },
+      if(response) {
+        this.status = response; 
+        this.checkDoc(action, this.status) 
+      }},
       error => console.log(error)
     );
   }
@@ -245,15 +269,18 @@ export class WorkFormComponent implements OnInit {
       if(action === 'provider') 
         this.openPartnerDialog();
     }  
-    else 
+    else {
+      this.ngOnInit();
       this.openAttentionDialog(data.status);
+    }
+    
   }
 
   deleteItem(idrow: string) {
     const dialogRef = this.dialog.open(AttentionFormComponent, {
       width: '400px',
       height: '200px',
-      data: {status: 'delete'},
+      data: {status: 'deleterow'},
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {

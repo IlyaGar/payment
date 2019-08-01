@@ -15,7 +15,8 @@ export class AttentionFormComponent implements OnInit {
 
   isFalse = false;
   isError = false;
-  isDelete = false;
+  isDeleteRow = false;
+  isDeleteDoc = false;
 
   constructor(
     public dialogRef: MatDialogRef<AttentionFormComponent>,
@@ -27,21 +28,29 @@ export class AttentionFormComponent implements OnInit {
       this.isFalse = true;
     if(this.data.status === 'error')
       this.isError = true;
-    if(this.data.status === 'delete')
-      this.isDelete = true;
+    if(this.data.status === 'deleterow')
+      this.isDeleteRow = true;
+    if(this.data.status === 'deletedoc')
+      this.isDeleteDoc = true;
   }
 
   onOkClick() {
-    if(this.isDelete === true)
+    if(this.isDeleteRow === true)
       this.dialogRef.close(true);
-    else 
-      this.dialogRef.close();
+    else
+      if(this.isDeleteDoc === true)
+        this.dialogRef.close(true);
+      else 
+        this.dialogRef.close();
   }
 
   onNoClick(): void {
-    if(this.isDelete === true)
+    if(this.isDeleteRow === true)
       this.dialogRef.close(false);
-    else
-      this.dialogRef.close();
+    else  
+      if(this.isDeleteDoc === true)
+        this.dialogRef.close(false);
+      else
+        this.dialogRef.close();
   }
 }
