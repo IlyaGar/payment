@@ -20,6 +20,7 @@
       <mat-form-field class="input-full-width" *ngIf="isAccountant">
         <mat-label>Статус</mat-label>
         <mat-select [(ngModel)]="doc.docStatus">
+          <mat-option value="сформирован">Сформирован</mat-option>
           <mat-option value="на утверждении">На утверждении</mat-option>
           <mat-option value="утвержден">Утвержден</mat-option>
           <mat-option value="проведен">Проведен</mat-option>
@@ -29,6 +30,7 @@
       <mat-form-field class="input-full-width" *ngIf="isDirector">
           <mat-label>Статус</mat-label>
           <mat-select [(ngModel)]="doc.docStatus">
+            <mat-option value="сформирован">Сформирован</mat-option>
             <mat-option value="на утверждении">На утверждении</mat-option>
             <mat-option value="утвержден">Утвержден</mat-option>
             <mat-option value="проведен">Проведен</mat-option>

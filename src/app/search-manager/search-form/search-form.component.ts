@@ -156,6 +156,7 @@ export class SearchFormComponent implements OnInit {
   }
 
   onClearFilter() {
+    sessionStorage.removeItem('currentUser');
     this.filter = new FilterDocument("", "", "", null, null);
     this.statusSelect = 'Все объекты';
     this.loadData();
