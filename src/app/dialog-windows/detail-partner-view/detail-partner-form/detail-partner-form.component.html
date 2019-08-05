@@ -1,209 +1,158 @@
-<mat-card class="shadow">
-  <mat-card-title>Детальный просмотр данных</mat-card-title>
+<mat-card>
+    <mat-card-title>Детальный просмотр данных</mat-card-title>
 
-<div class="form">
-  <div class="contaner-left">
+    <div class="form">
+        <div class="contaner-left">
+    
+            <div class="form-inline">
+                <div class="contaner-min-left provider">
+                    <label>Контрагент:</label>
+                    
+                </div>
+                <div class="contaner-min-right">{{data.provider}}</div>
+            </div>
+            
+            <div class="form-inline br">
+                <div class="id-label"><label>УНП:</label></div>
+                <div>{{data.inn}}</div>
+            </div>
+    
+            <div class="form-inline">
+                <label>с:</label>
+                <input type="date" name="dateFrom" id="date" [(ngModel)]="dateFrom" class="form-control"/>
+                <!--<input type="date" name="startDate" id="startDate" class="form-control" [(ngModel)]="filter.startDate" #startDate="ngModel" aria-describedby="dateStartLable" />-->
+                <label>по:</label>
+                <input type="date" name="dateTo" id="date" [(ngModel)]="dateTo" class="form-control"/>
+                <div class="bt-send">
+                    <button  mat-button (click)="onSendDate()">
+                        <img src="../../assets/arrow1.png" width="20" height="20" />
+                    </button>
+                    <i class="fas fa-arrow-circle-right"></i>
+                </div>
+            </div>
 
-      <div class="form-inline">
-        <label id="nameLable">Контрагент:</label>
-        <div class="form-control"></div>
-      </div>
+            <div class="form-inline">
+                <div>
+                    <div class="form-inline">
+                        <div class="id-label-saldo"><label>Начальное сальдо:</label></div>
+                        {{detailResponse.startSaldo}}
+                    </div>
+                        
+                    <div class="form-inline">
+                        <div class="id-label-saldo"><label>Конечное сальдо:</label></div>
+                        {{detailResponse.endSaldo}}
+                    </div>
+                </div>
+            </div>
 
-      <div class="form-inline">
-        <label id="idLable">ID:</label>
-        <div class="form-control"></div>
-      </div>
+            <div class="caption-table"><label>Акт сверки</label></div>
+            <br />
+            <div class="table-container mat-elevation-z8">
+                <table mat-table [dataSource]="dataSourceIn" class="table-hover">
 
-      <div class="form-inline">
-        <label id="dateStartLable">с:</label>
-        <input type="date" name="startDate" id="startDate" class="form-control"/>
-        <!--<input type="date" name="startDate" id="startDate" class="form-control" [(ngModel)]="filter.startDate" #startDate="ngModel" aria-describedby="dateStartLable" />-->
-        <label id="dateFinishLable">по:</label>
-        <input type="date" name="finishDate" id="finishDate" class="form-control"/>
-      </div>
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> Дата </th>
+                        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                    </ng-container>
 
-      <div class="form-inline">
-        <label id="idLable">Начальное сальдо:</label>
-        <div class="form-control"></div>
-      </div>
-      
-      <div class="form-inline">
-        <label id="idLable">Конечное сальдо:</label>
-        <div class="form-control"></div>
-      </div>
-      <div class="tab-heigth">
+                    <ng-container matColumnDef="nomer">
+                        <th mat-header-cell *matHeaderCellDef> № Документа </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nomer}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="sort">
+                        <th mat-header-cell *matHeaderCellDef> Вид операции </th>
+                        <td mat-cell *matCellDef="let element" [ngClass]="{'td-red': element.sort==='Возврат' || element.sort==='Продажа по взаимозачету'}"> {{element.sort}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="summ">
+                        <th mat-header-cell *matHeaderCellDef> Сумма </th>
+                        <td mat-cell *matCellDef="let element"> {{element.summ}} </td>
+                    </ng-container>                
+            
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsIn; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsIn;"></tr>
+                </table>
+            </div>
+
+        </div>
+  
+        <div class="contaner-right">
+            <div class="caption-table"><label>Внести оплату</label></div>
+            <br />
+            <div class="table-container mat-elevation-z8">
+                <table mat-table [dataSource]="dataSourceOut" class="table-hover">
+            
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> Дата оплаты </th>
+                        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="summ">
+                        <th mat-header-cell *matHeaderCellDef> Сумма оплаты </th>
+                        <td mat-cell *matCellDef="let element"> {{element.summ}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nomer">
+                        <th mat-header-cell *matHeaderCellDef> № платежного поручения </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nomer}} </td>
+                    </ng-container>            
+            
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsOut; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsOut;"></tr>
+                </table>
+            </div>
+
+            <!-- <div class="form-inline">
+                <label id="summLable">Сумма:</label>
+                <div class="form-control"></div>
+            </div>
         
-        <table class="table table-hover mat-elevation-z8">
-            <caption>Акт сверки</caption>
-          <thead>
-              <tr>
-                  <th scope="col">Дата</th>
-                  <th scope="col">№ Документа</th>
-                  <th scope="col">Вид операции</th>
-                  <th scope="col">Сумма</th>
-              </tr>
-          </thead>
-          <tbody>
-          <tbody>
-              <tr>
-                <td scope="row">1</td>
-                <td scope="row">2</td>
-                <td scope="row">3</td>
-                <td scope="row">4</td>
-              </tr>
-              <tr>
-                  <td scope="row">1</td>
-                  <td scope="row">2</td>
-                  <td scope="row">3</td>
-                  <td scope="row">4</td>
+            <div class="form-inline">
+                <label id="numLable">№ плат. поручения:</label>
+                <div class="form-control"></div>
+            </div>
+        
+            <div class="form-inline">
+                <label id="dateLable">Дата:</label>
+                <input type="date" name="dateorder" id="dateorder" class="form-control"/>
+            </div> -->
+            <br />
+            <table>
+                <tr>
+                    <td><label for="nsumm">Сумма:</label></td>
+                    <td><input type="text" id="nsumm" class="form-control"/></td>
                 </tr>
                 <tr>
-                    <td scope="row">1</td>
-                    <td scope="row">2</td>
-                    <td scope="row">3</td>
-                    <td scope="row">4</td>
-                  </tr>
-                  <tr>
-                      <td scope="row">1</td>
-                      <td scope="row">2</td>
-                      <td scope="row">3</td>
-                      <td scope="row">4</td>
-                    </tr>
+                    <td><label for="npd" class="label-input">№ плат. поручения:</label></td>
+                    <td><input type="text" id="npd" class="form-control"/></td>
+                </tr>      
                     <tr>
-                        <td scope="row">1</td>
-                        <td scope="row">2</td>
-                        <td scope="row">3</td>
-                        <td scope="row">4</td>
-                      </tr>
-                      <tr>
-                          <td scope="row">1</td>
-                          <td scope="row">2</td>
-                          <td scope="row">3</td>
-                          <td scope="row">4</td>
-                        </tr>
-                        <tr>
-                            <td scope="row">1</td>
-                            <td scope="row">2</td>
-                            <td scope="row">3</td>
-                            <td scope="row">4</td>
-                          </tr>
-                          
-                          <tr>
-                              <td scope="row">1</td>
-                              <td scope="row">2</td>
-                              <td scope="row">3</td>
-                              <td scope="row">4</td>
-                            </tr>
-                            <tr>
-                                <td scope="row">1</td>
-                                <td scope="row">2</td>
-                                <td scope="row">3</td>
-                                <td scope="row">4</td>
-                              </tr>
-                              <tr>
-                                  <td scope="row">1</td>
-                                  <td scope="row">2</td>
-                                  <td scope="row">3</td>
-                                  <td scope="row">4</td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">1</td>
-                                    <td scope="row">2</td>
-                                    <td scope="row">3</td>
-                                    <td scope="row">4</td>
-                                  </tr>
-                                  <tr>
-                                      <td scope="row">1</td>
-                                      <td scope="row">2</td>
-                                      <td scope="row">3</td>
-                                      <td scope="row">4</td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row">1</td>
-                                        <td scope="row">2</td>
-                                        <td scope="row">3</td>
-                                        <td scope="row">4</td>
-                                      </tr>              <tr>
-                                          <td scope="row">1</td>
-                                          <td scope="row">2</td>
-                                          <td scope="row">3</td>
-                                          <td scope="row">4</td>
-                                        </tr>              <tr>
-                                            <td scope="row">1</td>
-                                            <td scope="row">2</td>
-                                            <td scope="row">3</td>
-                                            <td scope="row">4</td>
-                                          </tr>              <tr>
-                                              <td scope="row">1</td>
-                                              <td scope="row">2</td>
-                                              <td scope="row">3</td>
-                                              <td scope="row">4</td>
-                                            </tr>              <tr>
-                                                <td scope="row">1</td>
-                                                <td scope="row">2</td>
-                                                <td scope="row">3</td>
-                                                <td scope="row">4</td>
-                                              </tr>              <tr>
-                                                  <td scope="row">1</td>
-                                                  <td scope="row">2</td>
-                                                  <td scope="row">3</td>
-                                                  <td scope="row">4</td>
-                                                </tr>
-              <!--<tr *ngFor="let doc of !!!!!" >
-                  <td scope="row" (click)="onSelection(doc[0])"></td>
-                  <td scope="row" (click)="onSelection(doc[0])"></td>
-                  <td scope="row" (click)="onSelection(doc[0])"></td>
-                  <td scope="row" (click)="onSelection(doc[0])"></td>
-              </tr>-->
-          </tbody>
-        </table>
-      </div>
+                    <td><label for="ndate" class="label-input">Дата:</label></td>
+                    <td><input type="date" id="ndate" class="form-control"/></td>
+                </tr>              
+            </table>
+            <div mat-dialog-actions>
+                    <button mat-button (click)="on()">Внести платеж</button>
+                    <button mat-button (click)="on()">Удалить платеж</button>
+            </div>
+    
+        </div>
     </div>
 
-    <div class="contaner-right">
-      <div class="tab-heigth">
-        <table class="table table-hover mat-elevation-z8">
-          <caption>Внести оплату</caption>
-          <thead>
-              <tr>
-                  <th scope="col">Дата</th>
-                  <th scope="col">№ Документа</th>
-                  <th scope="col">Вид операции</th>
-                  <th scope="col">Сумма</th>
-              </tr>
-          </thead>
-          <tbody>
-          <tbody>
-              <!--<tr *ngFor="let doc of !!!!!" >
-                  <td scope="row" (click)="onSelection(doc[0])"></td>
-                  <td scope="row" (click)="onSelection(doc[0])"></td>
-                  <td scope="row" (click)="onSelection(doc[0])"></td>
-                  <td scope="row" (click)="onSelection(doc[0])"></td>
-              </tr>-->
-          </tbody>
-        </table>
-      </div>
-
-      <div class="form-inline">
-          <label id="summLable">Сумма:</label>
-          <div class="form-control"></div>
-        </div>
-  
-        <div class="form-inline">
-          <label id="numLable">№ платю поручения:</label>
-          <div class="form-control"></div>
-        </div>
-  
-        <div class="form-inline">
-          <label id="dateLable">Дата:</label>
-          <input type="date" name="dateorder" id="dateorder" class="form-control"/>
-        </div>
-
+    <div mat-dialog-actions class="foot">
+        <button mat-button (click)="onNoClick()">Отмена</button>
+        <button mat-button color="primary" (click)="onOkClick()" cdkFocusInitial>Ok</button>
     </div>
-  </div>
 
-<div mat-dialog-actions class="foot">
-    <button mat-button (click)="onNoClick()">Отмена</button>
-    <button mat-button color="primary" (click)="onOkClick()" cdkFocusInitial>Ok</button>
-</div>
 </mat-card>
+<div>
+    <table>
+        <tr>
+            <td><label>Итого приходов: {{detailResponse.prixod}}</label></td>
+            <td><label>Итого возвратов: {{detailResponse.vozvrat}}</label></td>
+            <td><label>Итого взаимозачетов: {{detailResponse.vzaim}}</label></td>
+            <td><label>Итого оплачено: {{detailResponse.oplat}}</label></td>
+        </tr>
+    </table>
+</div>

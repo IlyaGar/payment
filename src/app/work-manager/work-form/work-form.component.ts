@@ -179,15 +179,14 @@ export class WorkFormComponent implements OnInit {
     }
   }
 
-  openDetailView(provider: string) {
+  openDetailView(inn: string, provider: string) {
     const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
-      width: '1000px',
-      height: '800px',
-      data: {provider: provider},
+      width: '1050px',
+      height: '700px',
+      data: {token: this.token, inn: inn, provider: provider},
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        let e = 9;
       }
     });
   }

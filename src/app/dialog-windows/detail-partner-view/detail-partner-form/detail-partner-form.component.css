@@ -1,40 +1,102 @@
 mat-card {
     box-shadow: 1px 2px 5px #000000;
     background-color: rgb(243, 243, 243);   
+    padding-bottom: 0%;
 }
 table {
-    
-    border-right-color: #d8d8d8; /* Цвет линии справа */
-    border-right-style: solid; /* Стиль линии */
-    border-right-width: 2px; /* Толщина линии */
-    border-left-color: #d8d8d8; /* Цвет линии слева */
-    border-left-style: solid; /* Стиль линии */
-    border-left-width: 2px; /* Толщина линии */
-    border-bottom-color: #d8d8d8; /* Цвет линии слева */
-    border-bottom-style: solid; /* Стиль линии */
-    border-bottom-width: 2px; /* Толщина линии */
+    width: 100%;
 }
 tbody {
     height: 297px;
 }
 .contaner-left {
-    width: 49%;
+    width: 50%;
     float: left;
 }
 .contaner-right {
-    width: 49%;
+    width: 48%;
     float: right;
 }
 .foot {
     clear: both;
     margin-bottom: 0;
 }
-caption {
-    /* стили для заголовка таблицы */
-    caption-side: top;
-    text-align: left;
-}
-.tab-heigth {
+.table-container {
     height: 297px;
     overflow: auto;
+}
+ label {
+    margin-right: 0.4em;
+    margin-bottom: 0%;
+    float: left;
+}
+/* label#idSaldo {
+    min-width: 10em;
+} */
+.icon {
+    margin: 0%;
+    padding: 0%;
+    font-size: 24px;
+}
+.id-label {
+    width: 2.6em;
+}
+.id-label-saldo {
+    width: 10em;
+}
+.output-provider {
+    float: right;
+    height: 60px;
+}
+.contaner-min-left {
+    width: 25%;
+    float: left;
+}
+.contaner-min-right {
+    width: 73%;
+    float: right;
+    height: 50px;
+    overflow: auto;
+}
+input#date {
+    width: 175px;
+    margin-right: 0.2em;
+}
+.br {
+    margin: 2% 0%;
+}
+.bt-send {
+    /* position: relative;
+    right: 0%; */
+    margin-left: auto;
+    margin-right: 1em;
+}
+.caption-table {
+    font-size: 0.75em;
+    color: darkgray;
+}
+.provider {
+    position: relative;
+    top: -0.75em;
+    left: 0%;
+}
+.td-red {
+    color: rgb(252, 144, 144);
+}
+.icon {
+    margin: 0%;
+    padding: 0%;
+    font-size: 24px;
+}
+button {
+    min-height: 38px !important;
+    min-width: 26px !important;
+    line-height: 0px; 
+}
+/* input#nsumm {
+    height: 80%;
+} */
+td > input {
+    height: 2em;
+    margin: 0.2em 0em;
 }

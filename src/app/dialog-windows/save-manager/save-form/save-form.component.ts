@@ -51,7 +51,7 @@ export class SaveFormComponent implements OnInit {
 
   onOkClick() {
     let docSave = new SaveDocQuery(this.token, this.doc.docNum, this.doc.docName, this.doc.docStatus, this.doc.docBody);
-    this.workService.postSaveDocument(docSave).subscribe(d => {this.respons = d; this.checkDoc(this.respons);},
+    this.workService.postSaveDocument(docSave).subscribe(d => {this.respons = d; this.checkResponse(this.respons);},
       error => console.log(error));
   }
 
@@ -65,7 +65,7 @@ export class SaveFormComponent implements OnInit {
     else return false;
   }
 
-  checkDoc(data) {
+  checkResponse(data) {
     if(data.status == 'true')
       this.okClose(this.doc);
     if(data.status == 'false')

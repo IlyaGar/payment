@@ -37,17 +37,17 @@ export class CreateDocumComponent implements OnInit {
   }
 
   onOkClick(name: string) {
-      if(name) {
-        if(!this.data.list) {
-          let newDocQuery = new NewDocQuery(this.data.token, name);
-          this.workService.postNewDocument(newDocQuery).subscribe(response => { this.response = response; this.createDocument(this.response); }); 
-        }
-        if(this.data.list) {
-          let docMerge = new DocMerge(this.data.token, name, this.data.list);
-          this.workService.postDocumentMerge(docMerge).subscribe(response => { this.response = response; this.createDocument(this.response); }); 
-        }
+    if(name) {
+      if(!this.data.list) {
+        let newDocQuery = new NewDocQuery(this.data.token, name);
+        this.workService.postNewDocument(newDocQuery).subscribe(response => { this.response = response; this.createDocument(this.response); }); 
       }
-      else this.isUnCorect = true;
+      if(this.data.list) {
+        let docMerge = new DocMerge(this.data.token, name, this.data.list);
+        this.workService.postDocumentMerge(docMerge).subscribe(response => { this.response = response; this.createDocument(this.response); }); 
+      }
+    }
+    else this.isUnCorect = true;
   }
 
   closeDialogOk(data): void {

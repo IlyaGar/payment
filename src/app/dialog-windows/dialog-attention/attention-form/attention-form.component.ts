@@ -13,10 +13,12 @@ export interface DialogData {
 
 export class AttentionFormComponent implements OnInit {
 
+  isNull = false;
   isFalse = false;
   isError = false;
   isDeleteRow = false;
   isDeleteDoc = false;
+  isUndefined = false;
 
   constructor(
     public dialogRef: MatDialogRef<AttentionFormComponent>,
@@ -24,14 +26,32 @@ export class AttentionFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.data.status === 'false')
-      this.isFalse = true;
-    if(this.data.status === 'error')
-      this.isError = true;
-    if(this.data.status === 'deleterow')
-      this.isDeleteRow = true;
-    if(this.data.status === 'deletedoc')
-      this.isDeleteDoc = true;
+    if(!this.data)
+      this.isNull = true;
+    else {
+      switch(this.data.status) { 
+        case 'false': { 
+          this.isFalse = true; 
+          break; 
+        } 
+        case 'error': { 
+          this.isError = true;
+          break; 
+        } 
+        case 'deleterow': { 
+          this.isDeleteRow = true;
+          break; 
+        } 
+        case 'deletedoc': { 
+          this.isDeleteDoc = true;
+          break; 
+        } 
+        default: { 
+          this.isUndefined = true;
+          break; 
+        } 
+      } 
+    }
   }
 
   onOkClick() {

@@ -2,12 +2,12 @@
     <div class="column1">
         <div class="form-inline">
             <div>
-                <label class="lable-nom">№ документа:</label>
+                <label class="lable-nom">№ док.:</label>
                 <div class="form-control output-nom">{{docEdit.docNum}}</div>
             </div>
             <div>
                 <label class="lable-nam">Наименоваие:</label>
-                <div class="form-control output-nom">{{docEdit.docName}}</div>
+                <div class="form-control output-name">{{docEdit.docName}}</div>
             </div>
             <div>
                 <label class="lable-dat">Дата создания:</label>
@@ -34,9 +34,9 @@
                         <img src="../../assets/agent2.png" width="20" height="20" />Выбрать контрагентов
                     </button>
 
-                    <button type="button" class="btn btn-light" name="lees" data-toggle="tooltip" data-placement="bottom" title="Расчет остатков">
+                    <!-- <button type="button" class="btn btn-light" name="lees" data-toggle="tooltip" data-placement="bottom" title="Расчет остатков">
                         <img src="../../assets/sclad1.png" width="20" height="20" />Остатки
-                    </button>
+                    </button> -->
                 </div>
                 <div class="form-inline report-marg">
                     <label>Отчеты:</label>
@@ -99,7 +99,7 @@
     <tbody>
         <tr id="row" *ngFor="let doc of docEdit.docBody" [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}">
             <!-- Контрагент -->
-            <td scope="row" id="click" (dblclick)="openDetailView(doc[0])" >{{doc[0]}}</td>
+            <td scope="row" id="click" (dblclick)="openDetailView(doc[1], doc[0])" >{{doc[0]}}</td>
             <td>{{doc[1]}}</td>
             <td>{{doc[2]}}</td>
             <td>{{doc[3]}}</td>

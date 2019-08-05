@@ -3,6 +3,14 @@
     <mat-card-title class="etention">Внимание!</mat-card-title>
     <mat-card-content>
   
+        <div *ngIf="isNull">
+          <div class="etention">Что то пошло не так! Попробуйте снова позже.</div>
+        </div>
+
+        <div *ngIf="isUndefined">
+          <div class="etention">Что то пошло не так! Попробуйте снова позже.</div>
+        </div>
+
         <div *ngIf="isFalse">
             <div class="etention">Недостаточно прав на выполнение операции.</div>
         </div>

@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { SaldoFormComponent } from 'src/app/dialog-windows/saldo-manager/saldo-form/saldo-form.component';
 import { NavbarService } from '../services/navbar.service';
 import { LictDocumentsComponent } from 'src/app/dialog-windows/list-documents/lict-documents/lict-documents.component';
+import { DetailPartnerFormComponent } from 'src/app/dialog-windows/detail-partner-view/detail-partner-form/detail-partner-form.component';
 
 @Component({
   selector: 'app-navbar-form',
@@ -154,5 +155,20 @@ export class NavbarFormComponent implements OnInit {
     if(this.cookieService.check(nameCookie)){
       this.cookieService.delete(nameCookie);
     }
+  }
+
+
+
+  openDetailView(provider: string, unp: string) {
+    const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
+      width: '1050px',
+      height: '700px',
+      data: {provider: provider},
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        let e = 9;
+      }
+    });
   }
 }
