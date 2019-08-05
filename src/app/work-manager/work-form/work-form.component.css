@@ -12,12 +12,11 @@ table {
     width: 99.5%;
     margin: 0% 0.25% 1% 0.25%;
 }
-tr#row:hover {
-    /*background: #2bac9a;*/
+/* tr#row:hover {
+    background: #2bac9a;
     cursor: pointer;
-    /* box-shadow: inset 1px 2px 5px 2px #4e4c4c; */
-    background-color: rgb(224, 255, 255);
-}
+    box-shadow: inset 1px 2px 5px 2px #4e4c4c;
+} */
 .column1 {
     padding-left: 1%;
     float: left; 

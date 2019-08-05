@@ -9,6 +9,9 @@ th {
 td {
     padding: 0.25%;
 }
+tr > td:hover {
+    cursor: pointer;
+}
 .filter{
     background-color:  #da9257;
     border: 4px solid #c9c4c0;

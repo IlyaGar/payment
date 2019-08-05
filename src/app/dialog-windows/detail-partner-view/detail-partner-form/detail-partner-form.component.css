@@ -59,6 +59,7 @@ tbody {
     overflow: auto;
 }
 input#date {
+    height: 2em;
     width: 175px;
     margin-right: 0.2em;
 }
