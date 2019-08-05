@@ -17,6 +17,7 @@ import { AttentionFormComponent } from 'src/app/dialog-windows/dialog-attention/
 import { SaveDocQuery } from 'src/app/models/save-doc-query';
 import { delay } from 'q';
 import { CommonService } from 'src/app/common/common.service';
+import { PayOne } from 'src/app/models/pay-one';
 
 @Component({
   selector: 'app-work-form',
@@ -299,20 +300,29 @@ export class WorkFormComponent implements OnInit {
       for(let i = 0; i < files.length; i++){
         formData.append('file', files[i], files[i].name);
       }
-      formData.append("data", JSON.stringify(new DocEditQuery(this.token, this.docEdit.docNum)));
+      formData.append("PayOne", JSON.stringify(new PayOne(this.token, this.docEdit.docNum)));
       console.log(formData.getAll('file'));
-      //console.log(formData.getAll('data'));
+      console.log(formData.getAll('PayOne'));
       this.workService.postFileExcel(formData).subscribe(response => {
-        if(response) {   
+        if(response) {
+          if(this.checkResponse(response))
+            this.ngOnInit();
+        } 
+        else {
           console.log(response);
-          this.checkFile(response);
+          this.openAttentionDialog(response);
         }
-      });
+      }, error => console.log(error));  
     }
-  }
+  }  
 
-  checkFile(value) {
-    let e = 9;
+  checkResponse(response) {
+    if(response.status === 'error') {
+      console.log(response.status);
+      this.openAttentionDialog(response.status);
+      return false;
+    }
+    else return true;
   }
 
   async onReport(docNum){

@@ -4,13 +4,13 @@
 
         <div class="form-inline">
             <label for="stdate" id="dateStartLable">Дата с:</label>
-            <input type="date" name="stdate" class="form-control" [(ngModel)]="stdate" aria-describedby="dateStartLable" (change)="selectedStDate()" />
+            <input type="date" name="stdate" class="form-control" [(ngModel)]="stdate" value="{{date}}" aria-describedby="dateStartLable" (change)="selectedStDate()" />
             <label for="fndate" id="dateFinishLable">по:</label>
             <input type="date" name="fndate"  class="form-control" [(ngModel)]="fndate" aria-describedby="dateFinishLable" (change)="selectedFnDate()" />                
         </div>
         <br />
         <!--<input hidden type="file" accept=".xlsx, .xls" #onFileInput (change)="postFileMethod($event)"/>-->
-        <input hidden type="file" accept=".xlsx, .xls" #onFileInput (change)="selectFileMethod($event)"/>
+        <input hidden type="file" accept=".xlsx, .xls" multiple="multiple" #onFileInput (change)="selectFileMethod($event)"/>
         <button mat-button type="file" data-toggle="tooltip" data-placement="bottom" title="Выбрать файл"
             (click)="onFileInput.click()">Выбрать файл</button> 
         <label *ngIf="!isFileSelected">Файл не выбран!</label>   
@@ -27,3 +27,9 @@
 </div>
 
 <!-- <button mat-button color="primary" (click)="onDownloadFile()">Download File</button> -->
+
+<script>
+    function MyCtrl($scope, $filter) {
+    $scope.date = $filter("date")(Date.now(), 'yyyy-MM-dd');
+}
+</script>

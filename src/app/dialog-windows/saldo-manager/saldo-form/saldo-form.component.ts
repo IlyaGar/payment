@@ -32,6 +32,8 @@ export class SaldoFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.stdate = new Date().toLocaleDateString().split(".").reverse().join("-");
+    this.fndate = new Date().toLocaleDateString().split(".").reverse().join("-");
   }
 
   onOkClick(doc: string) {

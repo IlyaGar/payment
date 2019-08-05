@@ -13,9 +13,9 @@ export class SaldoService {
   
   constructor(private http: HttpClient) { }
 
-  postGetDocument(doc: FormData): Observable<any> {
-    return this.http.post<any>('http://localhost:63572/api/docs', doc);
-  }
+  // postGetDocument(doc: FormData): Observable<any> {
+  //   return this.http.post<any>('http://localhost:63572/api/docs', doc);
+  // }
 
   postSaldoFile(data: FormData): Observable<MyDocs> {
     return this.http.post<MyDocs>(this.url, data);

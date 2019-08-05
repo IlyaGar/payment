@@ -102,7 +102,8 @@ export class SearchFormComponent implements OnInit {
       this.searchService.postDocument(this.docsQuery).subscribe(response => { 
         this.docsResponse = response; 
         this.isData = true; 
-        this.giveSumAndCount(this.isData);}, 
+        this.giveSumAndCount(this.isData);
+      }, 
         error => console.log(error));
     }
   }
