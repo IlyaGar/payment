@@ -99,18 +99,22 @@ export class DetailPartnerFormComponent implements OnInit {
     let dateTo = null;
     let dateFromString = "";
     let dateToString = "";
-    if(this.dateFrom) {
-      dateFrom = new Date(this.dateFrom);
-      dateFromString = dateFrom.toLocaleDateString()
+    if((this.dateFrom && !this.dateTo) || (!this.dateFrom && this.dateTo))
+      this.openAttentionDialog('date');
+    else {
+      if(this.dateFrom) {
+        dateFrom = new Date(this.dateFrom);
+        dateFromString = dateFrom.toLocaleDateString()
+      }
+      if(this.dateTo) {
+        dateTo = new Date(this.dateTo);
+        dateToString = dateTo.toLocaleDateString()
+      }
+      let getDetail = new GetDetail(this.token, this.inn, dateFromString, dateToString);
+      this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
+        this.checkResponse(response);  
+      });
     }
-    if(this.dateFrom) {
-      dateTo = new Date(this.dateTo);
-      dateToString = dateTo.toLocaleDateString()
-    }
-    let getDetail = new GetDetail(this.token, this.inn, dateFromString, dateToString);
-    this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
-      this.checkResponse(response);  
-    });
   }
 
   onOkClick() {

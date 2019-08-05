@@ -25,7 +25,11 @@
 
         <div *ngIf="isDeleteRow">
           <div class="etention">Вы действительно хотите удалить запись?</div>
-      </div>
+        </div>
+
+        <div *ngIf="isDate">
+            <div class="etention">Задайте две даты!</div>
+        </div>
 
     </mat-card-content>
 </mat-card>

@@ -19,6 +19,7 @@ export class AttentionFormComponent implements OnInit {
   isDeleteRow = false;
   isDeleteDoc = false;
   isUndefined = false;
+  isDate = false;
 
   constructor(
     public dialogRef: MatDialogRef<AttentionFormComponent>,
@@ -44,6 +45,10 @@ export class AttentionFormComponent implements OnInit {
         } 
         case 'deletedoc': { 
           this.isDeleteDoc = true;
+          break; 
+        } 
+        case 'date': { 
+          this.isDate = true;
           break; 
         } 
         default: { 
