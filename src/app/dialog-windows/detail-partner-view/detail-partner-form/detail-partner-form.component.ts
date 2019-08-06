@@ -7,6 +7,7 @@ import { DocOutItem } from '../models/docout-item';
 import { DetailPartnerService } from '../services/detail-partner.service';
 import { GetDetail } from '../models/get-detail';
 import { AttentionFormComponent } from '../../dialog-attention/attention-form/attention-form.component';
+import { PayDelQuery } from '../models/pay-delete-query';
 
 export interface DialogData {
   token: string;
@@ -33,6 +34,9 @@ export class DetailPartnerFormComponent implements OnInit {
   listDocOutItem: Array<DocOutItem> = [];
   dateFrom: string;
   dateTo: string;
+  selectedRowIndex: string;
+  selectedRow: DocOutItem;
+  isSelectedDeleteRow: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -42,25 +46,18 @@ export class DetailPartnerFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    // // demo data
-    // let act1 = ['dateact', 'nomeract', 'typeop', 'summact'];
-    // let act2 = ['dateact1', 'nomeract2', 'typeop3', 'summact4'];
-    // this.detailResponse = new DetailResponse('element1', 'element2', [act1, act2, act2, act2, act2, act2, act2], [act1, act2, act2, act2, act2, act2, act2, act2]);
-    // this.loadTableIn(this.detailResponse);
-    // this.loadTableOut(this.detailResponse);
-
-    // data
     if(this.data) {
       this.token = this.data.token;
       this.inn = this.data.inn;
       this.provider = this.data.provider;
       let getDetail = new GetDetail(this.token, this.inn, '', '');
       this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
-        this.checkResponse(response);  
-      });
+        this.checkResponse(response); 
+      }, 
+      error => { 
+        console.log(error);
+        this.openAttentionDialog('connection loss'); });
     }
-
   }
 
   checkResponse(response) {
@@ -75,6 +72,7 @@ export class DetailPartnerFormComponent implements OnInit {
         this.removeZeros();
         this.loadTableIn(this.detailResponse);
         this.loadTableOut(this.detailResponse);
+        this.isSelectedDeleteRow = false;
       }
     }
   }
@@ -161,5 +159,31 @@ export class DetailPartnerFormComponent implements OnInit {
       data: {status: status},
     });
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  onSelectRowClick(row: DocOutItem) {
+    if(this.selectedRowIndex != row.id) {
+      this.selectedRow = row;
+      this.selectedRowIndex = row.id;
+      this.isSelectedDeleteRow = true;
+    }
+    else {
+      this.selectedRow = null;
+      this.selectedRowIndex = "";
+      this.isSelectedDeleteRow = false;
+    }
+  }
+
+  onDeleteRow() {
+    if(this.selectedRowIndex) {
+      let payDelQuery = new PayDelQuery(this.data.token, this.selectedRow.date, this.selectedRow.summ, this.selectedRow.nomer, this.selectedRow.id)
+      this.detailPartnerService.postDeleteRowOut(payDelQuery).subscribe(response => {
+        this.checkResponse(response); 
+        this.ngOnInit();
+      }, 
+      error => { 
+        console.log(error);
+        this.openAttentionDialog('connection loss'); });
+    }
   }
 }

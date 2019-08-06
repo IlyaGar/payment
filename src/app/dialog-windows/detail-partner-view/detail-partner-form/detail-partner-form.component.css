@@ -101,3 +101,10 @@ td > input {
     height: 2em;
     margin: 0.2em 0em;
 }
+.work-panel {
+    margin: 2%;
+    padding: 2%;
+}
+.select-row {
+    background: rgb(194, 121, 121);
+}

@@ -20,6 +20,7 @@ export class AttentionFormComponent implements OnInit {
   isDeleteDoc = false;
   isUndefined = false;
   isDate = false;
+  isConnectionLoss = false;
 
   constructor(
     public dialogRef: MatDialogRef<AttentionFormComponent>,
@@ -49,6 +50,10 @@ export class AttentionFormComponent implements OnInit {
         } 
         case 'date': { 
           this.isDate = true;
+          break; 
+        } 
+        case 'connection loss': { 
+          this.isConnectionLoss = true;
           break; 
         } 
         default: { 
