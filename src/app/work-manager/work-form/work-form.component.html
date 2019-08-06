@@ -18,16 +18,15 @@
                 <div class="form-control output-sum">{{docEdit.docSum}}</div>
             </div>
             <div class="del-pad">
-                <button type="button" class="btn btn-success button-icon" name="" (click)="openSaveDialog(docEdit.docNum)" data-toggle="tooltip" data-placement="bottom" title="Сохранить документ">
+                <div class="empty-isheld" *ngIf="isHeld"></div>
+                <button type="button" class="btn btn-success button-icon" name="" *ngIf="!isHeld" (click)="openSaveDialog(docEdit.docNum)" data-toggle="tooltip" data-placement="bottom" title="Сохранить документ">
                     <img src="../../assets/save-icon1.png" width="20" height="20" />
                 </button>
-                <button type="button" class="btn btn-danger button-icon" name="" (click)="onDelete(docEdit.docNum)"  data-toggle="tooltip" data-placement="bottom" title="Удалить документ">
+                <button type="button" class="btn btn-danger button-icon" name="" *ngIf="!isHeld" (click)="onDelete(docEdit.docNum)"  data-toggle="tooltip" data-placement="bottom" title="Удалить документ">
                     <img src="../../assets/delete-512.png" width="20" height="20" />
                 </button>
             </div>
-            <div class="empty">
-
-            </div>
+            <div class="empty"></div>
             
         </div>
         <div class="div-margin">

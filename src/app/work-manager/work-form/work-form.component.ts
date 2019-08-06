@@ -36,10 +36,7 @@ export class WorkFormComponent implements OnInit {
   nameCookie = 'user';
   token: string;
   fileToUpload: File;
-
-  // listData: Array<string> = ['provider', '1001', 'saldo', '2019.06.05', '21', 'no', '123456', 'lalala', '1234', '987, 1, 2'];
-  // listlistData: Array<Array<string>> = [this.listData];
-  // docEditTest: DocEdit = new DocEdit("true", "22", "test-name", "2019-05-06", "2236", "Черновик", this.listlistData);
+  isHeld = false;
 
   constructor(
     public dialog: MatDialog,
@@ -55,23 +52,35 @@ export class WorkFormComponent implements OnInit {
 
   ngOnInit() {
     if(this.cookieService.check(this.nameCookie)) {
+      this.token = this.getToken(this.nameCookie);
       let fullData = this.cookieService.get(this.nameCookie);
       let loginFromCookie = JSON.parse(fullData);
       if(loginFromCookie) {
-        if(this.idDocument) {
-          this.workService.postGetDocument(this.docEditQuery).subscribe(response =>  { 
-            this.docEdit = response; 
-            //this.addIdAndZeroDescriptRow(); 
-            this.removeZeros(); 
-          });
-          this.token = this.getToken(this.nameCookie);
-        }
+        if(this.idDocument)  
+          this.loadDocument();
       }
     }
     else this.router.navigate(['/login']);
+  }
 
-    /*this.token = this.getToken(this.nameCookie);
-    this.docEdit = this.docEditTest;*/
+  checkResponseGetDocument(response) {
+    if(!response)
+      this.openAttentionDialog(response);
+    else {
+      if(response.status as string) {
+        if(response.status != 'true') {
+          this.openAttentionDialog(response.status);
+        }
+        else {
+          this.docEdit = response; 
+          this.removeZeros(); 
+        }
+      }
+      else {
+        this.docEdit = response; 
+        this.removeZeros(); 
+      }
+    }
   }
 
   ngOnInitNewDoc(event) {
@@ -80,17 +89,22 @@ export class WorkFormComponent implements OnInit {
       let loginFromCookie = JSON.parse(fullData);
       this.docEditQuery.docNum = event;
       if(loginFromCookie) {
-        if(this.idDocument) {
-          this.workService.postGetDocument(this.docEditQuery).subscribe(response =>  { 
-            this.docEdit = response; 
-            //this.addIdAndZeroDescriptRow(); 
-            this.removeZeros(); 
-          });
-          this.token = this.getToken(this.nameCookie);
-        }
+        if(this.idDocument) 
+          this.loadDocument();
       }
     }
     else this.router.navigate(['/login']);
+  }
+
+  loadDocument() {
+    this.workService.postGetDocument(this.docEditQuery).subscribe(response =>  { 
+      this.checkResponseGetDocument(response); 
+    },
+    error => {
+      console.log(error);
+      alert("Сервер не отвечает.");
+     }
+    );
   }
 
   getDocEditQuery() {
@@ -106,8 +120,10 @@ export class WorkFormComponent implements OnInit {
 
   removeZeros() {
     if(this.docEdit) {
+      if(this.docEdit.docStatus === 'проведен')
+        this.isHeld = true;
+      else this.isHeld = false;
       this.addIdAndZeroDescriptRow();
-      //TypeError: Cannot read property 'includes' of undefined
       if(this.docEdit.docDate.includes(' ')) {
         var splitedPayDate = this.docEdit.docDate.split(' ');
         this.docEdit.docDate = splitedPayDate[0];

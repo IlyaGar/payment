@@ -122,16 +122,19 @@ export class NavbarFormComponent implements OnInit {
 
   onLogOut() {
     let logout = new Logout(this.loginResponse.login, this.loginResponse.token);
-    this.loginService.postLogout(logout).subscribe( l => { 
-      this.logoutStatus = l; 
+    this.loginService.postLogout(logout).subscribe( response => { 
+      this.logoutStatus = response; 
       this.logOut(); 
-      error => console.log(error); 
-    });
+    },
+      error => { 
+        console.log(error); 
+        alert("Сервер не отвечает.")
+      });
   }
 
   logOut() {
     let status = this.logoutStatus;
-    if(status.status == 'true'){
+    if(status.status == 'true') {
       this.isLogin = false;
       this.deleteCookie(this.nameCookie);
       //this.service.newEvent('logout');
@@ -157,18 +160,12 @@ export class NavbarFormComponent implements OnInit {
     }
   }
 
-
-
   openDetailView(provider: string, unp: string) {
     const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
       width: '1050px',
       height: '700px',
       data: {provider: provider},
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        let e = 9;
-      }
-    });
+    dialogRef.afterClosed().subscribe(result => {  });
   }
 }

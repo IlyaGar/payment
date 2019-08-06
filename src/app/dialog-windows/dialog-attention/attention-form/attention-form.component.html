@@ -35,6 +35,10 @@
             <div class="etention">Потеря соединения с сервером... Ожидайте</div>
             <div class="etention">Телефон технической поддержки 911</div>
         </div>
+
+        <div *ngIf="isClose">
+            <div class="etention">Вы действительно хотите закрыть payment?</div>
+        </div>
         
     </mat-card-content>
 </mat-card>

@@ -148,3 +148,6 @@ td#click:hover {
     height: 2.3em;
     overflow: auto;
 }
+.empty-isheld {
+    min-width: 110px;
+}

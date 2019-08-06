@@ -27,6 +27,8 @@ export class LictDocumentsComponent implements OnInit {
   fileUrl: any;
   url: string;
 
+  urldownload: any;
+
   constructor(
     public dialog: MatDialog,
     private sanitizer: DomSanitizer,
@@ -75,7 +77,10 @@ export class LictDocumentsComponent implements OnInit {
   onDownload(key: string, filename: string) {
     let downLoad = JSON.stringify(new DownLoad(key));
     this.url = environment.apiUrl + 'download/' + '?data=' + downLoad;
-    
+
+    var blob = new Blob([this.url], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}); // pass a useful mime type here
+    this.urldownload = URL.createObjectURL(blob);
+
     const link = document.createElement('a');
     link.setAttribute('href', this.url);
     link.setAttribute('download', filename);

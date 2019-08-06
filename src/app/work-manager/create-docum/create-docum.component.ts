@@ -40,11 +40,27 @@ export class CreateDocumComponent implements OnInit {
     if(name) {
       if(!this.data.list) {
         let newDocQuery = new NewDocQuery(this.data.token, name);
-        this.workService.postNewDocument(newDocQuery).subscribe(response => { this.response = response; this.createDocument(this.response); }); 
+        this.workService.postNewDocument(newDocQuery).subscribe(response => { 
+          this.response = response; 
+          this.createDocument(this.response); 
+        },
+          error => {
+            console.log(error);
+            alert("Сервер не отвечает.");
+          }
+        ); 
       }
       if(this.data.list) {
         let docMerge = new DocMerge(this.data.token, name, this.data.list);
-        this.workService.postDocumentMerge(docMerge).subscribe(response => { this.response = response; this.createDocument(this.response); }); 
+        this.workService.postDocumentMerge(docMerge).subscribe(response => { 
+          this.response = response; 
+          this.createDocument(this.response); 
+        },
+        error => {
+           console.log(error);
+           alert("Сервер не отвечает.");
+          }
+        );
       }
     }
     else this.isUnCorect = true;

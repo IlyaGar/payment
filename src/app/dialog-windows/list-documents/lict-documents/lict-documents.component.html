@@ -1,37 +1,3 @@
-<!-- <table class="table table-bordered mat-elevation-z8">
-    <thead>
-        <tr>
-            <th scope="col">Наименование</th>
-            <th scope="col">Тип</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr id="row" *ngFor="let element of dataSource">
-            <td scope="row">{{element[0]}}</td>
-            <td scope="row">{{element[1]}}</td>
-            <td scope="row">
-                <div class="form-inline" *ngIf="element[2]">
-                    {{element[2]}} %
-                    <mat-spinner strokeWidth="3" [diameter]="25"></mat-spinner>
-                </div>
-                <div class="form-inline" *ngIf="!element[2]">
-                    <button mat-button (click)="onDelete()">
-                        <div class="icon">
-                            <mat-icon [inline]="true">cloud_download</mat-icon>
-                        </div>
-                    </button>
-                    <button mat-button (click)="onDelete()">
-                        <div class="icon">
-                            <mat-icon [inline]="true">delete</mat-icon>
-                        </div>
-                    </button>   
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>    -->
-
 <table class="table table-bordered mat-elevation-z8">
     <thead>
         <tr>
@@ -47,16 +13,22 @@
             <!-- <td scope="row">{{element.key}}</td> -->
             <td scope="row">{{element.size}}</td>
             <td scope="row">
+
                 <div class="form-inline" *ngIf="element.ready">
                     {{element.ready}} %
                     <mat-spinner strokeWidth="3" [diameter]="25"></mat-spinner>
                 </div>
+
                 <div class="form-inline" *ngIf="!element.ready">
+
                     <button mat-button (click)="onDownload(element.key, element.filename)">
                         <div class="icon">
                             <mat-icon [inline]="true">cloud_download</mat-icon>
                         </div>
                     </button>
+
+                    <!-- <a href="url" download="Data-Export.xlsx">Download Export</a> -->
+
                     <button mat-button (click)="onDelete(element.key)">
                         <div class="icon">
                             <mat-icon [inline]="true">delete</mat-icon>

@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { LoginService } from '../service/login.service';
 import { CommonService } from 'src/app/common/common.service';
+import { AttentionFormComponent } from 'src/app/dialog-windows/dialog-attention/attention-form/attention-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login-page-form',
@@ -22,6 +24,7 @@ export class LoginPageFormComponent implements OnInit {
   loginResponse: LoginResponse;
 
   constructor(
+    public dialog: MatDialog,
     private loginService: LoginService,
     private cookieService: CookieService,
     private commonService: CommonService,
@@ -41,11 +44,11 @@ export class LoginPageFormComponent implements OnInit {
   }
 
   onOkClick() {
-    this.loginService.getLogin(this.loginQuery).subscribe(l => {
-        this.loginResponse = l; 
-        this.loginUser(); 
-        error => console.log(error)},
-     );
+    this.loginService.getLogin(this.loginQuery).subscribe(response => {
+      this.checkResponse(response) 
+    },
+        error => console.log(error)
+    );
   }
 
   loginUser() {
@@ -84,5 +87,34 @@ export class LoginPageFormComponent implements OnInit {
       }
     }
     else return false;
+  }
+
+  checkResponse(response) {
+    if(!response)
+      this.openAttentionDialog(response);
+    else {
+      if(response.status as string) {
+        if(response.status != 'true') {
+          this.openAttentionDialog(response.status);
+        }
+        else {
+          this.loginResponse = response; 
+          this.loginUser(); 
+        }
+      }
+      else {
+        this.loginResponse = response; 
+        this.loginUser(); 
+      }
+    }
+  }
+
+  openAttentionDialog(status: string) {
+    const dialogRef = this.dialog.open(AttentionFormComponent, {
+      width: '400px',
+      height: '200px',
+      data: {status: status},
+    });
+    dialogRef.afterClosed().subscribe(result => {});
   }
 }
