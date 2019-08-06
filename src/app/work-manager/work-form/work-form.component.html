@@ -1,4 +1,4 @@
-<div class="filter div-padding">
+<div class="filter">
     <div class="column1">
         <div class="form-inline">
             <div>
@@ -25,33 +25,39 @@
                     <img src="../../assets/delete-512.png" width="20" height="20" />
                 </button>
             </div>
+            <div class="empty">
+
+            </div>
             
         </div>
         <div class="div-margin">
+
             <div class="form-inline">
-                <div class="form-inline">
-                    <button type="button" class="btn btn-light button-contr" name="partner" (click)="onOpenPartnerDialog()" data-toggle="tooltip" data-placement="bottom" title="Выбор контрагентов из списка">
-                        <img src="../../assets/agent2.png" width="20" height="20" />Выбрать контрагентов
-                    </button>
-                </div>
+
+                <button type="button" class="btn btn-light button-contr" name="partner" (click)="onOpenPartnerDialog()" data-toggle="tooltip" data-placement="bottom" title="Выбор контрагентов из списка">
+                    <img src="../../assets/agent2.png" width="20" height="20" />Выбрать контрагентов
+                </button>
 
                 <button type="button" class="btn btn-light" (click)="ngOnInit()" data-toggle="tooltip" data-placement="bottom" title="Обновить данные">
                     Обновить данные
                 </button>
 
                 <div class="form-inline import-marg">
+
                     <label class="lab-im">Импорт данных:</label>
 
                     <input hidden type="file" accept=".xlsx, .xls" multiple="multiple" #onFileInput (change)="postFileMethod($event)"/>
 
                     <button type="file" class="btn btn-light button-icon" name="" (click)="onFileInput.click()" data-toggle="tooltip" data-placement="bottom" title="Импорт платежных поручений">
-                        <!--<img src="../../assets/icons8-1с-30.png" width="20" height="20" />-->
                         <img src="../../assets/Excel_logo.png" width="26" height="26" />
                     </button>
+
                     <label class="lab-ex">Экпорт данных:</label>
+
                     <button type="button" class="btn btn-light button-icon" (click)="onClickB()" name="" data-toggle="tooltip" data-placement="bottom" title="Импорт документа в 1С">
                         <img src="../../assets/icons8-1с-30.png" width="26" height="26" />
                     </button>
+
                     <button type="button" class="btn btn-light button-icon" (click)="onClickB()" name="" data-toggle="tooltip" data-placement="bottom" title="Печать">
                             <img src="../../assets/print1.png" width="26" height="26" />
                     </button>

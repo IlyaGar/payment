@@ -105,23 +105,25 @@
             </div>
 
             <br />
-            <table>
-                <tr>
-                    <td><label for="nsumm">Сумма:</label></td>
-                    <td><input type="text" id="nsumm" class="form-control"/></td>
-                </tr>
-                <tr>
-                    <td><label for="npd" class="label-input">№ плат. поручения:</label></td>
-                    <td><input type="text" id="npd" class="form-control"/></td>
-                </tr>      
+            <div class="work-panel">
+                <table>
                     <tr>
-                    <td><label for="ndate" class="label-input">Дата:</label></td>
-                    <td><input type="date" id="ndate" class="form-control"/></td>
-                </tr>              
-            </table>
-            <div mat-dialog-actions>
-                    <button mat-button (click)="on()">Внести платеж</button>
-                    <button mat-button (click)="on()">Удалить платеж</button>
+                        <td><label for="nsumm">Сумма:</label></td>
+                        <td><input type="text" id="nsumm" class="form-control"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="npd" class="label-input">№ плат. поручения:</label></td>
+                        <td><input type="text" id="npd" class="form-control"/></td>
+                    </tr>      
+                        <tr>
+                        <td><label for="ndate" class="label-input">Дата:</label></td>
+                        <td><input type="date" id="ndate" class="form-control"/></td>
+                    </tr>              
+                </table>
+                <div mat-dialog-actions>
+                        <button mat-button (click)="on()">Внести платеж</button>
+                        <button mat-button (click)="on()">Удалить платеж</button>
+                </div>
             </div>
     
         </div>
