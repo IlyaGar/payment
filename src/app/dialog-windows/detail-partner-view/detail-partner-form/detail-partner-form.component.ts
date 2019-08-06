@@ -8,6 +8,8 @@ import { DetailPartnerService } from '../services/detail-partner.service';
 import { GetDetail } from '../models/get-detail';
 import { AttentionFormComponent } from '../../dialog-attention/attention-form/attention-form.component';
 import { PayDelQuery } from '../models/pay-delete-query';
+import { Status } from 'src/app/models/status';
+import { PayOkayQuery } from '../models/pay-okay-query';
 
 export interface DialogData {
   token: string;
@@ -37,6 +39,13 @@ export class DetailPartnerFormComponent implements OnInit {
   selectedRowIndex: string;
   selectedRow: DocOutItem;
   isSelectedDeleteRow: boolean = false;
+  newSumm: number;
+  newNum: string;
+  newDate: string;
+  isNewSumm: boolean = false;
+  isNewNum: boolean = false;
+  isNewDate: boolean = false;
+  isNewPay: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -56,7 +65,8 @@ export class DetailPartnerFormComponent implements OnInit {
       }, 
       error => { 
         console.log(error);
-        this.openAttentionDialog('connection loss'); });
+        this.openAttentionDialog('connection loss'); 
+      });
     }
   }
 
@@ -65,16 +75,22 @@ export class DetailPartnerFormComponent implements OnInit {
       this.openAttentionDialog(response);
     else {
       if(response.status as string) {
-        this.openAttentionDialog(response.status);
+        if(response.status != 'true') {
+          this.openAttentionDialog(response.status);
+        }
+        else 
+          this.loadResponse(response);
       }
-      else { 
-        this.detailResponse = response;
-        this.removeZeros();
-        this.loadTableIn(this.detailResponse);
-        this.loadTableOut(this.detailResponse);
-        this.isSelectedDeleteRow = false;
-      }
+      else
+        this.loadResponse(response);
     }
+  }
+
+  loadResponse(response) {
+    this.detailResponse = response;
+    this.removeZeros();
+    this.loadTableIn(this.detailResponse);
+    this.loadTableOut(this.detailResponse);
   }
 
   removeZeros() {
@@ -178,12 +194,109 @@ export class DetailPartnerFormComponent implements OnInit {
     if(this.selectedRowIndex) {
       let payDelQuery = new PayDelQuery(this.data.token, this.selectedRow.date, this.selectedRow.summ, this.selectedRow.nomer, this.selectedRow.id)
       this.detailPartnerService.postDeleteRowOut(payDelQuery).subscribe(response => {
-        this.checkResponse(response); 
-        this.ngOnInit();
+        this.checkResponseDelete(response); 
       }, 
       error => { 
         console.log(error);
         this.openAttentionDialog('connection loss'); });
+    }
+  }
+
+  checkResponseDelete(response) {
+    if(!response)
+      this.openAttentionDialog(response);
+    else {
+      if(response.status as string) {
+        if(response.status != 'true') {
+          this.openAttentionDialog(response.status);
+        }
+        else {
+          this.ngOnInit();
+          this.isSelectedDeleteRow = false;
+          this.selectedRowIndex = '';
+        }
+      }
+      else { 
+        this.ngOnInit();
+        this.isSelectedDeleteRow = false;
+        this.selectedRowIndex = '';
+      }
+    }
+  }
+
+  onPostNewPay() {
+    if(this.isNewPay) {
+      let payDate = new Date(this.newDate).toLocaleDateString();
+      let payOkayQuery = new PayOkayQuery(this.data.token, this.data.inn, payDate, this.newSumm.toString(), this.newNum);
+      this.detailPartnerService.postNewRowOut(payOkayQuery).subscribe(response => {
+        this.checkResponsePost(response); 
+      }, 
+      error => { 
+        console.log(error);
+        this.openAttentionDialog('connection loss'); });
+    }
+  }
+
+  checkResponsePost(response) {
+    if(!response)
+      this.openAttentionDialog(response);
+    else {
+      if(response.status as string) {
+        if(response.status != 'true') {
+          this.openAttentionDialog(response.status);
+        }
+        else {
+          this.ngOnInit();
+          this.isNewPay = false;
+          this.newSumm = null;
+          this.newNum = null;
+          this.newDate = null;
+        }
+      }
+      else { 
+        this.ngOnInit();
+        this.isNewPay = false;
+        this.selectedRowIndex = '';
+      }
+    }
+  }
+
+  onSelectSumm() {
+    if(this.newSumm) {
+      this.isNewSumm = true;
+      if(this.isNewNum) 
+        if(this.isNewDate) 
+          this.isNewPay = true;    
+    }
+    else {
+      this.isNewSumm = false;
+      this.isNewPay = false;    
+    }
+  }
+
+  onSelectNum() {
+    if(this.newNum) {
+      this.isNewNum = true;
+      if(this.isNewSumm) 
+        if(this.isNewDate) 
+          this.isNewPay = true;    
+    }
+    else {
+      this.isNewNum = false;
+      this.isNewPay = false;    
+    }
+  }
+
+  onSelectDate() {
+    if(this.newDate) {
+      this.isNewDate = true;
+      if(this.isNewSumm) 
+        if(this.isNewNum) 
+          this.isNewPay = true;    
+    }
+    else {
+      this.isNewDate = false;
+      this.isNewPay = false;    
     }
   }
 }
