@@ -22,6 +22,8 @@ export class AttentionFormComponent implements OnInit {
   isDate = false;
   isConnectionLoss = false;
   isClose = false;
+  isPost = false;
+  isUpload = false;
 
   constructor(
     public dialogRef: MatDialogRef<AttentionFormComponent>,
@@ -59,6 +61,14 @@ export class AttentionFormComponent implements OnInit {
         } 
         case 'close': { 
           this.isClose = true;
+          break; 
+        }
+        case 'post': { 
+          this.isPost = true;
+          break; 
+        }
+        case 'upload': { 
+          this.isUpload = true;
           break; 
         }
         default: { 

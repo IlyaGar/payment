@@ -18,13 +18,25 @@
                 <div class="form-control output-sum">{{docEdit.docSum}}</div>
             </div>
             <div class="del-pad">
+
                 <div class="empty-isheld" *ngIf="isHeld"></div>
+
                 <button type="button" class="btn btn-success button-icon" name="" *ngIf="!isHeld" (click)="openSaveDialog(docEdit.docNum)" data-toggle="tooltip" data-placement="bottom" title="Сохранить документ">
                     <img src="../../assets/save-icon1.png" width="20" height="20" />
                 </button>
-                <button type="button" class="btn btn-danger button-icon" name="" *ngIf="!isHeld" (click)="onDelete(docEdit.docNum)"  data-toggle="tooltip" data-placement="bottom" title="Удалить документ">
+
+                <button type="button" *ngIf="!isHeld"
+                    class="btn btn-danger button-icon"
+                    mwlConfirmationPopover
+                    [popoverMessage]="'Вы <b>действительно</b> хотите удалить документ?'"
+                    [confirmText]="confirmText"
+                    [cancelText]="cancelText"
+                    placement="left"
+                    (confirm)="onDelete(docEdit.docNum)"
+                    (cancel)="cancelClicked = true"
+                    title="Удалить документ">
                     <img src="../../assets/delete-512.png" width="20" height="20" />
-                </button>
+                </button> 
             </div>
             <div class="empty"></div>
             
@@ -106,8 +118,6 @@
             <td>{{doc[3]}}</td>
             <td>{{doc[4]}}</td>
             <td>{{doc[5]}}</td>
-            <!-- <td>{{doc[6]}}</td> -->
-            <!-- [options]="{ prefix: '', thousands: ' ', decimal: ',' }"  -->
             <td><input currencyMask class="form-control" [(ngModel)]="doc[6]" [options]="{ prefix: '', thousands: ' ', decimal: ',' }"
                 [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
             <td><input type="text" class="form-control" required [(ngModel)]="doc[7]" 
@@ -116,8 +126,19 @@
                 [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
             <td>{{doc[9]}}</td>
             <td><button type="button" class="btn btn-primary button-table" (click)="openOrderDialog(doc[0], doc[10])" title="Выбрать договор">Договор</button></td>
-            <td><button type="button" class="btn btn-danger button-table" name="" (click)="deleteItem(doc[10])" data-toggle="tooltip" data-placement="bottom" title="Удалить запись">
-                    <span class="img-centr"><img src="../../assets/delete-512.png" width="16" height="16" /></span></button><!---->
+            <td>
+                <button type="button"
+                    class="btn btn-danger"
+                    mwlConfirmationPopover
+                    [popoverMessage]="'Вы <b>действительно</b> хотите удалить выбранную запись?'"
+                    [confirmText]="confirmText"
+                    [cancelText]="cancelText"
+                    placement="left"
+                    (confirm)="deleteItem(doc[10])"
+                    (cancel)="cancelClicked = true"
+                    title="Удалить выбранную запись">
+                    <span class="img-centr"><img src="../../assets/delete-512.png" width="16" height="16" /></span>
+                </button> 
             </td>
         </tr>
     </tbody>

@@ -10,6 +10,7 @@ import { FileDel } from '../models/file-delete';
 import { DownLoad } from '../models/download-file';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class LictDocumentsComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private router: Router,
     private sanitizer: DomSanitizer,
     private cookieService: CookieService,
     private listDocumentsService: ListDocumentsService,
@@ -38,8 +40,12 @@ export class LictDocumentsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getListData();
-    this.timeout();
+    if(this.cookieService.check(this.nameCookie)) {
+      this.getListData();
+      this.timeout();
+    }
+    else this.router.navigate(['/login']);
+
   }
 
   timeout() {

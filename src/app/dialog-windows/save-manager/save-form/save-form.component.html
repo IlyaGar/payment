@@ -4,8 +4,8 @@
       <mat-form-field class="input-full-width">
           <input type="text" [(ngModel)]="doc.docName" id="docName" name="docName" #docName="ngModel" minlength="1" matInput placeholder="Название документа" >
           <div *ngIf="docName.invalid && (docName.dirty || docName.touched)" class="alert alert-danger">
-            <div *ngIf="docName.errors.minlength">Название документа должено быть длиннее 3 символов.</div>
-            <div *ngIf="docName.errors.maxlength">Название документа должено быть не длиннее 30 символов.</div>
+            <div *ngIf="docName.errors.minlength">Название документа должено быть длиннее 1 символов.</div>
+            <!-- <div *ngIf="docName.errors.maxlength">Название документа должено быть не длиннее 30 символов.</div> -->
           </div>
       </mat-form-field>
 
@@ -20,6 +20,7 @@
       <mat-form-field class="input-full-width" *ngIf="isAccountant">
         <mat-label>Статус</mat-label>
         <mat-select [(ngModel)]="doc.docStatus">
+          <mat-option value="черновик">Черновик</mat-option>
           <mat-option value="сформирован">Сформирован</mat-option>
           <mat-option value="на утверждении">На утверждении</mat-option>
           <mat-option value="утвержден">Утвержден</mat-option>
@@ -30,6 +31,7 @@
       <mat-form-field class="input-full-width" *ngIf="isDirector">
           <mat-label>Статус</mat-label>
           <mat-select [(ngModel)]="doc.docStatus">
+            <mat-option value="черновик">Черновик</mat-option>
             <mat-option value="сформирован">Сформирован</mat-option>
             <mat-option value="на утверждении">На утверждении</mat-option>
             <mat-option value="утвержден">Утвержден</mat-option>

@@ -46,6 +46,8 @@ export class DetailPartnerFormComponent implements OnInit {
   isNewNum: boolean = false;
   isNewDate: boolean = false;
   isNewPay: boolean = false;
+  confirmText: string = 'Да';
+  cancelText: string = 'Нет';
 
   constructor(
     public dialog: MatDialog,
@@ -191,6 +193,25 @@ export class DetailPartnerFormComponent implements OnInit {
   }
 
   onDeleteRow() {
+    this.deleteRow();
+    // const dialogRef = this.dialog.open(AttentionFormComponent, {
+    //   width: '400px',
+    //   height: '200px',
+    //   data: {status: 'deleterow'},
+    // });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if(result) 
+    //     this.deleteRow();
+    // });
+  }
+
+  onCancelDeleteRow() {
+    this.selectedRow = null;
+    this.selectedRowIndex = "";
+    this.isSelectedDeleteRow = false;
+  }
+
+  deleteRow() {
     if(this.selectedRowIndex) {
       let payDelQuery = new PayDelQuery(this.data.token, this.selectedRow.date, this.selectedRow.summ, this.selectedRow.nomer, this.selectedRow.id)
       this.detailPartnerService.postDeleteRowOut(payDelQuery).subscribe(response => {
@@ -225,6 +246,19 @@ export class DetailPartnerFormComponent implements OnInit {
   }
 
   onPostNewPay() {
+    this.postNewPay();
+    // const dialogRef = this.dialog.open(AttentionFormComponent, {
+    //   width: '400px',
+    //   height: '200px',
+    //   data: {status: 'post'},
+    // });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if(result) 
+    //     this.postNewPay();
+    // });
+  }
+
+  postNewPay() {
     if(this.isNewPay) {
       let payDate = new Date(this.newDate).toLocaleDateString();
       let payOkayQuery = new PayOkayQuery(this.data.token, this.data.inn, payDate, this.newSumm.toString(), this.newNum);
@@ -298,5 +332,17 @@ export class DetailPartnerFormComponent implements OnInit {
       this.isNewDate = false;
       this.isNewPay = false;    
     }
+  }
+
+  confirmSelection() {
+    const dialogRef = this.dialog.open(AttentionFormComponent, {
+      width: '400px',
+      height: '200px',
+      data: {status: 'deleterow'},
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {}
+
+    });
   }
 }

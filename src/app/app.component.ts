@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoginFormComponent } from './login-manager/login-form/login-form.component';
 import { AttentionFormComponent } from './dialog-windows/dialog-attention/attention-form/attention-form.component';
 import { delay } from 'q';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,35 +12,33 @@ import { delay } from 'q';
 })
 export class AppComponent {
 
-  istemp = false;
-  temp: any;
+  myValueSub: any;
 
   constructor(public dialog: MatDialog) { }
 
   title = 'app-docum';
 
+  @HostListener('window:beforeunload', ['$event'])
+  async ngOnDestroy($event) {
+    if (this.myValueSub) {
+      this.myValueSub.unsubscribe();
+    }
+   
+    // await this.authService.logout(); beforeunloadHandler
+   
+    $event.preventDefault();
+    $event.returnValue = 'A message.';
+  }
+
   // @HostListener('window:beforeunload', ['$event'])
-  // async beforeunloadHandler(event) {
-  //   //this.openAttentionDialog('close');
-  //   await delay(10000);
-  //   console.log('close');
-  // }
-
-  // openAttentionDialog(status) {
-  //   const dialogRef = this.dialog.open(AttentionFormComponent, {
-  //     width: '400px',
-  //     height: '200px',
-  //     data: {status: status},
-  //   });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if(result) {
-  //       this.istemp = result;
-  //       this.chek(this.istemp);
-  //     }
-  //   });
-  // }
-
-  // chek(temp) {
-  //   alert(temp);
+  // async beforeunloadHandler($event) {
+  //   if (this.myValueSub) {
+  //     this.myValueSub.unsubscribe();
+  //   }
+   
+  //   // await this.authService.logout(); beforeunloadHandler
+   
+  //   $event.preventDefault();
+  //   $event.returnValue = 'A message.';
   // }
 }

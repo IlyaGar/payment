@@ -22,8 +22,7 @@ export class SaldoFormComponent implements OnInit {
   isStDateSelected: boolean = false;
   isFnDateSelected: boolean = false;
   isSelected: boolean = false;
-
-  fileUrl1: any;
+  isFileSent: boolean = false;
   
   constructor(
     public dialog: MatDialog,
@@ -108,12 +107,14 @@ export class SaldoFormComponent implements OnInit {
           this.openAttentionDialog(response);
         }
       });
-      this.onNoClick();
+      // this.onNoClick();
+      this.isFileSent = true;
     }
   }
 
-  checkResponse(result) {
-    let e = 9;
+  checkResponse(response) {
+    if(response.status === 'true')
+      this.openAttentionDialog('upload');
   }
 
   openAttentionDialog(status) {

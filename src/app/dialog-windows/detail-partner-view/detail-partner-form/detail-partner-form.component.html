@@ -123,12 +123,37 @@
                 </table>
                 <div mat-dialog-actions>
                     <button mat-button [disabled]="true" *ngIf="!isNewPay" data-toggle="tooltip" data-placement="bottom" title="Введите данные в поля ввода">Внести платеж</button>
-                    <button mat-button *ngIf="isNewPay" (click)="onPostNewPay()">Внести платеж</button>
+
+                    <button mat-button *ngIf="isNewPay" 
+                        class="btn btn-default"
+                        mwlConfirmationPopover
+                        [popoverMessage]="'Вы <b>действительно</b> хотите добовить введенный платеж?'"
+                        [confirmText]="confirmText"
+                        [cancelText]="cancelText"
+                        placement="left"
+                        (confirm)="onPostNewPay()"
+                        (cancel)="cancelClicked = true"
+                        title="Добовить введенный платеж">
+                        Внести платеж
+                    </button>   
                     <button mat-button [disabled]="true" *ngIf="!isSelectedDeleteRow" data-toggle="tooltip" data-placement="bottom" title="Выберите платеж для удаления">Удалить платеж</button>
-                    <button mat-button *ngIf="isSelectedDeleteRow" (click)="onDeleteRow()">Удалить платеж</button>
+
+                    <button mat-button *ngIf="isSelectedDeleteRow" 
+                        class="btn btn-default"
+                        mwlConfirmationPopover
+                        [popoverMessage]="'Вы <b>действительно</b> хотите удалить выбранный платеж?'"
+                        [confirmText]="confirmText"
+                        [cancelText]="cancelText"
+                        placement="left"
+                        (confirm)="onDeleteRow()"
+                        (cancel)="onCancelDeleteRow()"
+                        title="Удалить выбранный платеж">
+                        Удалить платеж
+                    </button>
+
                 </div>
             </div>
-    
+
         </div>
     </div>
 

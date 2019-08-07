@@ -32,9 +32,6 @@ export class SaveFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.data as DialogData) {
-      let e = 5;
-    }
     if(this.data) {
       if(this.isDialogData(this.data)) {
         this.doc = this.data.doc;
@@ -51,8 +48,8 @@ export class SaveFormComponent implements OnInit {
 
   onOkClick() {
     let docSave = new SaveDocQuery(this.token, this.doc.docNum, this.doc.docName, this.doc.docStatus, this.doc.docBody);
-    this.workService.postSaveDocument(docSave).subscribe(d => {this.respons = d; this.checkResponse(this.respons);},
-      error => console.log(error));
+    this.workService.postSaveDocument(docSave).subscribe(d => { this.respons = d; this.checkResponse(this.respons); },
+      error => { console.log(error); alert('Нет соединения с сервером'); });
   }
 
   onNoClick(): void {

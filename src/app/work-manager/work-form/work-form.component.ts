@@ -37,6 +37,8 @@ export class WorkFormComponent implements OnInit {
   token: string;
   fileToUpload: File;
   isHeld = false;
+  confirmText: string = 'Да';
+  cancelText: string = 'Нет';
 
   constructor(
     public dialog: MatDialog,
@@ -235,20 +237,31 @@ export class WorkFormComponent implements OnInit {
   }
 
   onDelete(docNum: string) {
-    const dialogRef = this.dialog.open(AttentionFormComponent, {
-      width: '400px',
-      height: '200px',
-      data: {status: 'deletedoc'},
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        let model = new DeleteDoc(this.token, docNum);
-        this.workService.postDeleteDocument(model).subscribe(response => { 
-          this.status = response; 
-          this.checkStatus(this.status ); 
-        }); 
-      }
-    });
+    let model = new DeleteDoc(this.token, docNum);
+      this.workService.postDeleteDocument(model).subscribe(response => { 
+        this.status = response; 
+        this.checkStatus(this.status);
+      },
+        error => { 
+          console.log(error);
+          alert('Потеряна связь с сервером'); 
+        }
+      );
+
+    // const dialogRef = this.dialog.open(AttentionFormComponent, {
+    //   width: '400px',
+    //   height: '200px',
+    //   data: {status: 'deletedoc'},
+    // });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if(result) {
+    //     let model = new DeleteDoc(this.token, docNum);
+    //     this.workService.postDeleteDocument(model).subscribe(response => { 
+    //       this.status = response; 
+    //       this.checkStatus(this.status ); 
+    //     }); 
+    //   }
+    // });
   }
 
   checkStatus(status: Status) {
@@ -293,20 +306,27 @@ export class WorkFormComponent implements OnInit {
   }
 
   deleteItem(idrow: string) {
-    const dialogRef = this.dialog.open(AttentionFormComponent, {
-      width: '400px',
-      height: '200px',
-      data: {status: 'deleterow'},
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        let item = this.docEdit.docBody.find(x => x[10] === idrow);
-        const index = this.docEdit.docBody.indexOf(item, 0);
-        if (index > -1) {
-          this.docEdit.docBody.splice(index, 1);
-        }
-        this.saveDocument('deletrow'); }
-    });
+    let item = this.docEdit.docBody.find(x => x[10] === idrow);
+    const index = this.docEdit.docBody.indexOf(item, 0);
+    if (index > -1) {
+      this.docEdit.docBody.splice(index, 1);
+    }
+    this.saveDocument('deletrow');
+
+    // const dialogRef = this.dialog.open(AttentionFormComponent, {
+    //   width: '400px',
+    //   height: '200px',
+    //   data: {status: 'deleterow'},
+    // });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if(result) {
+    //     let item = this.docEdit.docBody.find(x => x[10] === idrow);
+    //     const index = this.docEdit.docBody.indexOf(item, 0);
+    //     if (index > -1) {
+    //       this.docEdit.docBody.splice(index, 1);
+    //     }
+    //     this.saveDocument('deletrow'); }
+    // });
   }
 
   postFileMethod(event) {

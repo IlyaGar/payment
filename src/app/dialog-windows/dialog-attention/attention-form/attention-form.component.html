@@ -1,6 +1,7 @@
 <mat-card class="mat-elevation-z8">
 
-    <mat-card-title class="etention">Внимание!</mat-card-title>
+    <mat-card-title class="etention"  *ngIf="!isUpload">Внимание!</mat-card-title>
+    <mat-card-title class="etention"  *ngIf="isUpload">Внимание!</mat-card-title>
     <mat-card-content>
   
         <div *ngIf="isNull">
@@ -38,6 +39,14 @@
 
         <div *ngIf="isClose">
             <div class="etention">Вы действительно хотите закрыть payment?</div>
+        </div>
+
+        <div *ngIf="isPost">
+          <div class="etention">Вы действительно хотите создать новый платеж?</div>
+        </div>
+
+        <div *ngIf="isUpload">
+            Ваш файл загружен.
         </div>
         
     </mat-card-content>

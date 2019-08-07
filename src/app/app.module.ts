@@ -26,6 +26,7 @@ import { AttentionFormComponent } from './dialog-windows/dialog-attention/attent
 import { LoginPageFormComponent } from './login-manager/login-page-form/login-page-form.component';
 import { SaldoFormComponent } from './dialog-windows/saldo-manager/saldo-form/saldo-form.component';
 import { LictDocumentsComponent } from './dialog-windows/list-documents/lict-documents/lict-documents.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 
 @NgModule({
@@ -62,6 +63,9 @@ import { LictDocumentsComponent } from './dialog-windows/list-documents/lict-doc
     MatNativeDateModule,
     ReactiveFormsModule,
     NgxCurrencyModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger' // set defaults here
+    })
   ],
   providers: [
     HttpClient,

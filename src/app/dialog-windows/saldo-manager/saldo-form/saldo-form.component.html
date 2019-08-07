@@ -1,4 +1,5 @@
-<mat-card>
+<mat-card *ngIf="!isFileSent">
+
     <mat-card-title>Сравнение сальдо</mat-card-title>
     <mat-card-content>
 
@@ -16,9 +17,18 @@
         <label *ngIf="!isFileSelected">Файл не выбран!</label>   
         <label *ngIf="isFileSelected">{{file.name}}</label>
 
-  </mat-card-content>
+    </mat-card-content>
 </mat-card>
-<br />
+
+<mat-card *ngIf="isFileSent">
+    
+    <mat-card-title>Сравнение сальдо</mat-card-title>
+    <mat-card-content>
+        Файл отправлен на сервер.
+    </mat-card-content>
+
+</mat-card>
+
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Отмена</button>
     <button mat-button *ngIf="isSelected" color="primary" (click)="onOkClick(doc)" cdkFocusInitial>Отправить</button>
