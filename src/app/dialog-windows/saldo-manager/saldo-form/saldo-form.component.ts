@@ -22,6 +22,8 @@ export class SaldoFormComponent implements OnInit {
   isStDateSelected: boolean = false;
   isFnDateSelected: boolean = false;
   isSelected: boolean = false;
+
+  fileUrl1: any;
   
   constructor(
     public dialog: MatDialog,
@@ -86,26 +88,6 @@ export class SaldoFormComponent implements OnInit {
       this.isSelected = false;    
     }
   }
-
-  // onDownloadFile() {
-  //   this.saldoService.downloadFileSystem().subscribe((response) => {
-  //     if(response) { 
-  //       this.downloadFile(response);
-  //     }
-  //   });;
-  // }
-
-  // downloadFile(response) {
-  //   const blob = new Blob([response], { type: 'application/vnd.ms-excel' });
-  //   this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-  //   let fn = "Оборотно-сальдовая 60 по 15.0719.xlsx";
-  //   const data = window.URL.createObjectURL(blob);
-  //   const link = document.createElement('a');
-  //   link.setAttribute('href', data);
-  //   link.setAttribute('download', fn);
-  //   link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-  //   link.remove();
-  // }
 
   postFileMethod() {
     if(this.file) {

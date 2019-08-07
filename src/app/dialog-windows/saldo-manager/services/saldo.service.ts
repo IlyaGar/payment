@@ -13,25 +13,7 @@ export class SaldoService {
   
   constructor(private http: HttpClient) { }
 
-  postGetDocument(): Observable<any> {
-    return this.http.post<any>('http://localhost:63572/api/docs', null);
-  }
-
   postSaldoFile(data: FormData): Observable<MyDocs> {
     return this.http.post<MyDocs>(this.url, data);
-  }
-
-  downloadFileSystem(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/octet-stream',
-      })
-    };
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/octet-stream',
-      'Accept': 'application/octet-stream'
-    });
-    //return this.http.get<any>('http://localhost:63572/api/docs', {headers: headers, responseType: 'blob' as 'json' });
-    return this.http.get('http://localhost:63572/api/docs', {headers: headers, observe: 'response', responseType: 'blob'});
   }
 }

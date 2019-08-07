@@ -4,7 +4,7 @@
 
         <div class="form-inline">
             <label for="stdate" id="dateStartLable">Дата с:</label>
-            <input type="date" name="stdate" class="form-control" [(ngModel)]="stdate" value="{{date}}" aria-describedby="dateStartLable" (change)="selectedStDate()" />
+            <input type="date" name="stdate" class="form-control" [(ngModel)]="stdate" aria-describedby="dateStartLable" (change)="selectedStDate()" />
             <label for="fndate" id="dateFinishLable">по:</label>
             <input type="date" name="fndate"  class="form-control" [(ngModel)]="fndate" aria-describedby="dateFinishLable" (change)="selectedFnDate()" />                
         </div>
@@ -24,5 +24,3 @@
     <button mat-button *ngIf="isSelected" color="primary" (click)="onOkClick(doc)" cdkFocusInitial>Отправить</button>
     <button mat-button disabled *ngIf="!isSelected" color="primary" cdkFocusInitial>Отправить</button>
 </div>
-<!-- <br />
-<button mat-button color="primary" (click)="onDownloadFile()">Download File</button> -->

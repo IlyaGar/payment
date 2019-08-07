@@ -74,32 +74,6 @@ export class LictDocumentsComponent implements OnInit {
     else return true;
   }
 
-  onDownload(key: string, filename: string) {
-    let downLoad = JSON.stringify(new DownLoad(key));
-    this.url = environment.apiUrl + 'download/' + '?data=' + downLoad;
-
-    var blob = new Blob([this.url], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}); // pass a useful mime type here
-    this.urldownload = URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.setAttribute('href', this.url);
-    link.setAttribute('download', filename);
-    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-    link.remove();
-  }
-
-  // downloadFile(response, filename) {
-  //   const blob = new Blob([response], { type: 'application/vnd.ms-excel' });
-  //   this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-
-  //   const data = window.URL.createObjectURL(blob);
-  //   const link = document.createElement('a');
-  //   link.setAttribute('href', data);
-  //   link.setAttribute('download', filename);
-  //   link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-  //   link.remove();
-  // }
-
   onDelete(key: string) {
     let filedelete = new FileDel(this.getToken(this.nameCookie), key);
     this.listDocumentsService.postDeleteMyDocs(filedelete).subscribe(response => { 
@@ -137,5 +111,25 @@ export class LictDocumentsComponent implements OnInit {
   ngOnDestroy() {
     clearTimeout(this.timer);
     console.log('timer off');
+  }
+
+  onDownload(key: string, filename: string) {
+    let data = new DownLoad(key);
+    this.listDocumentsService.downloadFileSystem(data).subscribe((response) => {
+      if(response) { 
+        this.downloadFile(response, filename);
+      }
+    });;
+  }
+
+  downloadFile(response, filename: string) {
+    const blob = new Blob([response], { type: 'application/vnd.ms-excel' });
+    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    const data = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', data);
+    link.setAttribute('download', filename);
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+    link.remove();
   }
 }

@@ -27,13 +27,11 @@ export class ListDocumentsService {
     return this.http.post<Status>(this.urldel, del);
   }
 
-  getDownloadMyDoc(data: string): Observable<any> {
-    //return this.http.get<any>(this.urldownload + '?data=' + data);
-    
+  downloadFileSystem(data: DownLoad): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/octet-stream',
       'Accept': 'application/octet-stream'
     });
-    return this.http.get(this.urldownload + '?data=' + data, {headers: headers, observe: 'response', responseType: 'blob'});
+    return this.http.post<any>(this.urldownload, data, {headers: headers, responseType: 'blob' as 'json' });
   }
 }
