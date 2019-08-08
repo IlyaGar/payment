@@ -302,7 +302,6 @@ export class WorkFormComponent implements OnInit {
           this.openAttentionDialog(response, null);
         }
       }, error => console.log(error));  
-      let e = 9;
     }
   }  
 
@@ -319,8 +318,7 @@ export class WorkFormComponent implements OnInit {
     let data = new OneCExp(this.token, this.docEdit.docNum);
     this.workService.postOneCExp(data).subscribe(response => {
       if(response) {
-        if(this.checkResponse(response))
-          this.openAttentionDialog('message', 'Ваш файл' + response + ' готов.');
+        if(this.checkResponse(response)) {}
       } 
       else {
         console.log(response);
@@ -330,15 +328,14 @@ export class WorkFormComponent implements OnInit {
         console.log(error); 
         alert('Нет соединения с сервером');
       }); 
-      this.openAttentionDialog('message', 'По готовности файл будет отображен в Моих документах.');
+      this.openAttentionDialog('message', 'Ведется подготовка документа. Файл можно скачать в ');
   }
 
   onExportPint() {
     let data = new PrintQuery(this.token, this.docEdit.docNum);
     this.workService.postPrintExp(data).subscribe(response => {
       if(response) {
-        if(this.checkResponse(response))
-          this.openAttentionDialog('message', 'Ваш файл' + response.status + ' готов.');
+        if(this.checkResponse(response)) {}
       } 
       else {
         console.log(response);
@@ -348,6 +345,6 @@ export class WorkFormComponent implements OnInit {
         console.log(error); 
         alert('Нет соединения с сервером');
       }); 
-      //this.openAttentionDialog('message', 'По готовности файл будет отображен в Моих документах.');
+      this.openAttentionDialog('message', 'Ведется подготовка документа. Файл можно скачать в ');
   }
 }

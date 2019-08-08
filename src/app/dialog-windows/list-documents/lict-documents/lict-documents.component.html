@@ -10,7 +10,6 @@
     <tbody>
         <tr id="row" *ngFor="let element of myDocs.uploadList">
             <td scope="row">{{element.filename}}</td>
-            <!-- <td scope="row">{{element.key}}</td> -->
             <td scope="row">{{element.size}}</td>
             <td scope="row">
 
@@ -27,13 +26,21 @@
                         </div>
                     </button>
 
-                    <!-- <a href="url" download="Data-Export.xlsx">Download Export</a> -->
-
-                    <button mat-button (click)="onDelete(element.key)">
+                    <button mat-button
+                        class="btn btn-default"
+                        mwlConfirmationPopover
+                        [popoverMessage]="'Вы <b>действительно</b> хотите удалить выбранный документ?'"
+                        [confirmText]="confirmText"
+                        [cancelText]="cancelText"
+                        placement="left"
+                        (confirm)="onDelete(element.key)"
+                        (cancel)="cancelClicked = true"
+                        title="Удалить выбранный документ из базы">
                         <div class="icon">
                             <mat-icon [inline]="true">delete</mat-icon>
                         </div>
-                    </button>  
+                    </button>
+
                 </div>
             </td>
         </tr>

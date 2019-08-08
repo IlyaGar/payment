@@ -1,5 +1,12 @@
-<h1 mat-dialog-title class="attention" *ngIf="!isUpload"> Внимание! </h1>
+<h1 mat-dialog-title class="attention" *ngIf="isNull"> Внимание! </h1>
+<h1 mat-dialog-title class="attention" *ngIf="isUndefined"> Внимание! </h1>
+<h1 mat-dialog-title class="attention" *ngIf="isFalse"> Внимание! </h1>
+<h1 mat-dialog-title class="attention" *ngIf="isError"> Внимание! </h1>
+<h1 mat-dialog-title class="attention" *ngIf="isDate"> Внимание! </h1>
+<h1 mat-dialog-title class="attention" *ngIf="isConnectionLoss"> Внимание! </h1>
+<h1 mat-dialog-title class="attention" *ngIf="isClose"> Внимание! </h1>
 <h1 mat-dialog-title *ngIf="isUpload"> Внимание! </h1>
+<h1 mat-dialog-title *ngIf="isMessage"> Внимание! </h1>
 
 <div mat-dialog-content id="content">
     <div *ngIf="isNull">
@@ -18,20 +25,20 @@
     </div>
 
     <div *ngIf="isError">
-      <div class="attention">Что то пошло не так! Попробуйте снова.</div>
+      <p class="attention">Что то пошло не так! Попробуйте снова.</p>
     </div>
 
     <div *ngIf="isDate">
-        <div class="attention">Задайте две даты!</div>
+        <p class="attention">Задайте две даты!</p>
     </div>
 
     <div *ngIf="isConnectionLoss">
-        <div class="attention">Потеря соединения с сервером... Ожидайте</div>
-        <div class="attention">Телефон технической поддержки 911</div>
+        <p class="attention">Потеря соединения с сервером... Ожидайте</p>
+        <p class="attention">Телефон технической поддержки 911</p>
     </div>
 
     <div *ngIf="isClose">
-        <div class="attention">Вы действительно хотите закрыть payment?</div>
+        <p class="attention">Вы действительно хотите закрыть payment?</p>
     </div>
 
     <div *ngIf="isUpload">
@@ -39,7 +46,8 @@
     </div>
 
     <div *ngIf="isMessage">
-      <p>{{data.message}}</p>
+      <p>{{data.message}}<a routerLink="/mydocs" (click)="onOkClick()">Моих документах.</a></p>
+      <!-- <a routerLink="/mydocs" (click)="onOkClick()">Мои документы</a> -->
     </div>
 </div>
 

@@ -9,7 +9,6 @@ import { DownList } from '../models/down-list';
 import { FileDel } from '../models/file-delete';
 import { DownLoad } from '../models/download-file';
 import { DomSanitizer } from '@angular/platform-browser';
-import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
 
@@ -24,11 +23,9 @@ export class LictDocumentsComponent implements OnInit {
   myDocs: MyDocs = new MyDocs(null);
   timer: any;
   nameCookie = 'user';
-  file: any;
   fileUrl: any;
-  url: string;
-
-  urldownload: any;
+  confirmText = 'Да';
+  cancelText = 'Нет';
 
   constructor(
     public dialog: MatDialog,

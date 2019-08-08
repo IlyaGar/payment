@@ -1,6 +1,5 @@
 .attention {
     color: rgb(179, 34, 34);
-    text-align: center;
 }
 #wrapper {
     display: flex;
@@ -11,3 +10,9 @@
     position:relative;
     padding-bottom:30px;
 } */
+p {
+    text-align: center;
+}
+h1 {
+    text-align: center;
+}
