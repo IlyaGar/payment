@@ -3,7 +3,7 @@ import { PartnerListComponent } from '../../partner-manager/partner-list/partner
 import { MatDialog } from '@angular/material/dialog';
 import { OrderListComponent } from '../../order-manager/order-list/order-list.component';
 import { DocEditQuery } from 'src/app/models/doc-edit-query';
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd} from '@angular/router';
 import { WorkService } from '../work-service/work.service';
 import { DocEdit } from 'src/app/models/doc-edit';
 import { NewDocQuery } from '../models/new-doc-query';
@@ -15,9 +15,10 @@ import { DeleteDoc } from 'src/app/models/doc-delete';
 import { Status } from 'src/app/models/status';
 import { AttentionFormComponent } from 'src/app/dialog-windows/dialog-attention/attention-form/attention-form.component';
 import { SaveDocQuery } from 'src/app/models/save-doc-query';
-import { delay } from 'q';
 import { CommonService } from 'src/app/common/common.service';
 import { PayOne } from 'src/app/models/pay-one';
+import { OneCExp } from '../models/one-c-exp';
+import { PrintQuery } from '../models/print-query';
 
 @Component({
   selector: 'app-work-form',
@@ -49,7 +50,6 @@ export class WorkFormComponent implements OnInit {
     private activateRoute: ActivatedRoute
     ) {
         activateRoute.params.subscribe(params => { this.doc = params; this.getDocEditQuery(); });
-        this.common.events$.forEach(event => { console.log(event); this.ngOnInitNewDoc(event) });
       }
 
   ngOnInit() {
@@ -67,11 +67,11 @@ export class WorkFormComponent implements OnInit {
 
   checkResponseGetDocument(response) {
     if(!response)
-      this.openAttentionDialog(response);
+      this.openAttentionDialog(response, null);
     else {
       if(response.status as string) {
         if(response.status != 'true') {
-          this.openAttentionDialog(response.status);
+          this.openAttentionDialog(response.status, null);
         }
         else {
           this.docEdit = response; 
@@ -83,19 +83,6 @@ export class WorkFormComponent implements OnInit {
         this.removeZeros(); 
       }
     }
-  }
-
-  ngOnInitNewDoc(event) {
-    if(this.cookieService.check(this.nameCookie)) {
-      let fullData = this.cookieService.get(this.nameCookie);
-      let loginFromCookie = JSON.parse(fullData);
-      this.docEditQuery.docNum = event;
-      if(loginFromCookie) {
-        if(this.idDocument) 
-          this.loadDocument();
-      }
-    }
-    else this.router.navigate(['/login']);
   }
 
   loadDocument() {
@@ -151,10 +138,6 @@ export class WorkFormComponent implements OnInit {
       if(num < -500)
         element[11] = 'red';
     });
-  }
-
-  checkSaldo() {
-    let i = 0;
   }
 
   onOpenPartnerDialog(): void {
@@ -247,35 +230,20 @@ export class WorkFormComponent implements OnInit {
           alert('Потеряна связь с сервером'); 
         }
       );
-
-    // const dialogRef = this.dialog.open(AttentionFormComponent, {
-    //   width: '400px',
-    //   height: '200px',
-    //   data: {status: 'deletedoc'},
-    // });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if(result) {
-    //     let model = new DeleteDoc(this.token, docNum);
-    //     this.workService.postDeleteDocument(model).subscribe(response => { 
-    //       this.status = response; 
-    //       this.checkStatus(this.status ); 
-    //     }); 
-    //   }
-    // });
   }
 
   checkStatus(status: Status) {
     if(status.status === 'true') 
       this.router.navigate(['/search']);
     else 
-      this.openAttentionDialog(status.status);
+      this.openAttentionDialog(status.status, null);
   }
 
-  openAttentionDialog(status: string) {
+  openAttentionDialog(status: string, message: string) {
     const dialogRef = this.dialog.open(AttentionFormComponent, {
       width: '400px',
       height: '200px',
-      data: {status: status},
+      data: {status: status, message: message},
     });
     dialogRef.afterClosed().subscribe(result => {});
   }
@@ -300,7 +268,7 @@ export class WorkFormComponent implements OnInit {
     }  
     else {
       this.ngOnInit();
-      this.openAttentionDialog(data.status);
+      this.openAttentionDialog(data.status, null);
     }
     
   }
@@ -312,21 +280,6 @@ export class WorkFormComponent implements OnInit {
       this.docEdit.docBody.splice(index, 1);
     }
     this.saveDocument('deletrow');
-
-    // const dialogRef = this.dialog.open(AttentionFormComponent, {
-    //   width: '400px',
-    //   height: '200px',
-    //   data: {status: 'deleterow'},
-    // });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if(result) {
-    //     let item = this.docEdit.docBody.find(x => x[10] === idrow);
-    //     const index = this.docEdit.docBody.indexOf(item, 0);
-    //     if (index > -1) {
-    //       this.docEdit.docBody.splice(index, 1);
-    //     }
-    //     this.saveDocument('deletrow'); }
-    // });
   }
 
   postFileMethod(event) {
@@ -346,24 +299,55 @@ export class WorkFormComponent implements OnInit {
         } 
         else {
           console.log(response);
-          this.openAttentionDialog(response);
+          this.openAttentionDialog(response, null);
         }
       }, error => console.log(error));  
+      let e = 9;
     }
   }  
 
   checkResponse(response) {
     if(response.status === 'error') {
       console.log(response.status);
-      this.openAttentionDialog(response.status);
+      this.openAttentionDialog(response.status, null);
       return false;
     }
     else return true;
   }
 
-  async onReport(docNum){
-    await delay(10000);
-    let vaaa = 5;
-    this.openSaveDialog(docNum);
+  onExportOneC() {
+    let data = new OneCExp(this.token, this.docEdit.docNum);
+    this.workService.postOneCExp(data).subscribe(response => {
+      if(response) {
+        if(this.checkResponse(response))
+          this.openAttentionDialog('message', 'Ваш файл' + response + ' готов.');
+      } 
+      else {
+        console.log(response);
+        this.openAttentionDialog(response, null);
+      }
+    }, error => {
+        console.log(error); 
+        alert('Нет соединения с сервером');
+      }); 
+      this.openAttentionDialog('message', 'По готовности файл будет отображен в Моих документах.');
+  }
+
+  onExportPint() {
+    let data = new PrintQuery(this.token, this.docEdit.docNum);
+    this.workService.postPrintExp(data).subscribe(response => {
+      if(response) {
+        if(this.checkResponse(response))
+          this.openAttentionDialog('message', 'Ваш файл' + response.status + ' готов.');
+      } 
+      else {
+        console.log(response);
+        this.openAttentionDialog(response, null);
+      }
+    }, error => {
+        console.log(error); 
+        alert('Нет соединения с сервером');
+      }); 
+      //this.openAttentionDialog('message', 'По готовности файл будет отображен в Моих документах.');
   }
 }

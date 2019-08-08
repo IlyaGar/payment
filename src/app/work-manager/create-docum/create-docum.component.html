@@ -1,18 +1,11 @@
-<mat-card class="mat-elevation-z8">
+<h1 mat-dialog-title> Новый документ </h1>
 
-    <mat-card-title>Новый документ</mat-card-title>
-    <mat-card-content>
-
-        <mat-form-field class="input-full-width">
-                <input matInput placeholder="Наименование документа" [(ngModel)]="name"
+<div mat-dialog-content>
+  <mat-form-field class="input-full-width">
+    <input matInput placeholder="Наименование документа" [(ngModel)]="name"
                     aria-describedby="name" minlength="1" maxlength="50" matInput (keyup.enter)="onOkClick(name)">
-        </mat-form-field>
-    
-        <div *ngIf="isUnCorect">
-            <div class="etention">Введите наименование документа.</div>
-        </div>
-    </mat-card-content>
-</mat-card>
+  </mat-form-field>
+</div>
 
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Отмена</button>

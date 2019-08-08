@@ -4,6 +4,7 @@ import { SearchFormComponent } from './search-manager/search-form/search-form.co
 import { WorkFormComponent } from './work-manager/work-form/work-form.component';
 import { LoginPageFormComponent } from './login-manager/login-page-form/login-page-form.component';
 import { LictDocumentsComponent } from './dialog-windows/list-documents/lict-documents/lict-documents.component';
+import { EmptyFormComponent } from './work-manager/empty-form/empty-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageFormComponent },
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'mydocs', component: LictDocumentsComponent },
   { path: 'work/:id', component: WorkFormComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'empty', component: EmptyFormComponent },
 ];
 
 

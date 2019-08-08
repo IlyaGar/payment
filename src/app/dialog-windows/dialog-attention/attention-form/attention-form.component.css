@@ -1,3 +1,13 @@
-.etention {
-    color: red;
+.attention {
+    color: rgb(179, 34, 34);
+    text-align: center;
 }
+#wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* #content {
+    position:relative;
+    padding-bottom:30px;
+} */

@@ -39,31 +39,43 @@ export class CreateDocumComponent implements OnInit {
   onOkClick(name: string) {
     if(name) {
       if(!this.data.list) {
-        let newDocQuery = new NewDocQuery(this.data.token, name);
-        this.workService.postNewDocument(newDocQuery).subscribe(response => { 
-          this.response = response; 
-          this.createDocument(this.response); 
-        },
-          error => {
-            console.log(error);
-            alert("Сервер не отвечает.");
-          }
-        ); 
+        this.postNewDocument(name); 
       }
       if(this.data.list) {
-        let docMerge = new DocMerge(this.data.token, name, this.data.list);
-        this.workService.postDocumentMerge(docMerge).subscribe(response => { 
-          this.response = response; 
-          this.createDocument(this.response); 
-        },
-        error => {
-           console.log(error);
-           alert("Сервер не отвечает.");
-          }
-        );
+        this.postDocumentMerge(name);
       }
     }
     else this.isUnCorect = true;
+  }
+
+  postNewDocument(name: string) {
+    let newDocQuery = new NewDocQuery(this.data.token, name);
+    this.workService.postNewDocument(newDocQuery).subscribe(response => {
+      if(response) {
+        this.response = response; 
+        this.checkResponse(this.response);
+      } 
+    },
+      error => {
+        console.log(error);
+        alert("Сервер не отвечает.");
+      }
+    );
+  }
+
+  postDocumentMerge(name: string) {
+    let docMerge = new DocMerge(this.data.token, name, this.data.list);
+    this.workService.postDocumentMerge(docMerge).subscribe(response => { 
+      if(response) {
+        this.response = response; 
+        this.checkResponse(this.response);
+      } 
+    },
+    error => {
+       console.log(error);
+       alert("Сервер не отвечает.");
+      }
+    );
   }
 
   closeDialogOk(data): void {
@@ -74,9 +86,8 @@ export class CreateDocumComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  createDocument(data) {
+  checkResponse(data) {
     if(data.id) {
-      //this.router.navigate(['/work', data.id]); 
       this.closeDialogOk(data);
     }
     if(data.status == 'false')

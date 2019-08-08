@@ -1,58 +1,48 @@
-<mat-card class="mat-elevation-z8">
+<h1 mat-dialog-title class="attention" *ngIf="!isUpload"> Внимание! </h1>
+<h1 mat-dialog-title *ngIf="isUpload"> Внимание! </h1>
 
-    <mat-card-title class="etention"  *ngIf="!isUpload">Внимание!</mat-card-title>
-    <mat-card-title class="etention"  *ngIf="isUpload">Внимание!</mat-card-title>
-    <mat-card-content>
-  
-        <div *ngIf="isNull">
-          <div class="etention">Что то пошло не так! Попробуйте снова позже.</div>
-        </div>
+<div mat-dialog-content id="content">
+    <div *ngIf="isNull">
+      <!-- <div class="attention">Что то пошло не так! Попробуйте снова позже.</div> -->
+      <p class="attention">Что то пошло не так! Попробуйте снова позже.</p>
+    </div>
 
-        <div *ngIf="isUndefined">
-          <div class="etention">Что то пошло не так! Попробуйте снова позже.</div>
-        </div>
+    <div *ngIf="isUndefined">
+      <!-- <div class="attention">Что то пошло не так! Попробуйте снова позже.</div> -->
+      <p class="attention">Что то пошло не так! Попробуйте снова позже.</p>
+    </div>
 
-        <div *ngIf="isFalse">
-            <div class="etention">Недостаточно прав на выполнение операции.</div>
-        </div>
+    <div *ngIf="isFalse">
+        <!-- <div class="attention">Недостаточно прав на выполнение операции.</div> -->
+        <p class="attention">Недостаточно прав на выполнение операции.</p>
+    </div>
 
-        <div *ngIf="isError">
-          <div class="etention">Что то пошло не так! Попробуйте снова.</div>
-        </div>
+    <div *ngIf="isError">
+      <div class="attention">Что то пошло не так! Попробуйте снова.</div>
+    </div>
 
-        <div *ngIf="isDeleteDoc">
-            <div class="etention">Вы действительно хотите удалить документ?</div>
-        </div>
+    <div *ngIf="isDate">
+        <div class="attention">Задайте две даты!</div>
+    </div>
 
-        <div *ngIf="isDeleteRow">
-          <div class="etention">Вы действительно хотите удалить запись?</div>
-        </div>
+    <div *ngIf="isConnectionLoss">
+        <div class="attention">Потеря соединения с сервером... Ожидайте</div>
+        <div class="attention">Телефон технической поддержки 911</div>
+    </div>
 
-        <div *ngIf="isDate">
-            <div class="etention">Задайте две даты!</div>
-        </div>
+    <div *ngIf="isClose">
+        <div class="attention">Вы действительно хотите закрыть payment?</div>
+    </div>
 
-        <div *ngIf="isConnectionLoss">
-            <div class="etention">Потеря соединения с сервером... Ожидайте</div>
-            <div class="etention">Телефон технической поддержки 911</div>
-        </div>
+    <div *ngIf="isUpload">
+      <p>Ваш файл загружен.</p>
+    </div>
 
-        <div *ngIf="isClose">
-            <div class="etention">Вы действительно хотите закрыть payment?</div>
-        </div>
+    <div *ngIf="isMessage">
+      <p>{{data.message}}</p>
+    </div>
+</div>
 
-        <div *ngIf="isPost">
-          <div class="etention">Вы действительно хотите создать новый платеж?</div>
-        </div>
-
-        <div *ngIf="isUpload">
-            Ваш файл загружен.
-        </div>
-        
-    </mat-card-content>
-</mat-card>
-
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Отмена</button>
+<div id="wrapper">
   <button mat-button color="primary" (click)="onOkClick()" cdkFocusInitial>Ok</button>
 </div>

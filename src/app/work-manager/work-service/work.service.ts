@@ -10,7 +10,8 @@ import { SaveDocQuery } from 'src/app/models/save-doc-query';
 import { Status } from 'src/app/models/status';
 import { DeleteDoc } from 'src/app/models/doc-delete';
 import { DocMerge } from '../models/doc-merge';
-import { ExcelPostFle } from '../models/excel-post-file';
+import { OneCExp } from '../models/one-c-exp';
+import { PrintQuery } from '../models/print-query';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,8 @@ export class WorkService {
   private urlpartner = environment.apiUrl + 'provider/set/';
   private urlmerge = environment.apiUrl + 'union/';
   private urlfile = environment.apiUrl + 'payonec/';
+  private urlprint = environment.apiUrl + 'printe/';
+  private urlonec = environment.apiUrl + 'printo/';
 
   constructor(private http: HttpClient) { }
 
@@ -52,10 +55,14 @@ export class WorkService {
   }
 
   postFileExcel(files: FormData): Observable<any> {
-    //let headers = new HttpHeaders();
-    //headers.append('Content-Type', 'application/json');
-    //headers.set('enctype', 'multipart/form-data');
-
     return this.http.post<any>(this.urlfile, files);
+  }
+
+  postOneCExp(data: OneCExp): Observable<any> {
+    return this.http.post<any>(this.urlonec, data);
+  }
+
+  postPrintExp(data: PrintQuery): Observable<any> {
+    return this.http.post<any>(this.urlprint, data);
   }
 }

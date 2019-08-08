@@ -27,6 +27,7 @@ import { LoginPageFormComponent } from './login-manager/login-page-form/login-pa
 import { SaldoFormComponent } from './dialog-windows/saldo-manager/saldo-form/saldo-form.component';
 import { LictDocumentsComponent } from './dialog-windows/list-documents/lict-documents/lict-documents.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { EmptyFormComponent } from './work-manager/empty-form/empty-form.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
     LoginPageFormComponent,
     SaldoFormComponent,
     LictDocumentsComponent,
+    EmptyFormComponent,
   ],
   imports: [
     FormsModule,

@@ -11,23 +11,14 @@
 
       <button type="button" id="newdoc" class="btn btn-success" *ngIf="isLogin" data-toggle="tooltip" data-placement="bottom" title="Создать новый документ"
           (click)="onCreateDocum()">Новый документ</button>
-
-      <!--<input hidden type="file" accept=".xlsx, .xls" #onFileInput (change)="postFileMethod($event)"/>
-
-      <button type="file" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Оборотно-сальдовая ведомость"
-          (click)="onFileInput.click()">Сальдо</button>-->
+          
         <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Оборотно-сальдовая ведомость"
           (click)="onOpenSaldoForm()">Сверка</button>
-          <!-- <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Оборотно-сальдовая ведомость"
-          (click)="openDetailView('Белкз ООО', '222222')">!!!!!!!</button> -->
-
-      <!--<button type="button" id="newdoc" class="btn btn-success" *ngIf="isLogin" data-toggle="tooltip" data-placement="bottom" title="Оборотно-сальдовая ведомость"
-          (click)="onOpenListDocuments()">Мои документы</button>    -->
 
     </div>
-    <!--<form class="form-inline my-2 my-lg-0" *ngIf="!isLogin">
+    <form class="form-inline my-2 my-lg-0" *ngIf="!isLogin">
         <button type="button" class="btn btn-secondary" (click)="onOpenLoginDialog()">Войти</button>
-    </form>-->
+    </form>
     <form class="form-inline my-2 my-lg-0" >
         <span>Здравствуйте! {{loginResponse.cn}}</span>
     </form>

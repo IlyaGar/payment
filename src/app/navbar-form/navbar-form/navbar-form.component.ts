@@ -6,7 +6,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { LoginService } from 'src/app/login-manager/service/login.service';
 import { LogoutStatus } from 'src/app/login-manager/models/logout-status';
 import { Logout } from 'src/app/login-manager/models/logout';
-import { delay } from 'q';
 import { CommonService } from 'src/app/common/common.service';
 import { CreateDocumComponent } from 'src/app/work-manager/create-docum/create-docum.component';
 import { Router } from '@angular/router';
@@ -72,15 +71,20 @@ export class NavbarFormComponent implements OnInit {
   onCreateDocum(): void {
     const dialogRef = this.dialog.open(CreateDocumComponent, {
       width: '400px',
-      height: '260px',
+      height: '200px',
       data: {token: this.getToken(this.nameCookie), list: null},
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.router.navigate(['/work', result.id]); 
-        this.commonService.newDoc(result.id);
+        this.redirectTo(result.id);
       }
     });
+  }
+
+  redirectTo(id: string) {
+    this.router.navigateByUrl('/empty', { skipLocationChange: true }).then(()=>
+      this.router.navigate(['/work', id])
+    );
   }
 
   onOpenListDocuments(): void {
@@ -93,11 +97,7 @@ export class NavbarFormComponent implements OnInit {
       height: '260px',
       data: {token: this.getToken(this.nameCookie)},
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-       
-      }
-    });
+    dialogRef.afterClosed().subscribe(result => { });
   }
 
   postFileMethod(event) {
@@ -128,7 +128,7 @@ export class NavbarFormComponent implements OnInit {
     },
       error => { 
         console.log(error); 
-        alert("Сервер не отвечает.")
+        alert("Сервер не отвечает.");
       });
   }
 

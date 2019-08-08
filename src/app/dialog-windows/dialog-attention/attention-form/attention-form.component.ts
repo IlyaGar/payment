@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
   status: string;
+  message: string;
 }
 
 @Component({
@@ -24,6 +25,7 @@ export class AttentionFormComponent implements OnInit {
   isClose = false;
   isPost = false;
   isUpload = false;
+  isMessage = false;
 
   constructor(
     public dialogRef: MatDialogRef<AttentionFormComponent>,
@@ -69,6 +71,10 @@ export class AttentionFormComponent implements OnInit {
         }
         case 'upload': { 
           this.isUpload = true;
+          break; 
+        }
+        case 'message': { 
+          this.isMessage = true;
           break; 
         }
         default: { 
