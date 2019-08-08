@@ -40,6 +40,7 @@ export class WorkFormComponent implements OnInit {
   isHeld = false;
   confirmText: string = 'Да';
   cancelText: string = 'Нет';
+  upFile: any;
 
   constructor(
     public dialog: MatDialog,
@@ -184,7 +185,6 @@ export class WorkFormComponent implements OnInit {
   openDetailView(inn: string, provider: string) {
     const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
       width: '1050px',
-      height: '700px',
       data: {token: this.token, inn: inn, provider: provider},
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -242,7 +242,6 @@ export class WorkFormComponent implements OnInit {
   openAttentionDialog(status: string, message: string) {
     const dialogRef = this.dialog.open(AttentionFormComponent, {
       width: '400px',
-      height: '200px',
       data: {status: status, message: message},
     });
     dialogRef.afterClosed().subscribe(result => {});

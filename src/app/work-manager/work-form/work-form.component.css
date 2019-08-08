@@ -17,6 +17,10 @@ table {
     float: left; 
     /* min-width: 55em; */
 }
+.column2 {
+    float: left;
+    margin-top: 22px;
+}
 .empty {
     min-width: 2em;
 }
@@ -42,13 +46,16 @@ button {
     float: left;
 }
 .lable-nom {
-    margin-right: 30%;
+    margin-right: 35%;
 }
 .lable-nam {
-    margin-right: 30%;
+    margin-right: 65%;
 }
 .lable-dat {
     margin-right: 0%;
+}
+.lable-summ {
+    margin-right: 50%;
 }
 .button-bottom {
     margin-top: 20%;
@@ -150,4 +157,9 @@ td#click:hover {
 }
 .empty-isheld {
     min-width: 110px;
+}
+
+
+.line-margin {
+    margin-bottom: 0.25em;
 }

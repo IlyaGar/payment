@@ -173,7 +173,6 @@ export class DetailPartnerFormComponent implements OnInit {
   openAttentionDialog(status) {
     const dialogRef = this.dialog.open(AttentionFormComponent, {
       width: '400px',
-      height: '200px',
       data: {status: status},
     });
     dialogRef.afterClosed().subscribe(result => {});

@@ -21,6 +21,10 @@ tbody {
     clear: both;
     margin-bottom: 0;
 }
+/* .foot-but {
+    position: absolute;
+    right: 1%;
+} */
 .table-container {
     height: 297px;
     overflow: auto;

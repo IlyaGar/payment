@@ -127,7 +127,7 @@
                     <button mat-button *ngIf="isNewPay" 
                         class="btn btn-default"
                         mwlConfirmationPopover
-                        [popoverMessage]="'Вы <b>действительно</b> хотите добовить введенный платеж?'"
+                        [popoverMessage]="'Вы действительно хотите <b>добовить</b> введенный платеж?'"
                         [confirmText]="confirmText"
                         [cancelText]="cancelText"
                         placement="left"
@@ -141,7 +141,7 @@
                     <button mat-button *ngIf="isSelectedDeleteRow" 
                         class="btn btn-default"
                         mwlConfirmationPopover
-                        [popoverMessage]="'Вы <b>действительно</b> хотите удалить выбранный платеж?'"
+                        [popoverMessage]="'Вы действительно хотите <b>удалить</b> выбранный платеж?'"
                         [confirmText]="confirmText"
                         [cancelText]="cancelText"
                         placement="left"
@@ -158,8 +158,7 @@
     </div>
 
     <div mat-dialog-actions class="foot">
-        <button mat-button (click)="onNoClick()">Отмена</button>
-        <button mat-button color="primary" (click)="onOkClick()" cdkFocusInitial>Ok</button>
+        <button class="foot-but" mat-button color="primary" (click)="onOkClick()" cdkFocusInitial>Закрыть</button>
     </div>
 
 </mat-card>
