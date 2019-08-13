@@ -16,7 +16,8 @@ export class SaldoFormComponent implements OnInit {
   respons: File;
   stdate: string;
   fndate: string;
-  file: any;
+  files: Array<any>;
+  filesName: Array<string>;
   fileUrl: any;
   isFileSelected: boolean = false;
   isStDateSelected: boolean = false;
@@ -37,7 +38,7 @@ export class SaldoFormComponent implements OnInit {
     this.fndate = new Date().toLocaleDateString().split(".").reverse().join("-");
   }
 
-  onOkClick(doc: string) {
+  onOkClick() {
     this.postFileMethod();
   }
 
@@ -48,13 +49,13 @@ export class SaldoFormComponent implements OnInit {
   selectFileMethod(event) {
     let files = event.target.files;
     if(files.length > 0) { 
-      this.file = files[0];
+      this.files = files;
       this.isFileSelected = true;
       if(this.stdate) {
         this.isStDateSelected = true;
         if(this.fndate) {
           this.isFnDateSelected = true;
-          if(this.file.name) {
+          if(this.files) {
             this.isSelected = true;
           }
         }
@@ -89,16 +90,18 @@ export class SaldoFormComponent implements OnInit {
   }
 
   postFileMethod() {
-    if(this.file) {
+    if(this.files.length > 0) {
+      let formData = new FormData(); 
       let startDate = new Date(this.stdate);
       let finishtDate = new Date(this.fndate);
       let balans = new Balance(this.data.token, startDate.toLocaleDateString(), finishtDate.toLocaleDateString());
-      let formData = new FormData(); 
-      formData.append('file', this.file, this.file.name);
+      for(let i = 0; i < this.files.length; i++){
+        formData.append('file', this.files[i], this.files[i].name);
+      }
       formData.append('balance', JSON.stringify(balans));
-      console.log(formData.getAll('file'));
-      console.log(formData.getAll('balance'));
-      this.saldoService.postSaldoFile(formData).subscribe((response) =>  {
+      // console.log(formData.getAll('file'));
+      // console.log(formData.getAll('balance'));
+      this.saldoService.postSaldoFile(formData).subscribe((response) => {
         if(response) {   
           this.checkResponse(response);
         }

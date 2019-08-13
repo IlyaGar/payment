@@ -336,7 +336,6 @@ export class DetailPartnerFormComponent implements OnInit {
   confirmSelection() {
     const dialogRef = this.dialog.open(AttentionFormComponent, {
       width: '400px',
-      height: '200px',
       data: {status: 'deleterow'},
     });
     dialogRef.afterClosed().subscribe(result => {

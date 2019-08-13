@@ -19,6 +19,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { PayOne } from 'src/app/models/pay-one';
 import { OneCExp } from '../models/one-c-exp';
 import { PrintQuery } from '../models/print-query';
+import { ImportFormComponent } from 'src/app/dialog-windows/import-manager/import-form/import-form.component';
 
 @Component({
   selector: 'app-work-form',
@@ -139,6 +140,7 @@ export class WorkFormComponent implements OnInit {
       if(num < -500)
         element[11] = 'red';
     });
+    let e = 9;
   }
 
   onOpenPartnerDialog(): void {
@@ -245,6 +247,17 @@ export class WorkFormComponent implements OnInit {
       data: {status: status, message: message},
     });
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  openImportDialog(status: string, message: string) {
+    const dialogRef = this.dialog.open(ImportFormComponent, {
+      width: '600px',
+      data: {status: status},
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result)
+        this.ngOnInit();
+    });
   }
 
   saveDocument(action) {

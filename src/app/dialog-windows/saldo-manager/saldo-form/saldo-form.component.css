@@ -11,3 +11,6 @@ div > input {
 mat-card-content > label {
     margin-left: 1em;
 }
+td {
+    padding-right: 1em;
+}

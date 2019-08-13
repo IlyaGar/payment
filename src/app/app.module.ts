@@ -28,6 +28,7 @@ import { SaldoFormComponent } from './dialog-windows/saldo-manager/saldo-form/sa
 import { LictDocumentsComponent } from './dialog-windows/list-documents/lict-documents/lict-documents.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { EmptyFormComponent } from './work-manager/empty-form/empty-form.component';
+import { ImportFormComponent } from './dialog-windows/import-manager/import-form/import-form.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { EmptyFormComponent } from './work-manager/empty-form/empty-form.compone
     SaldoFormComponent,
     LictDocumentsComponent,
     EmptyFormComponent,
+    ImportFormComponent,
   ],
   imports: [
     FormsModule,
@@ -82,6 +84,7 @@ import { EmptyFormComponent } from './work-manager/empty-form/empty-form.compone
     DetailPartnerFormComponent,
     AttentionFormComponent,
     SaldoFormComponent,
+    ImportFormComponent,
   ],
   bootstrap: [
     AppComponent,
