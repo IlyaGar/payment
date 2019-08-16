@@ -7,7 +7,7 @@ export class DocEdit{
         public docDate: string,
         public docSum: string,
         public docStatus: string,
-        public docBody: Array<Array<string>>,
+        public docBody: Array<Array<any>>,
     ){}
 
     clone() {

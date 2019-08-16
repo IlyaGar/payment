@@ -197,10 +197,11 @@
             <!-- Контрагент -->
             <td scope="row" id="click" (dblclick)="openDetailView(doc[1], doc[0])" >{{doc[0]}}</td>
             <td>{{doc[1]}}</td>
-            <td>{{doc[2]}}</td>
+            <!-- <td>{{doc[2]}}</td> -->
+            <td class="doc-td ">{{doc[2] | number:'':'fr-FR'}}</td> 
             <td>{{doc[3]}}</td>
-            <td>{{doc[4]}}</td>
-            <td>{{doc[5]}}</td>
+            <td class="doc-td ">{{doc[4] | number:'':'fr-FR'}}</td> 
+            <td class="doc-td ">{{doc[5] | number:'':'fr-FR'}}</td> 
             <td><input currencyMask class="form-control" [(ngModel)]="doc[6]" [options]="{ prefix: '', thousands: ' ', decimal: ',' }"
                 [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
             <td><input type="text" class="form-control" required [(ngModel)]="doc[7]" 

@@ -21,6 +21,10 @@ import { OneCExp } from '../models/one-c-exp';
 import { PrintQuery } from '../models/print-query';
 import { ImportFormComponent } from 'src/app/dialog-windows/import-manager/import-form/import-form.component';
 
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, 'fr');
+
 @Component({
   selector: 'app-work-form',
   templateUrl: './work-form.component.html',
@@ -130,17 +134,17 @@ export class WorkFormComponent implements OnInit {
   addIdAndZeroDescriptRow() {
     let i = 0;
     this.docEdit.docBody.forEach(element => {
-      element[6]= element[6].replace(/\s/g, "").replace(",", ".");
+      element[2] = parseFloat(element[2].replace(/\s/g, "").replace(",", "."));
+      element[4] = parseFloat(element[4].replace(/\s/g, "").replace(",", "."));
+      element[5] = parseFloat(element[5].replace(/\s/g, "").replace(",", "."));
+      element[6] = element[6].replace(/\s/g, "").replace(",", ".");
       element[10] = (i++).toString();
-      let elstring = element[2].slice(1);
-      var num = parseFloat(elstring.replace(/\s/g, "").replace(",", "."));
       element[11] = 'white';
-      if(num < 0 && num > -500)
+      if(element[2] < 0 && element[2] > -500)
         element[11] = 'yellow';
-      if(num < -500)
+      if(element[2] < -500)
         element[11] = 'red';
     });
-    let e = 9;
   }
 
   onOpenPartnerDialog(): void {
