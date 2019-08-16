@@ -26,6 +26,9 @@ export class NavbarFormComponent implements OnInit {
   loginResponse = new LoginResponse("", "", "", "", "", "");
   logoutStatus: LogoutStatus;
 
+  value1: string = '';
+  value2: string = '';
+
   constructor(
     public dialog: MatDialog,
     private navbarService: NavbarService,
@@ -165,6 +168,76 @@ export class NavbarFormComponent implements OnInit {
       height: '700px',
       data: {provider: provider},
     });
-    dialogRef.afterClosed().subscribe(result => {  });
+    dialogRef.afterClosed().subscribe(result => { });
+  }
+
+  onEnterNumber(event) {
+    let inputString = event.target.value;
+    this.value1 = inputString.replace(/[^0-9.]/g, '');
+    let isPoint = false;
+    let countDecimal = 0;
+    let charArrayValueDecimal: Array<String> = [];
+    let charArrayValueBeforPoint: Array<String> = [];
+    let charArrayValueAfterPoint: Array<String> = [];
+    let charArrayValue2: Array<String> = [];
+    let charArrayValue1 = this.value1.split('');
+    charArrayValue1.forEach(element => {
+      if(element === '.') {
+        if(!isPoint) {
+          charArrayValueDecimal.push(element);
+          isPoint = true;
+        }
+      } else {
+        if(!isPoint) {
+          charArrayValueDecimal.push(element);
+        }
+        else {
+          countDecimal += 1;
+          if(countDecimal <= 2)
+          charArrayValueDecimal.push(element);
+        }
+      }
+    });
+    let countSep = 0;
+    if(charArrayValueDecimal.find(x => x === '.')) {
+      let strtemp = charArrayValueDecimal.join('').split('.');
+      charArrayValueBeforPoint = strtemp[0].split('');
+      charArrayValueAfterPoint = strtemp[1].split('');
+    }
+    else
+      charArrayValueBeforPoint = charArrayValueDecimal;
+    charArrayValueBeforPoint.reverse().forEach(element => {
+      countSep += 1;
+      switch(countSep) { 
+        case 4: { 
+          charArrayValue2.push(' ');
+          charArrayValue2.push(element);
+          break; 
+        } 
+        case 7: { 
+          charArrayValue2.push(' ');
+          charArrayValue2.push(element);
+          break; 
+        } 
+        case 10: { 
+          charArrayValue2.push(' ');
+          charArrayValue2.push(element);
+          break; 
+        } 
+        case 13: { 
+          charArrayValue2.push(' ');
+          charArrayValue2.push(element);
+          break; 
+        } 
+        default: { 
+          charArrayValue2.push(element);
+          break; 
+        } 
+      } 
+    });
+    if(charArrayValueDecimal.find(x => x === '.'))
+      this.value1 = charArrayValue2.reverse().join('') + '.' + charArrayValueAfterPoint.join('');
+    else this.value1 = charArrayValue2.reverse().join('');  
+    let e = 9;
   }
 }

@@ -189,10 +189,7 @@ export class WorkFormComponent implements OnInit {
       width: '1050px',
       data: {token: this.token, inn: inn, provider: provider},
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-      }
-    });
+    dialogRef.afterClosed().subscribe(result => { });
   }
 
   getToken(nameCookie: string) {
@@ -208,7 +205,7 @@ export class WorkFormComponent implements OnInit {
 
   postlistPartners(data) {
     let partnerQuery = new SaveProvider(this.token, this.doc.id, data);
-    this.workService.postlistPartners(partnerQuery).subscribe(response =>  { 
+    this.workService.postlistPartners(partnerQuery).subscribe(response => { 
       this.docEdit = response; 
       this.removeZeros(); 
     });
@@ -302,8 +299,8 @@ export class WorkFormComponent implements OnInit {
         formData.append('file', files[i], files[i].name);
       }
       formData.append("PayOne", JSON.stringify(new PayOne(this.token, this.docEdit.docNum)));
-      console.log(formData.getAll('file'));
-      console.log(formData.getAll('PayOne'));
+      // console.log(formData.getAll('file'));
+      // console.log(formData.getAll('PayOne'));
       this.workService.postFileExcel(formData).subscribe(response => {
         if(response) {
           if(this.checkResponse(response))

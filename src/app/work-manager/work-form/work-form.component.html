@@ -186,7 +186,7 @@
             <th scope="col">Задолжность</th>
             <th scope="col">Сумма оплаты</th>
             <th scope="col">Примечание</th>
-            <th scope="col">Номер платежного поручения</th>
+            <th scope="col">№ платежного поручения</th>
             <th scope="col">Договор</th>
             <th scope="col">Выбрать</th>
             <th scope="col"></th>
@@ -196,18 +196,28 @@
         <tr id="row" *ngFor="let doc of docEdit.docBody" [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}">
             <!-- Контрагент -->
             <td scope="row" id="click" (dblclick)="openDetailView(doc[1], doc[0])" >{{doc[0]}}</td>
+            <!-- УНП -->
             <td>{{doc[1]}}</td>
+            <!-- Сальдо -->
             <td>{{doc[2]}}</td>
+            <!-- Последняя оплата -->
             <td>{{doc[3]}}</td>
+            <!-- Остатки -->
             <td>{{doc[4]}}</td>
+            <!-- Задолжность -->
             <td>{{doc[5]}}</td>
+            <!-- Сумма оплаты -->
             <td><input currencyMask class="form-control" [(ngModel)]="doc[6]" [options]="{ prefix: '', thousands: ' ', decimal: ',' }"
                 [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
-            <td><input type="text" class="form-control" required [(ngModel)]="doc[7]" 
-                [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
+            <!-- Примечание -->
+            <!-- <td><input type="text" class="form-control" required [(ngModel)]="doc[7]" 
+                [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td> -->
+            <!-- № платежного поручения -->
             <td><input type="text" class="form-control" required [(ngModel)]="doc[8]" (change)="onEnterChange($event.target.value, testdata)" 
                 [ngClass]="{'tr-red': doc[11]==='red', 'tr-yellow': doc[11]==='yellow', 'tr-white': doc[11]==='white'}"/></td>
+            <!-- Договор -->
             <td>{{doc[9]}}</td>
+            <!-- Выбрать -->
             <td><button type="button" class="btn btn-primary button-table" (click)="openOrderDialog(doc[0], doc[10])" title="Выбрать договор">Договор</button></td>
             <td>
                 <button type="button"
