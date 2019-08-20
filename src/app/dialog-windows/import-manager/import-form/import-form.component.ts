@@ -46,8 +46,6 @@ export class ImportFormComponent implements OnInit {
         formData.append('file', this.files[i], this.files[i].name);
       }
       formData.append("PayOne", JSON.stringify(new PayOne(this.data.token, this.data.docNum)));
-      // console.log(formData.getAll('file'));
-      // console.log(formData.getAll('PayOne'));
       this.importService.postFileExcel(formData).subscribe(response => {
         if(response) {
           this.checkResponse(response);
@@ -65,6 +63,8 @@ export class ImportFormComponent implements OnInit {
       this.openAttentionDialog('upload');
       this.isFileSent = false;
     }
+
+    this.dialogRef.close();
   }
 
   openAttentionDialog(status) {
