@@ -41,45 +41,6 @@ export class PartnerListComponent implements OnInit {
   done: Array<string> = [];
   newTodo: Array<string> = [];
 
-  todoListAgent: ListAgent[] = 
-  [
-    { name: 'Get to work' },
-    { name: 'Pick up groceries' },
-    { name: 'Go home' },
-    { name: 'Fall asleep' },
-    { name: 'Get up' },
-    { name: 'Brush teeth' },
-    { name: 'Take a shower' },
-    { name: 'Check e-mail' },
-    { name: 'Walk dog' },
-    { name: '1Get to work' },
-    { name: '1Pick up groceries' },
-    { name: 'Go home' },
-    { name: '1Fall asleep' },
-    { name: '1Get up' },
-    { name: '1Brush teeth' },
-    { name: '1Take a shower' },
-    { name: '1Check e-mail' },
-    { name: '1Walk dog' },
-    { name: '12Get to work' },
-    { name: '12Pick up groceries' },
-    { name: '12Go home' },
-    { name: '12Fall asleep' },
-    { name: '12Get up' },
-    { name: '12Brush teeth' },
-    { name: '12Take a shower' },
-    { name: '12Check e-mail' },
-    { name: '12Walk dog' }
-  ];
-  doneListAgent: ListAgent[] = 
-  [
-    { name: 'Get up' },
-    { name: 'Brush teeth' },
-    { name: 'Take a shower' },
-    { name: 'Check e-mail' },
-    { name: 'Walk dog' }
-  ];
-
   constructor(
     public dialogRef: MatDialogRef<PartnerListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -172,7 +133,13 @@ export class PartnerListComponent implements OnInit {
   onSearch(value) {
     this.isLoading = true;
     this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), value);
-    this.partnerService.postGetPartner(this.providerQuery).subscribe(d => { this.providerResponse = d; this.initList(); } );  
+    this.partnerService.postGetPartner(this.providerQuery).subscribe(response => { 
+      if(response) {
+        this.providerResponse = response; 
+        this.initList(); 
+      }},
+      error => console.log(error)
+    ); 
   }
     
   onClear() {

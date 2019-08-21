@@ -253,10 +253,10 @@ export class WorkFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {});
   }
 
-  openImportDialog(status: string, message: string) {
+  openImportDialog() {
     const dialogRef = this.dialog.open(ImportFormComponent, {
       width: '600px',
-      data: {status: status},
+      data: { token: this.token, docNum: this.docEdit.docNum },
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result)
