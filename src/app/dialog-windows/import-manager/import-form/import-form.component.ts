@@ -64,8 +64,10 @@ export class ImportFormComponent implements OnInit {
       this.isFileSent = false;
       this.dialogRef.close('true');
     }
-    else
+    else {
+      this.openAttentionDialog(response.status);
       this.dialogRef.close();
+    }
   }
 
   openAttentionDialog(status) {
