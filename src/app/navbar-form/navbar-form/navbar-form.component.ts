@@ -22,6 +22,7 @@ import { DetailPartnerFormComponent } from 'src/app/dialog-windows/detail-partne
 export class NavbarFormComponent implements OnInit {
 
   nameCookie = 'user';
+  token: string;
   isLogin = false;
   loginResponse = new LoginResponse("", "", "", "", "", "");
   logoutStatus: LogoutStatus;
@@ -44,6 +45,7 @@ export class NavbarFormComponent implements OnInit {
       if(loginFromCookie){
         this.loginResponse = loginFromCookie;
         this.isLogin = true;
+        this.token = this.getToken(this.nameCookie);
       }
     }
     else this.isLogin = false;
@@ -159,11 +161,11 @@ export class NavbarFormComponent implements OnInit {
     }
   }
 
-  openDetailView(provider: string, unp: string) {
+  onOpenDetailPartnerForm(provider: string, unp: string) {
     const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
       width: '1050px',
       height: '700px',
-      data: {provider: provider},
+      data: { token: this.token, inn: null, provider: null },
     });
     dialogRef.afterClosed().subscribe(result => {  });
   }

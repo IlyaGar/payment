@@ -5,7 +5,6 @@ import { PartnerService } from '../partner-service/partner.service';
 import { ProviderQuery } from '../models/provider-query';
 import { ProviderResponse } from '../models/provider-response';
 import { CookieService } from 'ngx-cookie-service';
-import { delay } from 'q';
 
 export class SearchData {
   constructor(
@@ -37,6 +36,7 @@ export class PartnerListComponent implements OnInit {
   isData = true;
   isEmptySearch = true;
   isLoading = false;
+  isOneProvider = false;
   todo: Array<string> = [];
   done: Array<string> = [];
   newTodo: Array<string> = [];
@@ -49,19 +49,13 @@ export class PartnerListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    /*this.todoListAgent.forEach(element => {
-      let t = 0;
-      this.todo.push(element.name.toString());
-    });*/
-    this.data.list.forEach(element => {
-      this.done.push(element);
-    });
-    /*this.doneListAgent.forEach(element => {
-      this.done.push(element.name);
-    });*/
-
-    //this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), '');
-    //this.partnerService.postGetPartner(this.providerQuery).subscribe(d => { this.providerResponse = d; this.initList(); } ); 
+    if(this.data.list) {
+      this.data.list.forEach(element => {
+        this.done.push(element);
+      });
+    }
+    else 
+      this.isOneProvider = true;
   }
 
   initList() {
@@ -72,7 +66,6 @@ export class PartnerListComponent implements OnInit {
           if(this.providerResponse.list.length != 0) {
             this.todo = this.providerResponse.list;
             this.isData = true;
-            
           } else { this.isData = false; this.todo = null; }
         } else { this.isData = false; this.todo = null; }
       } else { this.isData = false; this.todo = null; }
@@ -92,18 +85,39 @@ export class PartnerListComponent implements OnInit {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     } else {
         if(name == 'todo') this['done'].splice(event.previousIndex, 1);//transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-        else copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex); 
+        else if(!this.isOneProvider) {
+           copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex); 
+        } else { 
+          event.container.data.splice(0, 1);
+          copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, 0); 
+        }
     }
   }
 
   dblclickMove(itemName: string, ...targets: string[]) {
-    if(targets[0] == 'done') {
-      this[targets[0]] = [
-        ...this[targets[1]],
-        ...this[targets[0]].push(itemName)
-        ];
+    if(this.isOneProvider) {
+      if(targets[0] == 'done') {
+        if(this[targets[0]].length === 0) {
+          this[targets[0]] = [
+            ...this[targets[1]],
+            ...this[targets[0]].push(itemName)
+            ];
+        } else {
+          this[targets[0]].splice(0, 1);
+          this[targets[0]].push(itemName);
+        }
+      } else {
+        this[targets[1]].splice(this[targets[1]].indexOf(itemName), 1);
+      }
     } else {
-      this[targets[1]].splice(this[targets[1]].indexOf(itemName), 1);
+      if(targets[0] == 'done') {
+        this[targets[0]] = [
+          ...this[targets[1]],
+          ...this[targets[0]].push(itemName)
+          ];
+      } else {
+        this[targets[1]].splice(this[targets[1]].indexOf(itemName), 1);
+      }
     }
   }
 
@@ -117,18 +131,15 @@ export class PartnerListComponent implements OnInit {
   }
 
   getToken(nameCookie: string) {
-    if(this.cookieService.check(nameCookie)){
+    if(this.cookieService.check(nameCookie)) {
       let fullData = this.cookieService.get(nameCookie);
       let loginFromCookie = JSON.parse(fullData);
-      if(loginFromCookie){
+      if(loginFromCookie) {
         return loginFromCookie.token
       }
     }
     else return false;
   }
-
-  async onEnterChange(enterValue: string) {  
-  } 
   
   onSearch(value) {
     this.isLoading = true;

@@ -1,30 +1,40 @@
 <mat-card>
-    <mat-card-title>Детальный просмотр данных</mat-card-title>
-
+    <mat-card-title >Детальный просмотр данных</mat-card-title>
+    <!-- cdkFocusInitial -->
     <div class="form">
         <div class="contaner-left">
     
-            <div class="form-inline">
+            <div class="form-inline" *ngIf="isOpenDetalFromWorkForm">
                 <div class="contaner-min-left provider">
                     <label>Контрагент:</label>
-                    
                 </div>
-                <div class="contaner-min-right">{{data.provider}}</div>
+                <div class="contaner-min-right">
+                    {{data.provider}}
+                </div>
+            </div>
+
+            <div class="form-inline" *ngIf="isOpenDetalFromNavbar">
+                <button mat-button type="button" name="partner" (click)="onOpenPartnerDialog()" data-toggle="tooltip" data-placement="bottom" title="Выбор контрагентов из списка">
+                    <img src="../../assets/agent2.png" width="20" height="20" />Выбрать контрагента:
+                </button>
             </div>
             
             <div class="form-inline br">
                 <div class="id-label"><label>УНП:</label></div>
-                <div>{{data.inn}}</div>
+                <div *ngIf="isOpenDetalFromWorkForm">{{data.inn}}</div>
             </div>
     
             <div class="form-inline">
+
                 <label>с:</label>
-                <input type="date" name="dateFrom" id="date" [(ngModel)]="dateFrom" class="form-control"/>
-                <!--<input type="date" name="startDate" id="startDate" class="form-control" [(ngModel)]="filter.startDate" #startDate="ngModel" aria-describedby="dateStartLable" />-->
+                <input  type="date" name="dateFrom" id="date" [(ngModel)]="detailDate.dateFrom" class="form-control" (keyup.enter)="onSetFocusForDate()"/>
+
                 <label>по:</label>
-                <input type="date" name="dateTo" id="date" [(ngModel)]="dateTo" class="form-control"/>
+                <input type="date" name="dateTo" id="date" [(ngModel)]="detailDate.dateTo" #dateToElement class="form-control" (keyup.enter)="onSetFocusForEnter()"/>
+                
                 <div class="bt-send">
-                    <button  mat-button (click)="onSendDate()">
+                        <!-- cdkFocusInitial mat-button -->
+                    <button class="btn btn-light" (click)="onSendDate()" #btSendElement>
                         <img src="../../assets/arrow1.png" width="20" height="20" />
                     </button>
                     <i class="fas fa-arrow-circle-right"></i>
@@ -156,9 +166,10 @@
 
         </div>
     </div>
-
+   
     <div mat-dialog-actions class="foot">
-        <button class="foot-but" mat-button color="primary" (click)="onOkClick()" cdkFocusInitial>Закрыть</button>
+         <!-- cdkFocusInitial -->
+        <button class="foot-but" mat-button color="primary" (click)="onOkClick()">Закрыть</button>
     </div>
 
 </mat-card>

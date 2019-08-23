@@ -29,6 +29,7 @@ import { LictDocumentsComponent } from './dialog-windows/list-documents/lict-doc
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { EmptyFormComponent } from './work-manager/empty-form/empty-form.component';
 import { ImportFormComponent } from './dialog-windows/import-manager/import-form/import-form.component';
+import { UpdateDocDataFormComponent } from './dialog-windows/update-doc-data/update-doc-data-form/update-doc-data-form.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { ImportFormComponent } from './dialog-windows/import-manager/import-form
     LictDocumentsComponent,
     EmptyFormComponent,
     ImportFormComponent,
+    UpdateDocDataFormComponent,
   ],
   imports: [
     FormsModule,

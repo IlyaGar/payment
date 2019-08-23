@@ -14,6 +14,7 @@ export class DetailPartnerService {
   private urlget = environment.apiUrl + 'detail/';
   private urldelete = environment.apiUrl + 'paydel/';
   private urlpost = environment.apiUrl + 'payokay/';
+  private urlpartner = environment.apiUrl + '!!!!!!/';
   
   constructor(private http: HttpClient) { }
 
@@ -27,5 +28,9 @@ export class DetailPartnerService {
 
   postNewRowOut(data: PayOkayQuery): Observable<any> {
     return this.http.post<any>(this.urlpost, data);
+  }
+
+  postGetDataPartner(data: any): Observable<any> {
+    return this.http.post<any>(this.urlpartner, data);
   }
 }

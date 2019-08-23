@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DetailResponse } from '../models/detail-response';
@@ -10,6 +10,8 @@ import { AttentionFormComponent } from '../../dialog-attention/attention-form/at
 import { PayDelQuery } from '../models/pay-delete-query';
 import { Status } from 'src/app/models/status';
 import { PayOkayQuery } from '../models/pay-okay-query';
+import { PartnerListComponent } from 'src/app/partner-manager/partner-list/partner-list.component';
+import { DetailDate } from '../models/detail-date';
 
 export interface DialogData {
   token: string;
@@ -24,9 +26,13 @@ export interface DialogData {
 })
 export class DetailPartnerFormComponent implements OnInit {
 
+  @ViewChild("dateToElement", { static: true }) dateToElement: ElementRef;
+  @ViewChild("btSendElement", { static: true }) btSendElement: ElementRef;
+
   inn: string;
   token: string;
   provider: string;
+  detailDate = new DetailDate(null, null);
   displayedColumnsIn = ['date', 'nomer', 'sort', 'summ'];
   dataSourceIn: any;
   displayedColumnsOut = ['date', 'summ', 'nomer'];
@@ -34,8 +40,6 @@ export class DetailPartnerFormComponent implements OnInit {
   detailResponse: DetailResponse = new DetailResponse('0', '0', null, null, '0', '0', '0', '0');
   listDocInItem: Array<DocInItem> = [];
   listDocOutItem: Array<DocOutItem> = [];
-  dateFrom: string;
-  dateTo: string;
   selectedRowIndex: string;
   selectedRow: DocOutItem;
   isSelectedDeleteRow: boolean = false;
@@ -46,11 +50,14 @@ export class DetailPartnerFormComponent implements OnInit {
   isNewNum: boolean = false;
   isNewDate: boolean = false;
   isNewPay: boolean = false;
+  isOpenDetalFromWorkForm: boolean = false;
+  isOpenDetalFromNavbar: boolean = false;
   confirmText: string = 'Да';
   cancelText: string = 'Нет';
 
   constructor(
     public dialog: MatDialog,
+    private renderer: Renderer2,
     private detailPartnerService: DetailPartnerService,
     public dialogRef: MatDialogRef<DetailPartnerFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -58,17 +65,29 @@ export class DetailPartnerFormComponent implements OnInit {
 
   ngOnInit() {
     if(this.data) {
-      this.token = this.data.token;
-      this.inn = this.data.inn;
-      this.provider = this.data.provider;
-      let getDetail = new GetDetail(this.token, this.inn, '', '');
-      this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
-        this.checkResponse(response); 
-      }, 
-      error => { 
-        console.log(error);
-        this.openAttentionDialog('connection loss'); 
-      });
+      if(this.data.token) {
+        this.token = this.data.token;
+        if(this.data.inn && this.data.provider) {
+          this.isOpenDetalFromWorkForm = true;
+          this.inn = this.data.inn;
+          this.provider = this.data.provider;
+          let getDetail = new GetDetail(this.token, this.inn, '', '');
+          this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
+            this.checkResponse(response); 
+          }, 
+          error => { 
+            console.log(error);
+            this.openAttentionDialog('connection loss'); 
+          });
+        }
+        else {
+          this.isOpenDetalFromNavbar = true;
+          const session = sessionStorage.getItem('current-detail-date');
+          if(session) {
+            this.detailDate = JSON.parse(session);
+          }
+        }
+      }
     }
   }
 
@@ -115,17 +134,21 @@ export class DetailPartnerFormComponent implements OnInit {
     let dateTo = null;
     let dateFromString = "";
     let dateToString = "";
-    if((this.dateFrom && !this.dateTo) || (!this.dateFrom && this.dateTo))
+    if((this.detailDate.dateFrom && !this.detailDate.dateTo) || (!this.detailDate.dateFrom && this.detailDate.dateTo))
       this.openAttentionDialog('date');
     else {
-      if(this.dateFrom) {
-        dateFrom = new Date(this.dateFrom);
+      if(this.detailDate.dateFrom) {
+        dateFrom = new Date(this.detailDate.dateFrom);
         dateFromString = dateFrom.toLocaleDateString()
       }
-      if(this.dateTo) {
-        dateTo = new Date(this.dateTo);
+      if(this.detailDate.dateTo) {
+        dateTo = new Date(this.detailDate.dateTo);
         dateToString = dateTo.toLocaleDateString()
       }
+      // this.detailDate = new DetailDate(dateFromString.split(".").reverse().join("-"), dateToString.split(".").reverse().join("-") );
+      sessionStorage.setItem('current-detail-date', JSON.stringify({ 
+        dateFrom: this.detailDate.dateFrom, 
+        dateTo: this.detailDate.dateTo}));
       let getDetail = new GetDetail(this.token, this.inn, dateFromString, dateToString);
       this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
         this.checkResponse(response);  
@@ -135,7 +158,6 @@ export class DetailPartnerFormComponent implements OnInit {
 
   onOkClick() {
     this.dialogRef.close();
-    
   }
 
   onNoClick(): void {
@@ -193,15 +215,6 @@ export class DetailPartnerFormComponent implements OnInit {
 
   onDeleteRow() {
     this.deleteRow();
-    // const dialogRef = this.dialog.open(AttentionFormComponent, {
-    //   width: '400px',
-    //   height: '200px',
-    //   data: {status: 'deleterow'},
-    // });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if(result) 
-    //     this.deleteRow();
-    // });
   }
 
   onCancelDeleteRow() {
@@ -246,15 +259,6 @@ export class DetailPartnerFormComponent implements OnInit {
 
   onPostNewPay() {
     this.postNewPay();
-    // const dialogRef = this.dialog.open(AttentionFormComponent, {
-    //   width: '400px',
-    //   height: '200px',
-    //   data: {status: 'post'},
-    // });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if(result) 
-    //     this.postNewPay();
-    // });
   }
 
   postNewPay() {
@@ -333,14 +337,29 @@ export class DetailPartnerFormComponent implements OnInit {
     }
   }
 
-  confirmSelection() {
-    const dialogRef = this.dialog.open(AttentionFormComponent, {
-      width: '400px',
-      data: {status: 'deleterow'},
+  onSetFocusForDate() {
+    setTimeout(() => this.dateToElement.nativeElement.focus());
+  }
+
+  onSetFocusForEnter() {
+    setTimeout(() => this.btSendElement.nativeElement.focus());
+  }
+
+  onOpenPartnerDialog(): void {
+    const dialogRef = this.dialog.open(PartnerListComponent, {
+      width: '880px',
+      height: '680px',
+      data: {list: null},
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {}
-
+      if(result) {
+        this.detailPartnerService.postGetDataPartner(result).subscribe(response => {
+          this.checkResponsePost(response); 
+        }, 
+        error => { 
+          console.log(error);
+          this.openAttentionDialog('connection loss'); });
+      }
     });
   }
 }

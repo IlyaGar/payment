@@ -191,7 +191,7 @@ export class WorkFormComponent implements OnInit {
   openDetailView(inn: string, provider: string) {
     const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
       width: '1050px',
-      data: {token: this.token, inn: inn, provider: provider},
+      data: { token: this.token, inn: inn, provider: provider },
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
@@ -286,7 +286,6 @@ export class WorkFormComponent implements OnInit {
       this.ngOnInit();
       this.openAttentionDialog(data.status, null);
     }
-    
   }
 
   deleteItem(idrow: string) {
