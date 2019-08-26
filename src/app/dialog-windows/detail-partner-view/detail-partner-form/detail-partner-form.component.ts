@@ -29,6 +29,7 @@ export class DetailPartnerFormComponent implements OnInit {
   @ViewChild("dateToElement", { static: true }) dateToElement: ElementRef;
   @ViewChild("btSendElement", { static: true }) btSendElement: ElementRef;
 
+  dt; 
   inn: string;
   token: string;
   provider: string;

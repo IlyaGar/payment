@@ -1,3 +1,15 @@
-<p>
-  update-doc-data-form works!
-</p>
+<div class="form-inline">
+
+  <label>с:</label>
+  <input  type="date" name="dateFrom" id="date" [(ngModel)]="updateDate.dateFrom" class="form-control" (keyup.enter)="onSetFocusForDate()"/>
+
+  <label>по:</label>
+  <input type="date" name="dateTo" id="date" [(ngModel)]="updateDate.dateTo" #dateToElement class="form-control" (keyup.enter)="onSetFocusForEnter()"/>
+  
+  <div class="bt-send">
+      <button class="btn btn-light" (click)="onSendDate()" #btSendElement>
+          <img src="../../assets/arrow1.png" width="20" height="20" />
+      </button>
+  </div>
+  
+</div>

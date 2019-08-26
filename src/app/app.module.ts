@@ -18,7 +18,7 @@ import { LoginFormComponent } from './login-manager/login-form/login-form.compon
 import { OrderListComponent } from './order-manager/order-list/order-list.component';
 import { CookieService } from 'ngx-cookie-service';
 import { CreateDocumComponent } from './work-manager/create-docum/create-docum.component';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { SaveFormComponent } from './dialog-windows/save-manager/save-form/save-form.component';
 import { DetailPartnerFormComponent } from './dialog-windows/detail-partner-view/detail-partner-form/detail-partner-form.component';
 import { NgxCurrencyModule } from "ngx-currency";
@@ -65,7 +65,6 @@ import { UpdateDocDataFormComponent } from './dialog-windows/update-doc-data/upd
     MatToolbarModule,
     DemoMaterialModule,
     MatNativeDateModule,
-    DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
     NgxCurrencyModule,
@@ -87,6 +86,7 @@ import { UpdateDocDataFormComponent } from './dialog-windows/update-doc-data/upd
     AttentionFormComponent,
     SaldoFormComponent,
     ImportFormComponent,
+    UpdateDocDataFormComponent,
   ],
   bootstrap: [
     AppComponent,
