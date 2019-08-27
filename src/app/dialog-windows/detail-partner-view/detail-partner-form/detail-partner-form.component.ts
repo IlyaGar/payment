@@ -61,7 +61,7 @@ export class DetailPartnerFormComponent implements OnInit {
       this.token = this.data.token;
       this.inn = this.data.inn;
       this.provider = this.data.provider;
-      let getDetail = new GetDetail(this.token, this.inn, '', '');
+      let getDetail = new GetDetail(this.token, this.inn, this.provider, '', '');
       this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
         this.checkResponse(response); 
       }, 
@@ -126,7 +126,7 @@ export class DetailPartnerFormComponent implements OnInit {
         dateTo = new Date(this.dateTo);
         dateToString = dateTo.toLocaleDateString()
       }
-      let getDetail = new GetDetail(this.token, this.inn, dateFromString, dateToString);
+      let getDetail = new GetDetail(this.token, this.inn, this.provider, dateFromString, dateToString);
       this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
         this.checkResponse(response);  
       });
