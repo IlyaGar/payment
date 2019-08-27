@@ -81,3 +81,21 @@ label{
 .doc-td {
     text-align: right;
 }
+.tr-ch {
+    background-color: #f1b7ad;
+}
+.tr-sf {
+    background-color: #f1d9ad;
+}
+.tr-nu {
+    background-color: #c6f1ad;
+}
+.tr-ut {
+    background-color: #adeff1;
+}
+.tr-pr {
+    background-color: #f1adf1;
+}
+.tr-ch, .tr-sf, .tr-nu, .tr-ut, .tr-pr {
+    border-radius: 8px;
+}
