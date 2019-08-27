@@ -72,7 +72,7 @@ export class DetailPartnerFormComponent implements OnInit {
           this.isOpenDetalFromWorkForm = true;
           this.inn = this.data.inn;
           this.provider = this.data.provider;
-          let getDetail = new GetDetail(this.token, this.inn, '', '');
+          let getDetail = new GetDetail(this.token, this.inn, this.provider, '', '');
           this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
             this.checkResponse(response); 
           }, 
@@ -150,9 +150,13 @@ export class DetailPartnerFormComponent implements OnInit {
       sessionStorage.setItem('current-detail-date', JSON.stringify({ 
         dateFrom: this.detailDate.dateFrom, 
         dateTo: this.detailDate.dateTo}));
-      let getDetail = new GetDetail(this.token, this.inn, dateFromString, dateToString);
+      let getDetail = new GetDetail(this.token, this.inn, this.provider, dateFromString, dateToString);
       this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
-        this.checkResponse(response);  
+        this.checkResponse(response); 
+      }, 
+      error => { 
+        console.log(error);
+        this.openAttentionDialog('connection loss'); 
       });
     }
   }
