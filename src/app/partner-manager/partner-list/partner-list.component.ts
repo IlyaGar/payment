@@ -96,7 +96,8 @@ export class PartnerListComponent implements OnInit {
     }
   }
 
-  dblclickMove(itemName: string, ...targets: string[]) {
+  dblclickMove(itemName, ...targets: string[]) {
+    itemName = itemName.target.innerHTML;
     if(targets[0] == 'done') {
       this[targets[0]] = [
         ...this[targets[1]],

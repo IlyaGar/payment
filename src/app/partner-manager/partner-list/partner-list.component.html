@@ -29,11 +29,11 @@
             [cdkDropListConnectedTo]="[doneList]"
             class="example-list"
             (cdkDropListDropped)="drop($event, 'todo')"
-            (dblclick)="dblclickMove($event.target.innerText, 'done', 'todo')">
+            (dblclick)="dblclickMove($event, 'done', 'todo')">
             <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
         </div>
     </div>
-
+    <!-- (dblclick)="dblclickMove($event.target.innerText, 'done', 'todo')" -->
     <div class="example-container">
         Выбранные контрагенты   
         <div
@@ -43,7 +43,7 @@
             [cdkDropListConnectedTo]="[todoList]"
             class="example-list"
             (cdkDropListDropped)="drop($event, 'done')"
-            (dblclick)="dblclickMove($event.target.innerText, 'todo', 'done')">
+            (dblclick)="dblclickMove($event, 'todo', 'done')">
             <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
         </div>
     </div>
