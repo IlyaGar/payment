@@ -81,3 +81,18 @@ label{
 .doc-td {
     text-align: right;
 }
+.tr-ch {
+    color: #0e35e2;
+}
+.tr-sf {
+    color: magenta;
+}
+.tr-nu {
+    color: rgb(0, 150, 0);
+}
+.tr-ut {
+    color: rgb(7, 82, 7);
+}
+.tr-pr {
+    color: goldenrod;
+}

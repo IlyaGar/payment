@@ -18,6 +18,7 @@
                         <option>Сформирован</option>
                         <option>На утверждении</option>
                         <option>Утвержден</option>
+                        <option>Проведен</option>
                       </select>
                    <!--<input type="text" name="status" id="status" class="form-control" [(ngModel)]="filter.status" #status="ngModel" aria-describedby="statusLable" placeholder="Статус" />--> 
                 </div>
@@ -91,7 +92,12 @@
                 <td><mat-checkbox [(ngModel)]="selectedChecked[doc[0]]" (change)="onCheck($event, doc[0])"></mat-checkbox></td>
                 <td scope="row" (click)="onSelection(doc[0])">{{doc[0]}}</td>
                 <td scope="row" (click)="onSelection(doc[0])">{{doc[1]}}</td>
-                <td scope="row" (click)="onSelection(doc[0])">{{doc[2]}}</td>
+                <!-- state -->
+                <td scope="row" (click)="onSelection(doc[0])" 
+                    [ngClass]="{'tr-ch': doc[2]==='черновик', 'tr-sf': doc[2]==='сформирован', 'tr-nu': doc[2]==='на утверждении', 
+                                'tr-ut': doc[2]==='утвержден', 'tr-pr': doc[2]==='проведен'}">
+                    {{doc[2]}}
+                </td>                              
                 <td scope="row" (click)="onSelection(doc[0])">{{doc[3]}}</td>
                 <td scope="row" (click)="onSelection(doc[0])">{{doc[4]}}</td>
                 <td scope="row" (click)="onSelection(doc[0])">{{doc[5]}}</td>
