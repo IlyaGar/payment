@@ -260,7 +260,7 @@ export class DetailPartnerFormComponent implements OnInit {
   postNewPay() {
     if(this.isNewPay) {
       let payDate = new Date(this.newDate).toLocaleDateString();
-      let payOkayQuery = new PayOkayQuery(this.data.token, this.data.inn, payDate, this.newSumm.toString(), this.newNum);
+      let payOkayQuery = new PayOkayQuery(this.token, this.inn, this.provider, payDate, this.newSumm.toString(), this.newNum);
       this.detailPartnerService.postNewRowOut(payOkayQuery).subscribe(response => {
         this.checkResponsePost(response); 
       }, 
