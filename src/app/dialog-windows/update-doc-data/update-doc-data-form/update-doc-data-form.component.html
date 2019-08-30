@@ -1,0 +1,14 @@
+
+    <label>Обновленить данные на:</label>
+    <div class="form-inline">
+      <input type="date" name="dateTo" id="date" [(ngModel)]="updateDate.dateTo" #dateToElement class="form-control" (keyup.enter)="onSetFocusForEnter()"/>
+      <button class="btn btn-light" (click)="onSendDate()" #btSendElement>
+          <img src="../../assets/arrow1.png" width="20" height="20" />
+      </button>
+    </div>
+    <br>
+    <button class="foot-but" mat-button color="primary" (click)="onOkClick()">Закрыть</button>
+      
+
+
+  

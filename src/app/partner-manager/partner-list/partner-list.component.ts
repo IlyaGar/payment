@@ -30,6 +30,7 @@ export class PartnerListComponent implements OnInit {
   isData = true;
   isEmptySearch = true;
   isLoading = false;
+  isOneProvider = false;
   todo: Array<string> = [];
   done: Array<string> = [];
   newTodo: Array<string> = [];
@@ -42,6 +43,7 @@ export class PartnerListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.data.list.forEach(element => {
       this.done.push(element);
     });
@@ -61,6 +63,7 @@ export class PartnerListComponent implements OnInit {
       }},
       error => console.log(error)
     ); 
+
   }
 
   initList() {
@@ -90,19 +93,40 @@ export class PartnerListComponent implements OnInit {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     } else {
         if(name == 'todo') this['done'].splice(event.previousIndex, 1);//transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-        else copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex); 
+        else if(!this.isOneProvider) {
+           copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex); 
+        } else { 
+          event.container.data.splice(0, 1);
+          copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, 0); 
+        }
     }
   }
 
-  dblclickMove(itemName, ...targets: string[]) {
-    itemName = itemName.target.innerHTML;
-    if(targets[0] == 'done') {
-      this[targets[0]] = [
-        ...this[targets[1]],
-        ...this[targets[0]].push(itemName)
-        ];
+
+  dblclickMove(itemName: string, ...targets: string[]) {
+    if(this.isOneProvider) {
+      if(targets[0] == 'done') {
+        if(this[targets[0]].length === 0) {
+          this[targets[0]] = [
+            ...this[targets[1]],
+            ...this[targets[0]].push(itemName)
+            ];
+        } else {
+          this[targets[0]].splice(0, 1);
+          this[targets[0]].push(itemName);
+        }
+      } else {
+        this[targets[1]].splice(this[targets[1]].indexOf(itemName), 1);
+      }
     } else {
-      this[targets[1]].splice(this[targets[1]].indexOf(itemName), 1);
+      if(targets[0] == 'done') {
+        this[targets[0]] = [
+          ...this[targets[1]],
+          ...this[targets[0]].push(itemName)
+          ];
+      } else {
+        this[targets[1]].splice(this[targets[1]].indexOf(itemName), 1);
+      }
     }
   }
 
@@ -116,18 +140,15 @@ export class PartnerListComponent implements OnInit {
   }
 
   getToken(nameCookie: string) {
-    if(this.cookieService.check(nameCookie)){
+    if(this.cookieService.check(nameCookie)) {
       let fullData = this.cookieService.get(nameCookie);
       let loginFromCookie = JSON.parse(fullData);
-      if(loginFromCookie){
+      if(loginFromCookie) {
         return loginFromCookie.token
       }
     }
     else return false;
   }
-
-  async onEnterChange(enterValue: string) {  
-  } 
   
   onSearch(event) {
     this.isLoading = true;

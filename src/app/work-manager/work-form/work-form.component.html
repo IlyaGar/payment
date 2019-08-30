@@ -1,5 +1,4 @@
 <div class="filter">
-    
     <div class="column1">
         
         <div class="form-inline line-margin">
@@ -26,7 +25,7 @@
                 <img src="../../assets/agent2.png" width="20" height="20" />Выбрать контрагентов
             </button>
 
-            <button type="button" class="btn btn-light" (click)="ngOnInit()" data-toggle="tooltip" data-placement="bottom" title="Обновить данные">
+            <button type="button" class="btn btn-light" (click)="onOpenUpdateForm()" data-toggle="tooltip" data-placement="bottom" title="Обновить данные">
                 Обновить данные
             </button>
 
@@ -34,8 +33,6 @@
 
                 <label class="lab-im">Импорт данных:</label>
 
-                <!-- <input hidden type="file" accept=".xlsx, .xls" multiple="multiple" #onFileInput (change)="postFileMethod($event)"/> -->
-                <!-- (click)="onFileInput.click()" -->
                 <button type="file" class="btn btn-light button-icon" name="" (click)="openImportDialog()" data-toggle="tooltip" data-placement="bottom" title="Импорт платежных поручений">
                     <img src="../../assets/Excel_logo.png" width="26" height="26" />
                 </button>
@@ -46,10 +43,11 @@
         </div>
 
     </div>  
+
     <div class="column2">
 
-       
         <div class="form-inline line-margin">
+
             <button type="button" class="btn btn-success button-icon" name="" *ngIf="!isHeld" (click)="openSaveDialog(docEdit.docNum)" data-toggle="tooltip" data-placement="bottom" title="Сохранить документ">
                 <img src="../../assets/save-icon1.png" width="20" height="20" />
             </button>
@@ -66,8 +64,11 @@
                     title="Удалить документ">
                     <img src="../../assets/delete-512.png" width="20" height="20" />
             </button> 
+
         </div>
+
         <div class="form-inline">
+
             <button type="button" class="btn btn-light button-icon" (click)="onExportOneC()" name="" data-toggle="tooltip" data-placement="bottom" title="Импорт документа в 1С">
                 <img src="../../assets/icons8-1с-30.png" width="26" height="26" />
             </button>
@@ -75,11 +76,13 @@
             <button type="button" class="btn btn-light button-icon" (click)="onExportPint()" name="" data-toggle="tooltip" data-placement="bottom" title="Печать">
                     <img src="../../assets/print1.png" width="26" height="26" />
             </button>
+
         </div>
     </div>            
 
 </div>
 <div class="table-scroll">
+    
 <table class="table table-hover table-bordered mat-elevation-z8">
    <colgroup>
         <col span="1" style="width: 10%;">

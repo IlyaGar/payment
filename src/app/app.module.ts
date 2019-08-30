@@ -18,7 +18,7 @@ import { LoginFormComponent } from './login-manager/login-form/login-form.compon
 import { OrderListComponent } from './order-manager/order-list/order-list.component';
 import { CookieService } from 'ngx-cookie-service';
 import { CreateDocumComponent } from './work-manager/create-docum/create-docum.component';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { SaveFormComponent } from './dialog-windows/save-manager/save-form/save-form.component';
 import { DetailPartnerFormComponent } from './dialog-windows/detail-partner-view/detail-partner-form/detail-partner-form.component';
 import { NgxCurrencyModule } from "ngx-currency";
@@ -29,6 +29,7 @@ import { LictDocumentsComponent } from './dialog-windows/list-documents/lict-doc
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { EmptyFormComponent } from './work-manager/empty-form/empty-form.component';
 import { ImportFormComponent } from './dialog-windows/import-manager/import-form/import-form.component';
+import { UpdateDocDataFormComponent } from './dialog-windows/update-doc-data/update-doc-data-form/update-doc-data-form.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { ImportFormComponent } from './dialog-windows/import-manager/import-form
     LictDocumentsComponent,
     EmptyFormComponent,
     ImportFormComponent,
+    UpdateDocDataFormComponent,
   ],
   imports: [
     FormsModule,
@@ -62,7 +64,6 @@ import { ImportFormComponent } from './dialog-windows/import-manager/import-form
     BrowserAnimationsModule,
     MatToolbarModule,
     MatNativeDateModule,
-    DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
     NgxCurrencyModule,
@@ -84,6 +85,7 @@ import { ImportFormComponent } from './dialog-windows/import-manager/import-form
     AttentionFormComponent,
     SaldoFormComponent,
     ImportFormComponent,
+    UpdateDocDataFormComponent,
   ],
   bootstrap: [
     AppComponent,

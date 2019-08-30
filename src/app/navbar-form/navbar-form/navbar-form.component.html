@@ -14,6 +14,9 @@
         <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Оборотно-сальдовая ведомость"
           (click)="onOpenSaldoForm()">Сверка</button>
 
+        <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Детальный просмотр контрагента"
+          (click)="onOpenDetailPartnerForm()">Детальный просмотр</button>
+
     </div>
     <form class="form-inline my-2 my-lg-0" *ngIf="!isLogin">
         <button type="button" class="btn btn-secondary" (click)="onOpenLoginDialog()">Войти</button>

@@ -23,6 +23,7 @@ import { ImportFormComponent } from 'src/app/dialog-windows/import-manager/impor
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { UpdateDocDataFormComponent } from 'src/app/dialog-windows/update-doc-data/update-doc-data-form/update-doc-data-form.component';
 registerLocaleData(localeFr, 'fr');
 
 @Component({
@@ -191,7 +192,7 @@ export class WorkFormComponent implements OnInit {
   openDetailView(inn: string, provider: string) {
     const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
       width: '1050px',
-      data: {token: this.token, inn: inn, provider: provider},
+      data: { token: this.token, inn: inn, provider: provider },
     });
     dialogRef.afterClosed().subscribe(result => { });
   }
@@ -283,7 +284,6 @@ export class WorkFormComponent implements OnInit {
       this.ngOnInit();
       this.openAttentionDialog(data.status, null);
     }
-    
   }
 
   deleteItem(idrow: string) {
@@ -359,5 +359,16 @@ export class WorkFormComponent implements OnInit {
         alert('Нет соединения с сервером');
       }); 
       this.openAttentionDialog('message', 'Ведется подготовка документа. Файл можно скачать в ');
+  }
+
+  onOpenUpdateForm() {
+    const dialogRef = this.dialog.open(UpdateDocDataFormComponent, {
+      data: { token: this.token },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+       
+      }
+    });
   }
 }
