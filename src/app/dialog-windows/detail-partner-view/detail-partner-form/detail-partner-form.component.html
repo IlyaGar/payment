@@ -28,10 +28,10 @@
             <div class="form-inline">
 
                 <label>с:</label>
-                <input type="date" name="dateFrom" id="date" [(ngModel)]="detailDate.dateFrom" class="form-control" (keyup.enter)="onSetFocusForDate()"/>
+                <input type="date" name="dateFrom" id="date" [(ngModel)]="detailDate.dateFrom" class="form-control" (keyup)="onDateFrom($event)"/>
 
                 <label>по:</label>
-                <input type="date" name="dateTo" id="date" [(ngModel)]="detailDate.dateTo" #dateToElement class="form-control" (keyup.enter)="onSetFocusForEnter()"/>
+                <input type="date" name="dateTo" id="date" [(ngModel)]="detailDate.dateTo" #dateToElement class="form-control" (keyup)="onDateTo($event)"/>
                 
                 <div class="bt-send">
                         <!-- cdkFocusInitial mat-button -->

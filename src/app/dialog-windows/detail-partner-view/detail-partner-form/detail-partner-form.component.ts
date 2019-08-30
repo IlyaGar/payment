@@ -55,6 +55,9 @@ export class DetailPartnerFormComponent implements OnInit {
   isOpenDetalFromNavbar: boolean = false;
   confirmText: string = 'Да';
   cancelText: string = 'Нет';
+  dateFromString: string = '';
+  dateToString: string = '';
+  
 
   constructor(
     public dialog: MatDialog,
@@ -146,10 +149,11 @@ export class DetailPartnerFormComponent implements OnInit {
         dateTo = new Date(this.detailDate.dateTo);
         dateToString = dateTo.toLocaleDateString()
       }
-      // this.detailDate = new DetailDate(dateFromString.split(".").reverse().join("-"), dateToString.split(".").reverse().join("-") );
+      var d1 = dateFromString.split(".").reverse().join("-");
+      var d2 = dateToString.split(".").reverse().join("-");
       sessionStorage.setItem('current-detail-date', JSON.stringify({ 
-        dateFrom: dateFromString, 
-        dateTo: dateToString}));
+        dateFrom: d1, 
+        dateTo: d2 }));
       if(this.isOpenDetalFromWorkForm) {
         let getDetail = new GetDetail(this.token, this.inn, this.provider, dateFromString, dateToString);
         this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
@@ -355,7 +359,7 @@ export class DetailPartnerFormComponent implements OnInit {
     }
   }
 
-  onSetFocusForDate() {
+  setFocusForDate() {
     setTimeout(() => this.dateToElement.nativeElement.focus());
   }
 
@@ -364,6 +368,10 @@ export class DetailPartnerFormComponent implements OnInit {
   }
 
   onOpenPartnerDialog(): void {
+    let dateFromString = "";
+    let dateToString = "";
+    let dateFrom = null;
+    let dateTo = null;
     const dialogRef = this.dialog.open(PartnerListComponent, {
       width: '880px',
       height: '680px',
@@ -371,27 +379,57 @@ export class DetailPartnerFormComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        var d1, d2;
         const session = sessionStorage.getItem('current-detail-date');
-        if(session) {
-          this.detailDate = JSON.parse(session);
-          d1 = this.detailDate.dateFrom.toString();
-          d2 = this.detailDate.dateTo.toString();
-        }
+        if(this.detailDate) {
+          if(this.detailDate.dateFrom) {
+            dateFrom = new Date(this.detailDate.dateFrom);
+            dateFromString = dateFrom.toLocaleDateString()
+          }
+          if(this.detailDate.dateTo) {
+            dateTo = new Date(this.detailDate.dateTo);
+            dateToString = dateTo.toLocaleDateString()
+          }
+        } 
         else {
-          d1 = '';
-          d2 = '';
+          this.detailDate = JSON.parse(session);
+          dateFromString = this.detailDate.dateFrom.toString();
+          dateToString = this.detailDate.dateTo.toString();
         }
-        this.data.provider = result[0];
-
-        var getDetail = new GetDetail(this.token, '', result[0], d1, d2);
-        this.detailPartnerService.postGetDataPartner(getDetail).subscribe(response => {
-          this.checkResponse(response); 
-        }, 
-        error => { 
-          console.log(error);
-          this.openAttentionDialog('connection loss'); });
-      }
+      }    
+      this.data.provider = result[0];
+      var getDetail = new GetDetail(this.token, '', result[0], dateFromString, dateToString);
+      this.detailPartnerService.postGetDataPartner(getDetail).subscribe(response => {
+        this.checkResponse(response); 
+        var d1 = dateFromString.split(".").reverse().join("-");
+        var d2 = dateToString.split(".").reverse().join("-");
+        sessionStorage.setItem('current-detail-date', JSON.stringify({ 
+          dateFrom: d1, 
+          dateTo: d2 }));
+      }, 
+      error => { 
+        console.log(error);
+        this.openAttentionDialog('connection loss');
+      });
     });
+  }
+
+  onDateFrom(event) {
+    if (event.key === "Enter") {
+      this.setFocusForDate();
+    } else {
+      if(event.target.value.length > 0) {
+        this.dateFromString = event.target.value;
+      }
+    }
+  }
+
+  onDateTo(event) {
+    if (event.key === "Enter") {
+      this.onSetFocusForEnter();
+    } else {
+      if(event.target.value.length > 0) {
+        this.dateToString = event.target.value;
+      }
+    }
   }
 }

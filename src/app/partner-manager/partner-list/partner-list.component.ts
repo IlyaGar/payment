@@ -110,7 +110,8 @@ export class PartnerListComponent implements OnInit {
     }
   }
 
-  dblclickMove(itemName: string, ...targets: string[]) {
+  dblclickMove(itemName, ...targets: string[]) {
+    itemName = itemName.target.innerHTML;
     if(this.isOneProvider) {
       if(targets[0] == 'done') {
         if(this[targets[0]].length === 0) {

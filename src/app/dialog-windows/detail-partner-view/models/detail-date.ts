@@ -1,6 +1,6 @@
 export class DetailDate{
     constructor(
-        public dateFrom: string,
-        public dateTo: string,
+        public dateFrom: Date,
+        public dateTo: Date,
     ){}
 }
