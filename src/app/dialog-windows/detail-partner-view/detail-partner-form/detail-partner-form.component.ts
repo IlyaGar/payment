@@ -148,8 +148,8 @@ export class DetailPartnerFormComponent implements OnInit {
       }
       // this.detailDate = new DetailDate(dateFromString.split(".").reverse().join("-"), dateToString.split(".").reverse().join("-") );
       sessionStorage.setItem('current-detail-date', JSON.stringify({ 
-        dateFrom: this.detailDate.dateFrom, 
-        dateTo: this.detailDate.dateTo}));
+        dateFrom: dateFromString, 
+        dateTo: dateToString}));
       if(this.isOpenDetalFromWorkForm) {
         let getDetail = new GetDetail(this.token, this.inn, this.provider, dateFromString, dateToString);
         this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
@@ -162,7 +162,7 @@ export class DetailPartnerFormComponent implements OnInit {
       }
       if(this.isOpenDetalFromNavbar) {
         if(this.data.provider) {
-          var getDetail = new GetDetail(this.token, '', this.data.provider, '', '');
+          var getDetail = new GetDetail(this.token, '', this.data.provider,  dateFromString, dateToString);
           this.detailPartnerService.postGetDataPartner(getDetail).subscribe(response => {
             this.checkResponse(response); 
           }, 
@@ -371,8 +371,20 @@ export class DetailPartnerFormComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
+        var d1, d2;
+        const session = sessionStorage.getItem('current-detail-date');
+        if(session) {
+          this.detailDate = JSON.parse(session);
+          d1 = this.detailDate.dateFrom.toString();
+          d2 = this.detailDate.dateTo.toString();
+        }
+        else {
+          d1 = '';
+          d2 = '';
+        }
         this.data.provider = result[0];
-        var getDetail = new GetDetail(this.token, '', result[0], '', '');
+
+        var getDetail = new GetDetail(this.token, '', result[0], d1, d2);
         this.detailPartnerService.postGetDataPartner(getDetail).subscribe(response => {
           this.checkResponse(response); 
         }, 
@@ -383,5 +395,3 @@ export class DetailPartnerFormComponent implements OnInit {
     });
   }
 }
-
-

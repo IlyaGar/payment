@@ -5,8 +5,8 @@
     <div class="form-inline">
         <mat-form-field id="input-search">
             <input matInput placeholder="Поиск контрагента" id="searchData" name="searchData" [(ngModel)]="searchData.value" #value="ngModel"
-            (keyup.enter)="onSearch(searchData.value)">
-            
+            (keyup)="onSearch($event)">
+            <!-- (keyup.enter)="onSearch(searchData.value)" -->
         </mat-form-field>  
         <div mat-dialog-actions class="search-group">
             <mat-spinner *ngIf="isLoading" strokeWidth="3" [diameter]="25"></mat-spinner>

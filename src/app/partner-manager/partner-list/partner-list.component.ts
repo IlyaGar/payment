@@ -153,16 +153,30 @@ export class PartnerListComponent implements OnInit {
     else return false;
   }
   
-  onSearch(value) {
-    this.isLoading = true;
-    this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), value);
-    this.partnerService.postGetPartner(this.providerQuery).subscribe(response => { 
-      if(response) {
-        this.providerResponse = response; 
-        this.initList(); 
-      }},
-      error => console.log(error)
-    ); 
+  onSearch(event) {
+    if (event.key === "Enter") {
+      if(event.target.value) {
+        if(this.providerResponse) {
+          this.isLoading = false;
+          if(this.providerResponse.list != null) {
+            if(this.providerResponse.list.length != 0) {
+              this.todo = this.providerResponse.list;
+              this.isData = true;
+            } else { this.isData = false; this.todo = null; }
+          } else { this.isData = false; this.todo = null; }
+        } else { this.isData = false; this.todo = null; }
+      } else { this.isData = false; this.todo = null; }
+    } else {
+      this.isLoading = true;
+      this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), event.target.value);
+      this.partnerService.postGetPartner(this.providerQuery).subscribe(response => { 
+        if(response) {
+          this.providerResponse = response; 
+          this.initList(); 
+        }},
+        error => console.log(error)
+      ); 
+    }
   }
     
   onClear() {
