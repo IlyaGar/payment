@@ -11,6 +11,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateDocumComponent } from 'src/app/work-manager/create-docum/create-docum.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, 'fr');
+
 export class SelectedData{
   constructor(
     numdoc: string,
@@ -38,7 +42,7 @@ export class SearchFormComponent implements OnInit {
   isViewComponent = false;
   isSelected = false;
   allSelected: string = '0';
-  sumSelected: string = '0';
+  sumSelected: number = 0;
   statusSelect: string = 'Все объекты';
   token: string;
   isNoRules = false;
@@ -106,7 +110,7 @@ export class SearchFormComponent implements OnInit {
   giveSumAndCount(isData: boolean) {
     if(isData){
       this.allSelected = this.docsResponse.docCount;
-      this.sumSelected = this.docsResponse.docSum;
+      this.sumSelected = parseFloat(this.docsResponse.docSum.replace(/\s/g, "").replace(",", "."));
     }
     else{
       this.allSelected = null;
@@ -132,7 +136,7 @@ export class SearchFormComponent implements OnInit {
     if(token){
       this.loadData();
       this.allSelected = this.docsResponse.docCount;
-      this.sumSelected = this.docsResponse.docSum;
+      this.sumSelected =  parseFloat(this.docsResponse.docSum.replace(/\s/g, "").replace(",", "."));
       sessionStorage.setItem('currentUser', JSON.stringify({ 
         name: this.filter.name, 
         nomer: this.filter.nomer, 

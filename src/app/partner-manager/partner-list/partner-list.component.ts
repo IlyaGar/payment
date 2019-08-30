@@ -5,7 +5,6 @@ import { PartnerService } from '../partner-service/partner.service';
 import { ProviderQuery } from '../models/provider-query';
 import { ProviderResponse } from '../models/provider-response';
 import { CookieService } from 'ngx-cookie-service';
-import { delay } from 'q';
 
 export class SearchData {
   constructor(
@@ -15,12 +14,6 @@ export class SearchData {
 
 export interface DialogData {
   list: Array<string>;
-}
-
-export class ListAgent{
-  constructor(
-      public  name: string,
-  ){}
 }
 
 @Component({
@@ -40,46 +33,7 @@ export class PartnerListComponent implements OnInit {
   todo: Array<string> = [];
   done: Array<string> = [];
   newTodo: Array<string> = [];
-
-  todoListAgent: ListAgent[] = 
-  [
-    { name: 'Get to work' },
-    { name: 'Pick up groceries' },
-    { name: 'Go home' },
-    { name: 'Fall asleep' },
-    { name: 'Get up' },
-    { name: 'Brush teeth' },
-    { name: 'Take a shower' },
-    { name: 'Check e-mail' },
-    { name: 'Walk dog' },
-    { name: '1Get to work' },
-    { name: '1Pick up groceries' },
-    { name: 'Go home' },
-    { name: '1Fall asleep' },
-    { name: '1Get up' },
-    { name: '1Brush teeth' },
-    { name: '1Take a shower' },
-    { name: '1Check e-mail' },
-    { name: '1Walk dog' },
-    { name: '12Get to work' },
-    { name: '12Pick up groceries' },
-    { name: '12Go home' },
-    { name: '12Fall asleep' },
-    { name: '12Get up' },
-    { name: '12Brush teeth' },
-    { name: '12Take a shower' },
-    { name: '12Check e-mail' },
-    { name: '12Walk dog' }
-  ];
-  doneListAgent: ListAgent[] = 
-  [
-    { name: 'Get up' },
-    { name: 'Brush teeth' },
-    { name: 'Take a shower' },
-    { name: 'Check e-mail' },
-    { name: 'Walk dog' }
-  ];
-
+  
   constructor(
     public dialogRef: MatDialogRef<PartnerListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -88,19 +42,25 @@ export class PartnerListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    /*this.todoListAgent.forEach(element => {
-      let t = 0;
-      this.todo.push(element.name.toString());
-    });*/
     this.data.list.forEach(element => {
       this.done.push(element);
     });
-    /*this.doneListAgent.forEach(element => {
-      this.done.push(element.name);
-    });*/
 
-    //this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), '');
-    //this.partnerService.postGetPartner(this.providerQuery).subscribe(d => { this.providerResponse = d; this.initList(); } ); 
+    this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), '');
+    this.partnerService.postGetPartner(this.providerQuery).subscribe(response => { 
+      if(response) {
+        this.providerResponse = response; 
+        if(this.providerResponse) {
+          if(this.providerResponse.list != null) {
+            if(this.providerResponse.list.length != 0) {
+              this.todo = this.providerResponse.list;
+              this.isData = true;
+            } else { this.isData = false; this.todo = null; }
+          } else { this.isData = false; this.todo = null; }
+        } else { this.isData = false; this.todo = null; }
+      }},
+      error => console.log(error)
+    ); 
   }
 
   initList() {
@@ -111,7 +71,6 @@ export class PartnerListComponent implements OnInit {
           if(this.providerResponse.list.length != 0) {
             this.todo = this.providerResponse.list;
             this.isData = true;
-            
           } else { this.isData = false; this.todo = null; }
         } else { this.isData = false; this.todo = null; }
       } else { this.isData = false; this.todo = null; }
@@ -135,7 +94,8 @@ export class PartnerListComponent implements OnInit {
     }
   }
 
-  dblclickMove(itemName: string, ...targets: string[]) {
+  dblclickMove(itemName, ...targets: string[]) {
+    itemName = itemName.target.innerHTML;
     if(targets[0] == 'done') {
       this[targets[0]] = [
         ...this[targets[1]],
@@ -169,10 +129,16 @@ export class PartnerListComponent implements OnInit {
   async onEnterChange(enterValue: string) {  
   } 
   
-  onSearch(value) {
+  onSearch(event) {
     this.isLoading = true;
-    this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), value);
-    this.partnerService.postGetPartner(this.providerQuery).subscribe(d => { this.providerResponse = d; this.initList(); } );  
+    this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), event.target.value);
+    this.partnerService.postGetPartner(this.providerQuery).subscribe(response => { 
+      if(response) {
+        this.providerResponse = response; 
+        this.initList(); 
+      }},
+      error => console.log(error)
+    );   
   }
     
   onClear() {

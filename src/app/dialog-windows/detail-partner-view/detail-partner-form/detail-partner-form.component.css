@@ -112,3 +112,11 @@ td > input {
 .select-row {
     background: rgb(194, 121, 121);
 }
+
+.mat-row {
+    height: auto;
+}
+  
+.mat-cell {
+    padding: 8px 16px 8px 0;
+}

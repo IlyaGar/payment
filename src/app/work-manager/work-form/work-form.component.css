@@ -161,3 +161,6 @@ td#click:hover {
 .line-margin {
     margin-bottom: 0.3em;
 }
+.doc-td {
+    text-align: right;
+}

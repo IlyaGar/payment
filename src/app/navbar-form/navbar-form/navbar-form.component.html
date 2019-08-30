@@ -8,13 +8,6 @@
         </li>
     </ul>
     <div>
-            <!-- (keyup)="onEnterNumber($event)"  -->
-        <input type="text" [(ngModel)]="value1" (keyup)="onEnterNumber($event)"/>
-
-        <div ng-repeate="item in items">
-            <input type="text"  ng-model="item.cost" format="currency" />
-        </div>
-
         <button type="button" id="newdoc" class="btn btn-success" *ngIf="isLogin" data-toggle="tooltip" data-placement="bottom" title="Создать новый документ"
           (click)="onCreateDocum()">Новый документ</button>
           
