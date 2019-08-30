@@ -98,9 +98,6 @@ button {
     min-width: 26px !important;
     line-height: 0px; 
 }
-/* input#nsumm {
-    height: 80%;
-} */
 td > input {
     height: 2em;
     margin: 0.2em 0em;
@@ -119,4 +116,15 @@ td > input {
   
 .mat-cell {
     padding: 8px 16px 8px 0;
+}
+
+.btn:focus {
+    outline: 1px solid rgb(105, 169, 228) !important;
+    box-shadow: 0 0 3pt 2pt rgb(105, 169, 228);
+}
+div#id-provider {
+    margin-bottom: 0.5em;
+}
+label#id-provider-name {
+    margin-left: 0.5em;
 }
