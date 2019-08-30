@@ -49,9 +49,13 @@ export class PartnerListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.data.list.forEach(element => {
-      this.done.push(element);
-    });
+    if(this.data.list) {
+      this.data.list.forEach(element => {
+        this.done.push(element);
+      });
+    } else {
+      this.isOneProvider = true;
+    }
 
     this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), '');
     this.partnerService.postGetPartner(this.providerQuery).subscribe(response => { 
