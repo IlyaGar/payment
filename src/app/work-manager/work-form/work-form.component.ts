@@ -366,7 +366,6 @@ export class WorkFormComponent implements OnInit {
 
   onOpenUpdateForm() {
     const dialogRef = this.dialog.open(UpdateDocDataFormComponent, {
-      width: '600px',
       data: { token: this.token },
     });
     dialogRef.afterClosed().subscribe(result => {

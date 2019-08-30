@@ -150,14 +150,27 @@ export class DetailPartnerFormComponent implements OnInit {
       sessionStorage.setItem('current-detail-date', JSON.stringify({ 
         dateFrom: this.detailDate.dateFrom, 
         dateTo: this.detailDate.dateTo}));
-      let getDetail = new GetDetail(this.token, this.inn, this.provider, dateFromString, dateToString);
-      this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
-        this.checkResponse(response); 
-      }, 
-      error => { 
-        console.log(error);
-        this.openAttentionDialog('connection loss'); 
-      });
+      if(this.isOpenDetalFromWorkForm) {
+        let getDetail = new GetDetail(this.token, this.inn, this.provider, dateFromString, dateToString);
+        this.detailPartnerService.postGetDatail(getDetail).subscribe(response => {
+          this.checkResponse(response); 
+        }, 
+        error => { 
+          console.log(error);
+          this.openAttentionDialog('connection loss'); 
+        });
+      }
+      if(this.isOpenDetalFromNavbar) {
+        if(this.data.provider) {
+          var getDetail = new GetDetail(this.token, '', this.data.provider, '', '');
+          this.detailPartnerService.postGetDataPartner(getDetail).subscribe(response => {
+            this.checkResponse(response); 
+          }, 
+          error => { 
+            console.log(error);
+            this.openAttentionDialog('connection loss'); });
+        }
+      }
     }
   }
 
@@ -358,8 +371,10 @@ export class DetailPartnerFormComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.detailPartnerService.postGetDataPartner(result).subscribe(response => {
-          this.checkResponsePost(response); 
+        this.data.provider = result[0];
+        var getDetail = new GetDetail(this.token, '', result[0], '', '');
+        this.detailPartnerService.postGetDataPartner(getDetail).subscribe(response => {
+          this.checkResponse(response); 
         }, 
         error => { 
           console.log(error);

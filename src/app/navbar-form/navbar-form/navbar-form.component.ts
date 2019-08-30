@@ -164,7 +164,6 @@ export class NavbarFormComponent implements OnInit {
   onOpenDetailPartnerForm(provider: string, unp: string) {
     const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
       width: '1050px',
-      height: '700px',
       data: { token: this.token, inn: null, provider: null },
     });
     dialogRef.afterClosed().subscribe(result => {  });

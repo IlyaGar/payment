@@ -14,7 +14,7 @@ export class DetailPartnerService {
   private urlget = environment.apiUrl + 'detail/';
   private urldelete = environment.apiUrl + 'paydel/';
   private urlpost = environment.apiUrl + 'payokay/';
-  private urlpartner = environment.apiUrl + '!!!!!!/';
+  private urlpartner = environment.apiUrl + 'detailone/';
   
   constructor(private http: HttpClient) { }
 
