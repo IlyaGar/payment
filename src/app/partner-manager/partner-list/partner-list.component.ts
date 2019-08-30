@@ -5,7 +5,6 @@ import { PartnerService } from '../partner-service/partner.service';
 import { ProviderQuery } from '../models/provider-query';
 import { ProviderResponse } from '../models/provider-response';
 import { CookieService } from 'ngx-cookie-service';
-import { delay } from 'q';
 
 export class SearchData {
   constructor(
@@ -15,12 +14,6 @@ export class SearchData {
 
 export interface DialogData {
   list: Array<string>;
-}
-
-export class ListAgent{
-  constructor(
-      public  name: string,
-  ){}
 }
 
 @Component({
@@ -40,7 +33,7 @@ export class PartnerListComponent implements OnInit {
   todo: Array<string> = [];
   done: Array<string> = [];
   newTodo: Array<string> = [];
-
+  
   constructor(
     public dialogRef: MatDialogRef<PartnerListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -49,19 +42,25 @@ export class PartnerListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    /*this.todoListAgent.forEach(element => {
-      let t = 0;
-      this.todo.push(element.name.toString());
-    });*/
     this.data.list.forEach(element => {
       this.done.push(element);
     });
-    /*this.doneListAgent.forEach(element => {
-      this.done.push(element.name);
-    });*/
 
-    //this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), '');
-    //this.partnerService.postGetPartner(this.providerQuery).subscribe(d => { this.providerResponse = d; this.initList(); } ); 
+    this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), '');
+    this.partnerService.postGetPartner(this.providerQuery).subscribe(response => { 
+      if(response) {
+        this.providerResponse = response; 
+        if(this.providerResponse) {
+          if(this.providerResponse.list != null) {
+            if(this.providerResponse.list.length != 0) {
+              this.todo = this.providerResponse.list;
+              this.isData = true;
+            } else { this.isData = false; this.todo = null; }
+          } else { this.isData = false; this.todo = null; }
+        } else { this.isData = false; this.todo = null; }
+      }},
+      error => console.log(error)
+    ); 
   }
 
   initList() {
@@ -72,7 +71,6 @@ export class PartnerListComponent implements OnInit {
           if(this.providerResponse.list.length != 0) {
             this.todo = this.providerResponse.list;
             this.isData = true;
-            
           } else { this.isData = false; this.todo = null; }
         } else { this.isData = false; this.todo = null; }
       } else { this.isData = false; this.todo = null; }
@@ -131,16 +129,16 @@ export class PartnerListComponent implements OnInit {
   async onEnterChange(enterValue: string) {  
   } 
   
-  onSearch(value) {
+  onSearch(event) {
     this.isLoading = true;
-    this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), value);
+    this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), event.target.value);
     this.partnerService.postGetPartner(this.providerQuery).subscribe(response => { 
       if(response) {
         this.providerResponse = response; 
         this.initList(); 
       }},
       error => console.log(error)
-    ); 
+    );   
   }
     
   onClear() {

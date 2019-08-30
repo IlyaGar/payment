@@ -61,7 +61,6 @@ import { ImportFormComponent } from './dialog-windows/import-manager/import-form
     NgxPaginationModule,
     BrowserAnimationsModule,
     MatToolbarModule,
-    DemoMaterialModule,
     MatNativeDateModule,
     DemoMaterialModule,
     MatNativeDateModule,
