@@ -1,28 +1,56 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark" *ngIf="isLogin"><!--fixed-top-->
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item" [routerLinkActive]="['active']">
-            <a *ngIf="isLogin" class="nav-link" [routerLink]="['search']">Список документов</a>
-        </li>
-        <li class="nav-item" [routerLinkActive]="['active']">
-            <a *ngIf="isLogin" class="nav-link" [routerLink]="['mydocs']">Мои документы</a>
-        </li>
-    </ul>
-    <div>
+<mat-card-title>Выбор контрагента</mat-card-title>
 
-      <button type="button" id="newdoc" class="btn btn-success" *ngIf="isLogin" data-toggle="tooltip" data-placement="bottom" title="Создать новый документ"
-          (click)="onCreateDocum()">Новый документ</button>
-          
-        <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Оборотно-сальдовая ведомость"
-          (click)="onOpenSaldoForm()">Сверка</button>
-
+<mat-card class="mat-elevation-z8">
+    
+    <div class="form-inline">
+        <mat-form-field id="input-search">
+            <input matInput placeholder="Поиск контрагента" id="searchData" name="searchData" [(ngModel)]="searchData.value" #value="ngModel"
+            (keyup.enter)="onSearch(searchData.value)">
+            
+        </mat-form-field>  
+        <div mat-dialog-actions class="search-group">
+            <mat-spinner *ngIf="isLoading" strokeWidth="3" [diameter]="25"></mat-spinner>
+            <div *ngIf="!isLoading" style="margin-left: 3em;">&emsp;</div>
+            <button mat-button (click)="onSearch(searchData.value)">Искать</button>
+            <button mat-button (click)="onClear()">Очистить</button>
+        </div>
     </div>
-    <form class="form-inline my-2 my-lg-0" *ngIf="!isLogin">
-        <button type="button" class="btn btn-secondary" (click)="onOpenLoginDialog()">Войти</button>
-    </form>
-    <form class="form-inline my-2 my-lg-0" >
-        <span>Здравствуйте! {{loginResponse.cn}}</span>
-    </form>
-    <form class="form-inline my-2 my-lg-0" *ngIf="isLogin">
-        <button type="button" class="btn btn-secondary" (click)="onLogOut()">Выйти</button>
-    </form>
-</nav>
+  
+    
+      
+    <div class="example-container">
+        <div *ngIf="isData">Доступные контрагенты</div> 
+        <div *ngIf="!isData" class="notfaund">Ничего не найдено</div> 
+        <!-- (scroll)="onScroll($event)"-->
+        <div 
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="todo"
+            [cdkDropListConnectedTo]="[doneList]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event, 'todo')"
+            (dblclick)="dblclickMove($event.target.innerText, 'done', 'todo')">
+            <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+        </div>
+    </div>
+
+    <div class="example-container">
+        Выбранные контрагенты   
+        <div
+            cdkDropList
+            #doneList="cdkDropList"
+            [cdkDropListData]="done"
+            [cdkDropListConnectedTo]="[todoList]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event, 'done')"
+            (dblclick)="dblclickMove($event.target.innerText, 'todo', 'done')">
+            <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+        </div>
+    </div>
+
+</mat-card>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Отмена</button>
+    <button mat-button color="primary" (click)="onOkClick(done)">Ok</button>
+</div>

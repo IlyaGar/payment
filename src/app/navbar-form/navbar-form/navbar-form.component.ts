@@ -1,170 +1,159 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginFormComponent } from 'src/app/login-manager/login-form/login-form.component';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginResponse } from 'src/app/login-manager/models/login-response';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, copyArrayItem } from '@angular/cdk/drag-drop';
+import { PartnerService } from '../partner-service/partner.service';
+import { ProviderQuery } from '../models/provider-query';
+import { ProviderResponse } from '../models/provider-response';
 import { CookieService } from 'ngx-cookie-service';
-import { LoginService } from 'src/app/login-manager/service/login.service';
-import { LogoutStatus } from 'src/app/login-manager/models/logout-status';
-import { Logout } from 'src/app/login-manager/models/logout';
-import { CommonService } from 'src/app/common/common.service';
-import { CreateDocumComponent } from 'src/app/work-manager/create-docum/create-docum.component';
-import { Router } from '@angular/router';
-import { SaldoFormComponent } from 'src/app/dialog-windows/saldo-manager/saldo-form/saldo-form.component';
-import { NavbarService } from '../services/navbar.service';
-import { LictDocumentsComponent } from 'src/app/dialog-windows/list-documents/lict-documents/lict-documents.component';
-import { DetailPartnerFormComponent } from 'src/app/dialog-windows/detail-partner-view/detail-partner-form/detail-partner-form.component';
+
+export class SearchData {
+  constructor(
+    public value: string,
+  ){}
+}
+
+export interface DialogData {
+  list: Array<string>;
+}
+
+export class ListAgent{
+  constructor(
+      public  name: string,
+  ){}
+}
 
 @Component({
-  selector: 'app-navbar-form',
-  templateUrl: './navbar-form.component.html',
-  styleUrls: ['./navbar-form.component.css']
+  selector: 'app-partner-list',
+  templateUrl: './partner-list.component.html',
+  styleUrls: ['./partner-list.component.css']
 })
-export class NavbarFormComponent implements OnInit {
+export class PartnerListComponent implements OnInit {
 
+  providerQuery: ProviderQuery;
+  providerResponse: ProviderResponse;
   nameCookie = 'user';
-  isLogin = false;
-  loginResponse = new LoginResponse("", "", "", "", "", "");
-  logoutStatus: LogoutStatus;
+  searchData = new SearchData("");
+  isData = true;
+  isEmptySearch = true;
+  isLoading = false;
+  isOneProvider = false;
+  todo: Array<string> = [];
+  done: Array<string> = [];
+  newTodo: Array<string> = [];
 
   constructor(
-    public dialog: MatDialog,
-    private navbarService: NavbarService,
+    public dialogRef: MatDialogRef<PartnerListComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private cookieService: CookieService,
-    private loginService: LoginService,
-    private commonService: CommonService,
-    private router: Router
-  ) { 
-      this.commonService.events$.forEach(event => { console.log(event); this.listenEvent(event) });
-    }
-  
+    private partnerService: PartnerService
+  ) { }
+
   ngOnInit() {
-    if(this.cookieService.check(this.nameCookie)){
-      let fullData = this.cookieService.get(this.nameCookie);
-      let loginFromCookie = JSON.parse(fullData);
-      if(loginFromCookie){
-        this.loginResponse = loginFromCookie;
-        this.isLogin = true;
-      }
+    if(this.data.list) {
+      this.data.list.forEach(element => {
+        this.done.push(element);
+      });
     }
-    else this.isLogin = false;
+    else 
+      this.isOneProvider = true;
   }
 
-  listenEvent(event) {
-    if(event == 'login') {
-      this.ngOnInit();
-    }
+  initList() {
+    if(this.isEmptySearch) {
+      if(this.providerResponse) {
+        this.isLoading = false;
+        if(this.providerResponse.list != null) {
+          if(this.providerResponse.list.length != 0) {
+            this.todo = this.providerResponse.list;
+            this.isData = true;
+          } else { this.isData = false; this.todo = null; }
+        } else { this.isData = false; this.todo = null; }
+      } else { this.isData = false; this.todo = null; }
+    } else { this.isData = false; this.todo = null; }
+  }
+  
+  onOkClick(data) {
+    this.dialogRef.close(data);
   }
 
-  onOpenLoginDialog(): void {
-    const dialogRef = this.dialog.open(LoginFormComponent, {
-      width: '400px',
-      height: '340px',
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.loginResponse = result;
-        this.isLogin = true;
-      }
-    });
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
-  onCreateDocum(): void {
-    const dialogRef = this.dialog.open(CreateDocumComponent, {
-      width: '400px',
-      height: '200px',
-      data: {token: this.getToken(this.nameCookie), list: null},
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.redirectTo(result.id);
-      }
-    });
-  }
-
-  redirectTo(id: string) {
-    this.router.navigateByUrl('/empty', { skipLocationChange: true }).then(()=>
-      this.router.navigate(['/work', id])
-    );
-  }
-
-  onOpenListDocuments(): void {
-    this.router.navigate(['/mydocs']);
-  }
-
-  onOpenSaldoForm() {
-    const dialogRef = this.dialog.open(SaldoFormComponent, {
-      width: '600px',
-      data: {token: this.getToken(this.nameCookie)},
-    });
-    dialogRef.afterClosed().subscribe(result => { });
-  }
-
-  postFileMethod(event) {
-    let files = event.target.files;
-    if(files.length > 0) {
-      let file = files[0];
-      let formData = new FormData(); 
-      formData.append('file', file, file.name);
-      console.log(formData.getAll('file'));
-      this.navbarService.postSaldoFile(formData).subscribe((result) => {
-        if(result) {   
-          console.log(result);
-          this.checkResult(result);
+  drop(event: CdkDragDrop<string[]>, name: string) {
+    if (event.previousContainer === event.container) {
+      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+        if(name == 'todo') this['done'].splice(event.previousIndex, 1);//transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+        else if(!this.isOneProvider) {
+           copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex); 
+        } else { 
+          event.container.data.splice(0, 1);
+          copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, 0); 
         }
-      });
     }
   }
 
-  checkResult(result) {
-    let e = 9;
+  dblclickMove(itemName: string, ...targets: string[]) {
+    if(this.isOneProvider) {
+      if(targets[0] == 'done') {
+        if(this[targets[0]].length === 0) {
+          this[targets[0]] = [
+            ...this[targets[1]],
+            ...this[targets[0]].push(itemName)
+            ];
+        } else {
+          this[targets[0]].splice(0, 1);
+          this[targets[0]].push(itemName);
+        }
+      } else {
+        this[targets[1]].splice(this[targets[1]].indexOf(itemName), 1);
+      }
+    } else {
+      if(targets[0] == 'done') {
+        this[targets[0]] = [
+          ...this[targets[1]],
+          ...this[targets[0]].push(itemName)
+          ];
+      } else {
+        this[targets[1]].splice(this[targets[1]].indexOf(itemName), 1);
+      }
+    }
   }
 
-  onLogOut() {
-    let logout = new Logout(this.loginResponse.login, this.loginResponse.token);
-    this.loginService.postLogout(logout).subscribe( response => { 
-      this.logoutStatus = response; 
-      this.logOut(); 
-    },
-      error => { 
-        console.log(error); 
-        alert("Сервер не отвечает.");
-      });
-  }
-
-  logOut() {
-    let status = this.logoutStatus;
-    if(status.status == 'true') {
-      this.isLogin = false;
-      this.deleteCookie(this.nameCookie);
-      //this.service.newEvent('logout');
-      this.router.navigate(['/login']); 
-    } 
-    else alert("Ошибка!");
+  autodrop(event: CdkDragDrop<string[]>, name: string) {
+    if (event.previousContainer === event.container) {
+      copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+        if(name == 'todo') this['done'].splice(event.previousIndex, 1);//transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+        else copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex); 
+    }
   }
 
   getToken(nameCookie: string) {
-    if(this.cookieService.check(nameCookie)){
+    if(this.cookieService.check(nameCookie)) {
       let fullData = this.cookieService.get(nameCookie);
       let loginFromCookie = JSON.parse(fullData);
-      if(loginFromCookie){
+      if(loginFromCookie) {
         return loginFromCookie.token
       }
     }
     else return false;
   }
-
-  deleteCookie(nameCookie: string) {
-    if(this.cookieService.check(nameCookie)){
-      this.cookieService.delete(nameCookie);
-    }
+  
+  onSearch(value) {
+    this.isLoading = true;
+    this.providerQuery = new ProviderQuery(this.getToken(this.nameCookie), value);
+    this.partnerService.postGetPartner(this.providerQuery).subscribe(response => { 
+      if(response) {
+        this.providerResponse = response; 
+        this.initList(); 
+      }},
+      error => console.log(error)
+    ); 
   }
-
-  openDetailView(provider: string, unp: string) {
-    const dialogRef = this.dialog.open(DetailPartnerFormComponent, {
-      width: '1050px',
-      height: '700px',
-      data: {provider: provider},
-    });
-    dialogRef.afterClosed().subscribe(result => {  });
+    
+  onClear() {
+    this.searchData = new SearchData("");
   }
 }
