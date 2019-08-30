@@ -3,20 +3,21 @@
 <mat-card class="mat-elevation-z8">
     
     <div class="form-inline">
-        
-        <mat-form-field id="input-search"> 
+        <mat-form-field id="input-search">
             <input matInput placeholder="Поиск контрагента" id="searchData" name="searchData" [(ngModel)]="searchData.value" #value="ngModel"
-            (keyup)="onSearch($event)"> 
+            (keyup.enter)="onSearch(searchData.value)">
+            
         </mat-form-field>  
-
         <div mat-dialog-actions class="search-group">
             <mat-spinner *ngIf="isLoading" strokeWidth="3" [diameter]="25"></mat-spinner>
             <div *ngIf="!isLoading" style="margin-left: 3em;">&emsp;</div>
             <button mat-button (click)="onSearch(searchData.value)">Искать</button>
             <button mat-button (click)="onClear()">Очистить</button>
-        </div> 
-    </div> 
-
+        </div>
+    </div>
+  
+    
+      
     <div class="example-container">
         <div *ngIf="isData">Доступные контрагенты</div> 
         <div *ngIf="!isData" class="notfaund">Ничего не найдено</div> 
@@ -28,11 +29,11 @@
             [cdkDropListConnectedTo]="[doneList]"
             class="example-list"
             (cdkDropListDropped)="drop($event, 'todo')"
-            (dblclick)="dblclickMove($event, 'done', 'todo')">
+            (dblclick)="dblclickMove($event.target.innerText, 'done', 'todo')">
             <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
         </div>
     </div>
-    <!-- (dblclick)="dblclickMove($event.target.innerText, 'done', 'todo')" -->
+
     <div class="example-container">
         Выбранные контрагенты   
         <div
@@ -42,7 +43,7 @@
             [cdkDropListConnectedTo]="[todoList]"
             class="example-list"
             (cdkDropListDropped)="drop($event, 'done')"
-            (dblclick)="dblclickMove($event, 'todo', 'done')">
+            (dblclick)="dblclickMove($event.target.innerText, 'todo', 'done')">
             <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
         </div>
     </div>
