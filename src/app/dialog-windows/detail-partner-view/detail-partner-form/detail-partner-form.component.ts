@@ -119,17 +119,21 @@ export class DetailPartnerFormComponent implements OnInit {
   }
 
   removeZeros() {
-    if(this.detailResponse.docIn.length > 0) {
-      this.detailResponse.docIn.forEach(element => {
-        var splitedCreateDate = element[0].split(' ');
-        element[0] = splitedCreateDate[0];
-      });
+    if(this.detailResponse.docIn) {
+      if(this.detailResponse.docIn.length > 0) {
+        this.detailResponse.docIn.forEach(element => {
+          var splitedCreateDate = element[0].split(' ');
+          element[0] = splitedCreateDate[0];
+        });
+      }
     }
-    if(this.detailResponse.docOut.length > 0) {
-      this.detailResponse.docOut.forEach(element => {
-        var splitedCreateDate = element[0].split(' ');
-        element[0] = splitedCreateDate[0];
-      });
+    if(this.detailResponse.docOut) {
+      if(this.detailResponse.docOut.length > 0) {
+        this.detailResponse.docOut.forEach(element => {
+          var splitedCreateDate = element[0].split(' ');
+          element[0] = splitedCreateDate[0];
+        });
+      }
     }
   }
 
