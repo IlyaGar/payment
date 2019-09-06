@@ -6,16 +6,19 @@
 
       <p>
         <mat-form-field class="input-full-width">
-          <input type="text" [(ngModel)]="loginQuery.login" id="login" name="login" #login="ngModel" minlength="3" maxlength="20" matInput placeholder="Введите Логин" (keyup.enter)="onOkClick()">
+          <input type="text" [(ngModel)]="loginQuery.login" id="login" name="login" #login="ngModel"  
+            matInput placeholder="Введите Логин" (keyup.enter)="onOkClick()">
         </mat-form-field>
+        <label *ngIf="isNoLogin" class="etention"> Введите логин! </label>
       </p>
-
+      
       <p>
         <mat-form-field class="input-full-width">
           <input type="password" [(ngModel)]="loginQuery.password" matInput placeholder="Введите пароль" (keyup.enter)="onOkClick()">
         </mat-form-field>
+        <label *ngIf="isNoPassword" class="etention"> Введите пароль! </label>
       </p>
-
+      
       <div mat-dialog-actions>
         <button mat-button (click)="onNoClick()">Отмена</button>
         <button mat-button color="primary" *ngIf="isCorectLogin" (click)="onOkClick()">Ok</button>

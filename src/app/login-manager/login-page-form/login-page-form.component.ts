@@ -22,6 +22,8 @@ export class LoginPageFormComponent implements OnInit {
   expiredDate: Date;
   loginQuery = new LoginQuery("", "");
   loginResponse: LoginResponse;
+  isNoLogin = false;
+  isNoPassword = false;
 
   constructor(
     public dialog: MatDialog,
@@ -44,11 +46,21 @@ export class LoginPageFormComponent implements OnInit {
   }
 
   onOkClick() {
-    this.loginService.getLogin(this.loginQuery).subscribe(response => {
-      this.checkResponse(response) 
-    },
-        error => console.log(error)
-    );
+    if(!this.loginQuery.login) 
+      this.isNoLogin = true;   
+    else 
+      this.isNoLogin = false;   
+    if(!this.loginQuery.password) 
+      this.isNoPassword = true;
+    else 
+      this.isNoPassword = false;
+    if(!this.isNoLogin && !this.isNoPassword) {
+      this.loginService.getLogin(this.loginQuery).subscribe(response => {
+        this.checkResponse(response) 
+      },
+          error => console.log(error)
+      );   
+    }
   }
 
   loginUser() {
