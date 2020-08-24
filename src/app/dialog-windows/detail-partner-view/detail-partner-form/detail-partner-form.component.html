@@ -55,6 +55,7 @@
                         {{detailResponse.endSaldo}}
                     </div>
                 </div>
+
             </div>
 
             <div class="caption-table"><label>Акт сверки</label></div>
@@ -169,7 +170,7 @@
     </div>
    
     <div mat-dialog-actions class="foot">
-         <!-- cdkFocusInitial -->
+        <button class="foot-but" mat-button color="primary" (click)="onActChecking()">Акт сверки</button>
         <button class="foot-but" mat-button color="primary" (click)="onOkClick()">Закрыть</button>
     </div>
 

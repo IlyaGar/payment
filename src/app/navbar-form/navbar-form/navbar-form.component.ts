@@ -35,7 +35,7 @@ export class NavbarFormComponent implements OnInit {
     private commonService: CommonService,
     private router: Router
   ) { 
-      this.commonService.events$.forEach(event => { console.log(event); this.listenEvent(event) });
+      this.commonService.events$.forEach(event => { this.isLogin = event });
     }
   
   ngOnInit() {
@@ -49,12 +49,7 @@ export class NavbarFormComponent implements OnInit {
       }
     }
     else this.isLogin = false;
-  }
-
-  listenEvent(event) {
-    if(event == 'login') {
-      this.ngOnInit();
-    }
+    this.router.navigate(['/login']);
   }
 
   onOpenLoginDialog(): void {
@@ -111,26 +106,25 @@ export class NavbarFormComponent implements OnInit {
       this.navbarService.postSaldoFile(formData).subscribe((result) => {
         if(result) {   
           console.log(result);
-          this.checkResult(result);
         }
       });
     }
   }
 
-  checkResult(result) {
-    let e = 9;
-  }
-
   onLogOut() {
-    let logout = new Logout(this.loginResponse.login, this.loginResponse.token);
-    this.loginService.postLogout(logout).subscribe( response => { 
-      this.logoutStatus = response; 
-      this.logOut(); 
-    },
-      error => { 
-        console.log(error); 
-        alert("Сервер не отвечает.");
-      });
+    // let logout = new Logout(this.loginResponse.login, this.loginResponse.token);
+    // this.loginService.postLogout(logout).subscribe( response => { 
+    //   this.logoutStatus = response; 
+    //   this.logOut(); 
+    // },
+    //   error => { 
+    //     console.log(error); 
+    //     alert("Сервер не отвечает.");
+    //   });
+
+    this.isLogin = false;
+    this.deleteCookie(this.nameCookie);
+    this.router.navigate(['/login']); 
   }
 
   logOut() {

@@ -58,8 +58,9 @@ export class LictDocumentsComponent implements OnInit {
   getListData() {
     this.listDocumentsService.postListMyDocs(new DownList(this.getToken(this.nameCookie))).subscribe(response => { 
       if(response) {
-        if(this.checkResponse(response))
-          this.myDocs = response; 
+        if(this.checkResponse(response)) {
+          this.myDocs = new MyDocs(response.uploadList.reverse());
+        }
       } 
       else {
         console.log(response);

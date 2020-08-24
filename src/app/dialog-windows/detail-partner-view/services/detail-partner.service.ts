@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { GetDetail } from '../models/get-detail';
 import { PayDelQuery } from '../models/pay-delete-query';
 import { PayOkayQuery } from '../models/pay-okay-query';
+import { Status } from 'src/app/models/status';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class DetailPartnerService {
   private urldelete = environment.apiUrl + 'paydel/';
   private urlpost = environment.apiUrl + 'payokay/';
   private urlpartner = environment.apiUrl + 'detailone/';
+  private urlact = environment.apiUrl + 'printact/';
   
   constructor(private http: HttpClient) { }
 
@@ -32,5 +34,9 @@ export class DetailPartnerService {
 
   postGetDataPartner(data: any): Observable<any> {
     return this.http.post<any>(this.urlpartner, data);
+  }
+
+  postGetReportPartner(data: GetDetail): Observable<Status> {
+    return this.http.post<Status>(this.urlact, data);
   }
 }

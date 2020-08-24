@@ -436,4 +436,31 @@ export class DetailPartnerFormComponent implements OnInit {
       }
     }
   }
+
+  onActChecking() {
+    let getDetail = new GetDetail(this.token, this.inn, this.provider, '', '');
+    this.detailPartnerService.postGetReportPartner(getDetail).subscribe(response => {
+      if(response) {
+        if(response.status !== 'error') {
+          if(response.status !== 'false') {
+            if(response.status !== 'bad file') {
+              this.openInfoDialog('message', 'Ведется подготовка документа. Файл можно скачать в ');
+            } else this.openAttentionDialog('connection loss');
+          } else this.openAttentionDialog('недостаточно прав');
+        } else this.openAttentionDialog('ошибка');
+      }
+    }, 
+    error => { 
+      console.log(error);
+      this.openAttentionDialog('connection loss');
+    });
+  }
+
+  openInfoDialog(status: string, message: string) {
+    const dialogRef = this.dialog.open(AttentionFormComponent, {
+      width: '400px',
+      data: {status: status, message: message},
+    });
+    dialogRef.afterClosed().subscribe(result => {});
+  }
 }

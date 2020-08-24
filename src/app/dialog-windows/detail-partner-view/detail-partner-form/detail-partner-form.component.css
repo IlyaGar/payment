@@ -128,3 +128,7 @@ div#id-provider {
 label#id-provider-name {
     margin-left: 0.5em;
 }
+.act-check {
+    margin-right: 0rem;
+    margin-left: auto;
+}
