@@ -71,7 +71,7 @@ export class DetailPartnerFormComponent implements OnInit {
     if(this.data) {
       if(this.data.token) {
         this.token = this.data.token;
-        if(this.data.inn && this.data.provider) {
+        if(this.data.inn !== null || this.data.provider !== null) {
           this.isOpenDetalFromWorkForm = true;
           this.inn = this.data.inn;
           this.provider = this.data.provider;
@@ -91,6 +91,13 @@ export class DetailPartnerFormComponent implements OnInit {
             this.detailDate = JSON.parse(session);
           }
         }
+      }
+    }
+    else {
+      this.isOpenDetalFromNavbar = true;
+      const session = sessionStorage.getItem('current-detail-date');
+      if(session) {
+        this.detailDate = JSON.parse(session);
       }
     }
   }
