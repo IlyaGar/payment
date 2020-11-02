@@ -1,0 +1,20 @@
+:host ::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+:host ::ng-deep .mat-form-field-label-wrapper { top: -1.3em; }
+
+:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+}
+:host ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0.2rem;
+}
+.mat-form-field {
+    width: 75%;
+}
+input {
+    width: 75%;
+    margin-right: 8px;
+}
+mat-hint {
+    color: tomato;
+}

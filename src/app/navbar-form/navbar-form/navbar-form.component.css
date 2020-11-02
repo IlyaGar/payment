@@ -9,3 +9,6 @@ span {
     padding-right: 5%;
     color: aliceblue;
 }    
+.nav-link, button {
+    font-size: 14px;
+}

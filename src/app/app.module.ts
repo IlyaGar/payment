@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +11,7 @@ import { WorkFormComponent } from './work-manager/work-form/work-form.component'
 import { PartnerListComponent } from './partner-manager/partner-list/partner-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './models/material-module';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavbarFormComponent } from './navbar-form/navbar-form/navbar-form.component';
 import { LoginFormComponent } from './login-manager/login-form/login-form.component';
@@ -29,7 +29,17 @@ import { LictDocumentsComponent } from './dialog-windows/list-documents/lict-doc
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { EmptyFormComponent } from './work-manager/empty-form/empty-form.component';
 import { ImportFormComponent } from './dialog-windows/import-manager/import-form/import-form.component';
-
+import { DocTabsComponent } from './doc-manager/doc-tabs/doc-tabs.component';
+import { DocTableComponent } from './doc-manager/components/doc-table/doc-table.component';
+import { NewRowManagerComponent } from './doc-manager/dialog-windows/new-row-manager/new-row-manager.component';
+import { DatePipe } from '@angular/common';
+import { DateConvertPipe } from './doc-manager/date-convert.pipe';
+import { EditRowManagerComponent } from './doc-manager/dialog-windows/edit-row-manager/edit-row-manager.component';
+import { InputRowManagerComponent } from './doc-manager/components/input-row-manager/input-row-manager.component';
+import { EditRowOfficeComponent } from './doc-manager/dialog-windows/edit-row-office/edit-row-office.component';
+import { SelectContragentComponent } from './doc-manager/components/select-contragent/select-contragent.component';
+import { SelectContragentDialogComponent } from './doc-manager/dialog-windows/select-contragent-dialog/select-contragent-dialog.component';
+import { HistoryDogovorDialogComponent } from './doc-manager/dialog-windows/history-dogovor-dialog/history-dogovor-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +61,16 @@ import { ImportFormComponent } from './dialog-windows/import-manager/import-form
     LictDocumentsComponent,
     EmptyFormComponent,
     ImportFormComponent,
+    DocTabsComponent,
+    DocTableComponent,
+    NewRowManagerComponent,
+    DateConvertPipe,
+    EditRowManagerComponent,
+    InputRowManagerComponent,
+    EditRowOfficeComponent,
+    SelectContragentComponent,
+    SelectContragentDialogComponent,
+    HistoryDogovorDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -68,11 +88,13 @@ import { ImportFormComponent } from './dialog-windows/import-manager/import-form
     NgxCurrencyModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger' // set defaults here
-    })
+    }),
   ],
   providers: [
     HttpClient,
-    CookieService
+    CookieService,
+    DatePipe,
+    { provide: MAT_DATE_LOCALE, useValue: 'ru-Ru' },
   ],
   entryComponents: [
     SaveFormComponent,
@@ -84,6 +106,11 @@ import { ImportFormComponent } from './dialog-windows/import-manager/import-form
     AttentionFormComponent,
     SaldoFormComponent,
     ImportFormComponent,
+    NewRowManagerComponent,
+    EditRowOfficeComponent,
+    EditRowManagerComponent,
+    SelectContragentDialogComponent,
+    HistoryDogovorDialogComponent,
   ],
   bootstrap: [
     AppComponent,

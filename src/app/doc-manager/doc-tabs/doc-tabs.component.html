@@ -1,0 +1,10 @@
+<mat-tab-group mat-align-tabs="start" [(selectedIndex)]="tabIndex" (selectedTabChange)="selectedTab($event)">
+    <ng-container *ngIf="startData">
+        <mat-tab label="Договора ВЭД">
+            <app-doc-table *ngIf="tabIndex === 0" [group]="tabGroup" [index]="tabIndex + 1"></app-doc-table>
+        </mat-tab>
+        <mat-tab label="Договора поставки">
+            <app-doc-table *ngIf="tabIndex === 1" [group]="tabGroup" [index]="tabIndex + 1"></app-doc-table>
+        </mat-tab>
+    </ng-container>
+</mat-tab-group>

@@ -6,6 +6,9 @@
         <li class="nav-item" [routerLinkActive]="['active']">
             <a *ngIf="isLogin" class="nav-link" [routerLink]="['mydocs']">Мои документы</a>
         </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+            <a *ngIf="isLogin" class="nav-link" [routerLink]="['doc-tabs']">Электронный реестр договоров</a>
+        </li>
     </ul>
     <div>
 
@@ -23,7 +26,7 @@
         <button type="button" class="btn btn-secondary" (click)="onOpenLoginDialog()">Войти</button>
     </form>
     <form class="form-inline my-2 my-lg-0" >
-        <span>Здравствуйте! {{loginResponse.cn}}</span>
+        <span>{{loginResponse.cn}}</span>
     </form>
     <form class="form-inline my-2 my-lg-0" *ngIf="isLogin">
         <button type="button" class="btn btn-secondary" (click)="onLogOut()">Выйти</button>

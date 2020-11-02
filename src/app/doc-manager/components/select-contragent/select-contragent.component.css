@@ -1,0 +1,85 @@
+.contr {
+    width: 420px;
+    height: 350px;
+    padding: 5px 8px;
+
+    border: 1px solid grey;
+    border-radius: 10px;
+}
+:host ::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+:host ::ng-deep .mat-form-field-label-wrapper { top: -1.3em; }
+
+:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+}
+:host ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0.2rem;
+}
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-subscript-wrapper {
+    padding: 12px;
+}
+mat-form-field {
+    width: 100%;
+}
+.disabled-icon {
+    color: white;
+}
+mat-icon:hover {
+    cursor: pointer;
+
+    /* basic */ 
+    background-color: rgba(128, 128, 128, 0.151);
+
+    /* border-radius */
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    /* box-shadow */
+    -webkit-box-shadow: rgba(107, 105, 105, 0.8) 0px 0 10px;
+    -moz-box-shadow: rgba(167, 142, 142, 0.8) 0 0 10px;
+    box-shadow: rgba(136, 127, 127, 0.8) 0 0 10px;
+}
+.app-class .mat-list-item {
+    height: auto;
+    margin: 4px 2px;
+}
+.app-class {
+    position: relative;
+    top: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 250px;
+}
+.mat-list-item:hover {
+   /* background-color: rgba(201, 201, 201, 0.4); */
+   cursor: pointer;
+}
+.mat-list-base .mat-list-item {
+    font-size: 14px;
+}
+:host ::ng-deep .mat-list-item-content {
+    padding: 0!important;
+}
+.select-item {
+    background-color:rgba(128, 71, 165, 0.4);
+    border-radius: 5px;
+}
+.hover-item {
+    background-color:rgba(201, 201, 201, 0.4);
+    border-radius: 5px;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 6px;
+}  
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px grey;
+    border-radius: 3px;
+}  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(134, 128, 139, 0.75);
+    border-radius: 3px;
+}

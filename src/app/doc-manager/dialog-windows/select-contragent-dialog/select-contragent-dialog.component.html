@@ -1,0 +1,11 @@
+<app-select-contragent [data]="''" (newItemEvent)="inputContragent($event)"></app-select-contragent>
+
+<mat-form-field appearance="outline" class="date">
+  <mat-label>Контрагент</mat-label>
+  <input matInput placeholder="" [(ngModel)]="contragent" readonly>
+</mat-form-field>
+
+<div mat-dialog-actions align="end">
+  <button class="bt-search m-2" mat-stroked-button (click)="onOkClick()" [disabled]="!contragent.length">Ok</button>
+  <button class="bt-search" mat-stroked-button (click)="onNoClick()">Отмена</button>
+</div>

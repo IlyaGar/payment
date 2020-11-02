@@ -18,25 +18,11 @@ export class AppComponent {
 
   title = 'app-docum';
 
-  @HostListener('window:beforeunload', ['$event'])
-  async ngOnDestroy($event) {
-    if (this.myValueSub) {
-      this.myValueSub.unsubscribe();
-    }
-   
-    // await this.authService.logout(); beforeunloadHandler
-   
-    $event.preventDefault();
-    $event.returnValue = 'A message.';
-  }
-
   // @HostListener('window:beforeunload', ['$event'])
-  // async beforeunloadHandler($event) {
+  // async ngOnDestroy($event) {
   //   if (this.myValueSub) {
   //     this.myValueSub.unsubscribe();
   //   }
-   
-  //   // await this.authService.logout(); beforeunloadHandler
    
   //   $event.preventDefault();
   //   $event.returnValue = 'A message.';

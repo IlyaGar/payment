@@ -1,0 +1,35 @@
+:host ::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+:host ::ng-deep .mat-form-field-label-wrapper { top: -1.3em; }
+
+:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+}
+:host ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0.2rem;
+}
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-subscript-wrapper {
+    padding: 12px;
+}
+.contragent {
+    width: 200px;
+    height: 300px;
+
+    border: 1px solid grey;
+}
+.date {
+    width: 100%;
+}
+.summ {
+    width: 70%;
+}
+.currency {
+    width: 28%;
+    margin-left: 6px;
+}
+.row {
+    margin-bottom: 8px;
+}
+mat-hint {
+    color: red;
+}

@@ -5,13 +5,15 @@ import { WorkFormComponent } from './work-manager/work-form/work-form.component'
 import { LoginPageFormComponent } from './login-manager/login-page-form/login-page-form.component';
 import { LictDocumentsComponent } from './dialog-windows/list-documents/lict-documents/lict-documents.component';
 import { EmptyFormComponent } from './work-manager/empty-form/empty-form.component';
+import { DocTabsComponent } from './doc-manager/doc-tabs/doc-tabs.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/search', pathMatch: 'full' },
   { path: 'login', component: LoginPageFormComponent },
   { path: 'search', component: SearchFormComponent },
   { path: 'mydocs', component: LictDocumentsComponent },
   { path: 'work/:id', component: WorkFormComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'doc-tabs', component: DocTabsComponent },
   { path: 'empty', component: EmptyFormComponent },
 ];
 

@@ -1,0 +1,22 @@
+<div class="contr">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Контрагент</mat-label>
+    <input matInput placeholder="Введите значение" [(ngModel)]="name" (keyup.enter)="onSearch($event)">
+    <mat-icon matSuffix matTooltip="Поиск" (click)="onSearch()" *ngIf="name.length >= 3">search</mat-icon>
+    <mat-hint>введите не менее 3-ти символов</mat-hint>
+  </mat-form-field>
+
+  <div class="app-class">
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let contragent of contragents" 
+      [ngClass]="{'select-item': contragent.fullname === selectedItem.fullname, 
+                  'hover-item': contragent.fullname === hoverItem && contragent.fullname !== selectedItem.fullname }" 
+      (click)="onSelectContrAgent(contragent)"
+      (mouseenter)="hoverItem = contragent.fullname" (mouseleave)="hoverItem = ''">
+        {{contragent.fullname}}
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+</div>

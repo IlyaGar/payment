@@ -48,8 +48,10 @@ export class NavbarFormComponent implements OnInit {
         this.token = this.getToken(this.nameCookie);
       }
     }
-    else this.isLogin = false;
-    this.router.navigate(['/login']);
+    else {
+      this.isLogin = false;
+      this.router.navigate(['/login']);
+    }
   }
 
   onOpenLoginDialog(): void {

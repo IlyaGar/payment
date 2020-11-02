@@ -3,7 +3,6 @@
 html, body { height: 100%;  background: #ececec;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-button {
-    /*min-width: 3em;*/
-    box-shadow: 1px 2px 5px #000000;   
+button:focus {
+    outline:0;
 }
