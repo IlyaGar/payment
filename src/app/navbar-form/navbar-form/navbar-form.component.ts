@@ -70,7 +70,7 @@ export class NavbarFormComponent implements OnInit {
   onCreateDocum(): void {
     const dialogRef = this.dialog.open(CreateDocumComponent, {
       width: '400px',
-      height: '200px',
+      // height: '200px',
       data: {token: this.getToken(this.nameCookie), list: null},
     });
     dialogRef.afterClosed().subscribe(result => {

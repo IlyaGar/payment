@@ -40,8 +40,8 @@
 
 </mat-card>
 
-<div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Отмена</button>
-    <button mat-button *ngIf="isSelected" color="primary" (click)="onOkClick()" cdkFocusInitial>Отправить</button>
-    <button mat-button disabled *ngIf="!isSelected" color="primary" cdkFocusInitial>Отправить</button>
+<div mat-dialog-actions align="end">
+    <button mat-stroked-button class="m-2" (click)="onNoClick()">Отмена</button>
+    <button mat-stroked-button *ngIf="isSelected" color="primary" (click)="onOkClick()" cdkFocusInitial>Отправить</button>
+    <button mat-stroked-button disabled *ngIf="!isSelected" color="primary" cdkFocusInitial>Отправить</button>
 </div>

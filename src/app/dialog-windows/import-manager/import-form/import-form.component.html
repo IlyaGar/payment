@@ -31,8 +31,8 @@
 
 </mat-card>
 
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Отмена</button>
-  <button mat-button *ngIf="isFileSelected" color="primary" (click)="postFileMethod()" cdkFocusInitial>Отправить</button>
-  <button mat-button disabled *ngIf="!isFileSelected" color="primary" cdkFocusInitial>Отправить</button>
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button class="m-2" (click)="onNoClick()">Отмена</button>
+  <button mat-stroked-button *ngIf="isFileSelected" color="primary" (click)="postFileMethod()" cdkFocusInitial>Отправить</button>
+  <button mat-stroked-button disabled *ngIf="!isFileSelected" color="primary" cdkFocusInitial>Отправить</button>
 </div>

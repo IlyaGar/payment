@@ -11,12 +11,10 @@
         <div mat-dialog-actions class="search-group">
             <mat-spinner *ngIf="isLoading" strokeWidth="3" [diameter]="25"></mat-spinner>
             <div *ngIf="!isLoading" style="margin-left: 3em;">&emsp;</div>
-            <button mat-button (click)="onSearch(searchData.value)">Искать</button>
-            <button mat-button (click)="onClear()">Очистить</button>
+            <button mat-stroked-button class="m-2" (click)="onSearch(searchData.value)">Искать</button>
+            <button mat-stroked-button (click)="onClear()">Очистить</button>
         </div>
     </div>
-  
-    
       
     <div class="example-container">
         <div *ngIf="isData">Доступные контрагенты</div> 
@@ -50,7 +48,7 @@
 
 </mat-card>
 
-<div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Отмена</button>
-    <button mat-button color="primary" (click)="onOkClick(done)">Ok</button>
+<div mat-dialog-actions align="end">
+    <button mat-stroked-button class="m-2" (click)="onNoClick()">Отмена</button>
+    <button mat-stroked-button color="primary" (click)="onOkClick(done)">Ok</button>
 </div>

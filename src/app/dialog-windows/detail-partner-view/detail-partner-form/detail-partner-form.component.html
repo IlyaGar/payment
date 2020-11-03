@@ -14,7 +14,7 @@
             </div>
 
             <div id="id-provider" class="form-inline" *ngIf="isOpenDetalFromNavbar">
-                <button mat-button type="button" name="partner" (click)="onOpenPartnerDialog()" data-toggle="tooltip" data-placement="bottom" title="Выбор контрагентов из списка">
+                <button mat-stroked-button type="button" name="partner" (click)="onOpenPartnerDialog()" data-toggle="tooltip" data-placement="bottom" title="Выбор контрагентов из списка">
                     <img src="../../assets/agent2.png" width="20" height="20" />Выбрать контрагента:
                 </button>
                 <label id="id-provider-name">{{data.provider}}</label>  
@@ -35,7 +35,7 @@
                 
                 <div class="bt-send">
                         <!-- cdkFocusInitial mat-button -->
-                    <button class="btn btn-light" (click)="onSendDate()" #btSendElement>
+                    <button mat-stroked-button class="btn btn-light" (click)="onSendDate()" #btSendElement>
                         <img src="../../assets/arrow1.png" width="20" height="20" />
                     </button>
                     <i class="fas fa-arrow-circle-right"></i>
@@ -136,8 +136,10 @@
                 <div mat-dialog-actions>
                     <button mat-button [disabled]="true" *ngIf="!isNewPay" data-toggle="tooltip" data-placement="bottom" title="Введите данные в поля ввода">Внести платеж</button>
 
-                    <button mat-button *ngIf="isNewPay" 
-                        class="btn btn-default"
+                    <button
+                        mat-stroked-button  
+                        *ngIf="isNewPay" 
+                        class="btn btn-default m-2"
                         mwlConfirmationPopover
                         [popoverMessage]="'Вы действительно хотите <b>добовить</b> введенный платеж?'"
                         [confirmText]="confirmText"
@@ -150,7 +152,9 @@
                     </button>   
                     <button mat-button [disabled]="true" *ngIf="!isSelectedDeleteRow" data-toggle="tooltip" data-placement="bottom" title="Выберите платеж для удаления">Удалить платеж</button>
 
-                    <button mat-button *ngIf="isSelectedDeleteRow" 
+                    <button 
+                        mat-stroked-button 
+                        *ngIf="isSelectedDeleteRow" 
                         class="btn btn-default"
                         mwlConfirmationPopover
                         [popoverMessage]="'Вы действительно хотите <b>удалить</b> выбранный платеж?'"
@@ -170,8 +174,8 @@
     </div>
    
     <div mat-dialog-actions class="foot">
-        <button class="foot-but" mat-button color="primary" (click)="onActChecking()">Акт сверки</button>
-        <button class="foot-but" mat-button color="primary" (click)="onOkClick()">Закрыть</button>
+        <button mat-stroked-button class="m-2" (click)="onActChecking()">Акт сверки</button>
+        <button mat-stroked-button (click)="onOkClick()">Закрыть</button>
     </div>
 
 </mat-card>

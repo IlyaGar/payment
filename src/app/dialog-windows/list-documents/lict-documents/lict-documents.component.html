@@ -20,13 +20,13 @@
 
                 <div class="form-inline" *ngIf="!element.ready">
 
-                    <button mat-button (click)="onDownload(element.key, element.filename)">
+                    <button mat-stroked-button (click)="onDownload(element.key, element.filename)">
                         <div class="icon">
                             <mat-icon [inline]="true">cloud_download</mat-icon>
                         </div>
                     </button>
 
-                    <button mat-button
+                    <button mat-stroked-button
                         class="btn btn-default"
                         mwlConfirmationPopover
                         [popoverMessage]="'Вы действительно хотите <b>удалить</b> выбранный документ?'"

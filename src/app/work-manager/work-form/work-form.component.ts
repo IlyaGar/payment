@@ -154,7 +154,7 @@ export class WorkFormComponent implements OnInit {
   openPartnerDialog(): void {
     const dialogRef = this.dialog.open(PartnerListComponent, {
       width: '880px',
-      height: '680px',
+      // height: '680px',
       data: {list: this.getProviders()},
     });
     dialogRef.afterClosed().subscribe(result => {
