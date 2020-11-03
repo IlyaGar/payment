@@ -91,10 +91,10 @@
         <ng-container matColumnDef="action">
             <th mat-header-cell id="action" *matHeaderCellDef style="background-color: #ececec;"> 
 
-                <button mat-mini-fab color="primary" (click)="onOpenNewRow()" *ngIf="group === 'Руководитель направления'">
+                <button mat-mini-fab color="primary" (click)="onOpenNewRow()" *ngIf="group.toLowerCase().includes(positionHead)">
                     <mat-icon>add</mat-icon>
                 </button>
-                
+                <!-- "group === 'Руководитель направления'" -->
             </th>
             <td mat-cell *matCellDef="let element"  style="background-color: #ececec;"> 
                 <ng-container *ngIf="element.contragent">
@@ -102,12 +102,12 @@
                         <mat-icon>more_vert</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item (click)="onOpenEditorManager(element)" *ngIf="group === 'Руководитель направления'">
+                        <button mat-menu-item (click)="onOpenEditorManager(element)" *ngIf="group.toLowerCase().includes(positionHead)">
                             <mat-icon style="color: rgb(210, 136, 0);">edit</mat-icon>
                             <span style="color: rgb(210, 136, 0);">Редактировать</span>
                         </button>
 
-                        <button mat-menu-item (click)="onOpenEditorOffic(element)" *ngIf="group === 'Секретарь'">
+                        <button mat-menu-item (click)="onOpenEditorOffic(element)" *ngIf="group.toLowerCase().includes(positionOffice)">
                             <mat-icon style="color: rgb(210, 136, 0);">edit</mat-icon>
                             <span style="color: rgb(210, 136, 0);">Редактировать</span>
                         </button>

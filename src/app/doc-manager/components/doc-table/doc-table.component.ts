@@ -39,6 +39,8 @@ export class DocTableComponent implements OnInit {
   date_to: Date;
   nameCookie = 'user';
   searchedContragent: string = '';
+  positionHead = 'руководитель';
+  positionOffice = 'секретарь';
   
   constructor(
     public dialog: MatDialog,
@@ -48,7 +50,6 @@ export class DocTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.group;
     this.loadListOfDogovor('','','','',40,'','');
   }
 
