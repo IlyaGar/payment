@@ -4,6 +4,8 @@ export class RowDogovor {
 
         public contragent: string,
 
+        public doc_num: string,
+
         public date_start: string,
     
         public date_end: string,

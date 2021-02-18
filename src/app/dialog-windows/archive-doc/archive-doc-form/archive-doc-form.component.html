@@ -1,0 +1,17 @@
+<mat-card>
+
+  <mat-card-title>Создать отчет</mat-card-title>
+  <mat-card-content>
+
+      <div class="form-inline">
+          <label class="mr-2" for="stdate" id="dateStartLable">Дата:</label>
+          <input type="date" name="stdate" class="form-control" [(ngModel)]="curDate" aria-describedby="dateStartLable" (change)="selectedDate()" />               
+      </div>
+
+  </mat-card-content>
+</mat-card>
+
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button class="m-2" (click)="onNoClick()">Отмена</button>
+  <button mat-stroked-button color="primary" (click)="onOkClick()" [disabled]="!isSelectedDates" cdkFocusInitial>Отправить</button>
+</div>

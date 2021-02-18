@@ -14,7 +14,6 @@ import { AddDogovorByRukovod } from '../../models/doc-ruc';
 import { EditDogovorByRukovod } from '../../models/doc-ruc-edit';
 import { EditDogovorByOffice } from '../../models/doc-secretary';
 import { RowDogovor } from '../../models/row-dogowor';
-import { StartData } from '../../models/start-data';
 import { DocService } from '../../service/doc.service';
 
 @Component({
@@ -29,7 +28,7 @@ export class DocTableComponent implements OnInit {
   @Input() index: string;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  displayedColumns = ['contragent', 'date_start', 'date_end', 'summa', 'date_post', 'date_get', 'file_link', 'action'];
+  displayedColumns = ['contragent', 'ndogovor', 'date_start', 'date_end', 'summa', 'date_post', 'date_get', 'file_link', 'action'];
   dataList: Array<RowDogovor> = [];
   dataSourceList: any;
   

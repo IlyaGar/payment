@@ -40,6 +40,7 @@ import { EditRowOfficeComponent } from './doc-manager/dialog-windows/edit-row-of
 import { SelectContragentComponent } from './doc-manager/components/select-contragent/select-contragent.component';
 import { SelectContragentDialogComponent } from './doc-manager/dialog-windows/select-contragent-dialog/select-contragent-dialog.component';
 import { HistoryDogovorDialogComponent } from './doc-manager/dialog-windows/history-dogovor-dialog/history-dogovor-dialog.component';
+import { ArchiveDocFormComponent } from './dialog-windows/archive-doc/archive-doc-form/archive-doc-form.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { HistoryDogovorDialogComponent } from './doc-manager/dialog-windows/hist
     SelectContragentComponent,
     SelectContragentDialogComponent,
     HistoryDogovorDialogComponent,
+    ArchiveDocFormComponent,
   ],
   imports: [
     FormsModule,
@@ -105,6 +107,7 @@ import { HistoryDogovorDialogComponent } from './doc-manager/dialog-windows/hist
     DetailPartnerFormComponent,
     AttentionFormComponent,
     SaldoFormComponent,
+    ArchiveDocFormComponent,
     ImportFormComponent,
     NewRowManagerComponent,
     EditRowOfficeComponent,

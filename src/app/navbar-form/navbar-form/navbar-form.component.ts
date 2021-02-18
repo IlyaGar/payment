@@ -13,6 +13,7 @@ import { SaldoFormComponent } from 'src/app/dialog-windows/saldo-manager/saldo-f
 import { NavbarService } from '../services/navbar.service';
 import { LictDocumentsComponent } from 'src/app/dialog-windows/list-documents/lict-documents/lict-documents.component';
 import { DetailPartnerFormComponent } from 'src/app/dialog-windows/detail-partner-view/detail-partner-form/detail-partner-form.component';
+import { ArchiveDocFormComponent } from 'src/app/dialog-windows/archive-doc/archive-doc-form/archive-doc-form.component';
 
 @Component({
   selector: 'app-navbar-form',
@@ -94,6 +95,14 @@ export class NavbarFormComponent implements OnInit {
     const dialogRef = this.dialog.open(SaldoFormComponent, {
       width: '600px',
       data: {token: this.getToken(this.nameCookie)},
+    });
+    dialogRef.afterClosed().subscribe(result => { });
+  }
+  
+  onOpenArchiveForm() {
+    const dialogRef = this.dialog.open(ArchiveDocFormComponent, {
+      width: '350px',
+      data: this.getToken(this.nameCookie),
     });
     dialogRef.afterClosed().subscribe(result => { });
   }
