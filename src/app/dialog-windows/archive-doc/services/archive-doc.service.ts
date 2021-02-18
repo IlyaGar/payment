@@ -10,7 +10,7 @@ import { OurDoc } from '../models/our-doc';
 })
 export class ArchiveDocService {
 
-  private url = 'http://192.168.1.38:330/' + 'create/ourdoc/';
+  private url = environment.apiUrl + 'create/ourdoc/';
   
   constructor(private http: HttpClient) { }
 
